@@ -60,10 +60,10 @@ class BoostInfo(object):
         if system == 'darwin-homebrew':
             return [ 'boost' ]
 
-        if system == 'darwin-macports':
+        elif system == 'darwin-macports':
             return [ 'boost-jam', 'boost', '+python27+universal' ]
 
-        if system == 'centos':
+        elif system == 'centos':
             return [ 'boost-devel' ]
 
         elif system == 'ubuntu-trusty':
@@ -569,6 +569,7 @@ class PrepareBuild(CommandLineApp):
                             'libedit-dev',
                             'texinfo',
                             'lcov',
+                            'unzip',
                             'sloccount'
                         ] + BoostInfo().dependencies('ubuntu-trusty')
                     elif re.search('saucy', info):
@@ -588,6 +589,7 @@ class PrepareBuild(CommandLineApp):
                             'libedit-dev',
                             'texinfo',
                             'lcov',
+                            'unzip',
                             'sloccount'
                         ] + BoostInfo().dependencies('ubuntu-saucy')
                     elif re.search('precise', info):
@@ -606,6 +608,7 @@ class PrepareBuild(CommandLineApp):
                             'libedit-dev',
                             'texinfo',
                             'lcov',
+                            'unzip',
                             'sloccount'
                         ] + BoostInfo().dependencies('ubuntu-precise')
                     else:
@@ -644,6 +647,29 @@ class PrepareBuild(CommandLineApp):
                     ]
                     self.log.info('Executing: ' + ' '.join(packages))
                     self.execute(*packages)
+
+        if not self.git_working_tree():
+          import hashlib
+          url = 'http://downloads.sourceforge.net/project/utfcpp/utf8cpp_2x/Release%202.3.4/utf8_v2_3_4.zip'
+          sha = '638910adb69e4336f5a69c338abeeea88e9211ca'
+          archive = os.path.basename(url)
+
+          # TODO: Check that ftp and unzip are available on all systems,
+          #       if not install them (see above) or find viable alternatives.
+          if not os.path.exists(archive):
+            self.log.info('Retrieving build dependency utfcpp')
+            self.execute('ftp', url)
+          sha1 = hashlib.sha1()
+          f = open(archive, 'rb')
+          try:
+              sha1.update(f.read())
+          finally:
+              f.close()
+          if sha == sha1.hexdigest():
+            self.log.info('Unpacking %s into lib/utfcpp' % (archive))
+            self.execute('unzip', '-qq', '-u', '-d', 'lib/utfcpp', archive)
+          else:
+            self.log.error('SHA mismatch for %s: expected %s got %s' % (archive, sha, sha1.hexdigest()))
 
     #########################################################################
     # Determine the system's basic configuration                            #
