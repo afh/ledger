@@ -57,7 +57,7 @@ def which(program):
 
 class BoostInfo(object):
     def dependencies(self, system):
-        if system == 'darwin-homebrew':
+        if system == 'darwin-homebrew' or system == 'openbsd':
             return [ 'boost' ]
 
         elif system == 'darwin-macports':
@@ -647,6 +647,13 @@ class PrepareBuild(CommandLineApp):
                     ]
                     self.log.info('Executing: ' + ' '.join(packages))
                     self.execute(*packages)
+
+        elif system == 'OpenBSD':
+                packages = [
+                    'sudo', 'pkg_add', 'install', '-I',
+                    'cmake', 'llvm', 'unzip'
+                    'gmp', 'mpfr', 'python',
+                ] + BoostInfo().dependencies('openbsd')
 
         if not self.git_working_tree():
           import hashlib
