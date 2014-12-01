@@ -507,6 +507,7 @@ class PrepareBuild(CommandLineApp):
     #########################################################################
 
     def phase_dependencies(self, *args):
+        has_utfcpp_package = False
         self.log.info('Executing phase: dependencies')
 
         self.log.info("Installing Ledger's build dependencies ...")
@@ -554,6 +555,7 @@ class PrepareBuild(CommandLineApp):
                     release.close()
                     if re.search('trusty', info):
                         self.log.info('Looks like you are using APT on Ubuntu Trusty')
+                        has_utfcpp_package = True
                         packages = [
                             'sudo', 'apt-get', 'install',
                             'build-essential',
@@ -569,11 +571,12 @@ class PrepareBuild(CommandLineApp):
                             'libedit-dev',
                             'texinfo',
                             'lcov',
-                            'unzip',
+                            'libutfcpp-dev',
                             'sloccount'
                         ] + BoostInfo().dependencies('ubuntu-trusty')
                     elif re.search('saucy', info):
                         self.log.info('Looks like you are using APT on Ubuntu Saucy')
+                        has_utfcpp_package = True
                         packages = [
                             'sudo', 'apt-get', 'install',
                             'build-essential',
@@ -589,7 +592,7 @@ class PrepareBuild(CommandLineApp):
                             'libedit-dev',
                             'texinfo',
                             'lcov',
-                            'unzip',
+                            'libutfcpp-dev',
                             'sloccount'
                         ] + BoostInfo().dependencies('ubuntu-saucy')
                     elif re.search('precise', info):
@@ -649,13 +652,14 @@ class PrepareBuild(CommandLineApp):
                     self.execute(*packages)
 
         elif system == 'OpenBSD':
+                has_utfcpp_package = True
                 packages = [
                     'sudo', 'pkg_add', 'install', '-I',
-                    'cmake', 'llvm', 'unzip'
-                    'gmp', 'mpfr', 'python',
+                    'cmake', 'llvm', 'utfcpp',
+                    'gmp', 'mpfr', 'boost', 'python'
                 ] + BoostInfo().dependencies('openbsd')
 
-        if not self.git_working_tree():
+        if not (self.git_working_tree() or has_utfcpp_package):
           import hashlib
           url = 'http://downloads.sourceforge.net/project/utfcpp/utf8cpp_2x/Release%202.3.4/utf8_v2_3_4.zip'
           sha = '638910adb69e4336f5a69c338abeeea88e9211ca'
