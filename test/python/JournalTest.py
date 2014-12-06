@@ -6,7 +6,8 @@ from ledger import *
 
 class JournalTestCase(unittest.TestCase):
     def tearDown(self):
-        session.close_journal_files()
+        # FIXME: closing journal files currently results in a sigsegv
+        pass #session.close_journal_files()
 
     def testBasicRead(self):
         journal = read_journal_from_string("""

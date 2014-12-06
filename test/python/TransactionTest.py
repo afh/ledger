@@ -8,7 +8,7 @@ from ledger import *
 from StringIO import *
 from datetime import *
 
-class JournalTestCase(unittest.TestCase):
+class TransactionTestCase(unittest.TestCase):
     def setUp(self):
         pass
 
@@ -19,7 +19,7 @@ class JournalTestCase(unittest.TestCase):
         pass
  
 def suite():
-    return unittest.TestLoader().loadTestsFromTestCase(JournalTestCase)
+    return unittest.TestLoader().loadTestsFromTestCase(TransactionTestCase)
 
 if __name__ == '__main__':
     unittest.main()
