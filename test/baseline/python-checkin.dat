@@ -1,0 +1,13 @@
+i 2014-12-01 09:00:00 client:project  Task-A
+o 2014-12-01 12:30:00
+i 2014-12-01 13:30:00 client:project  Task-A
+O 2014-12-01 16:00:00
+i 2014-12-01 16:00:00 client:project  Task-B
+O 2014-12-01 18:00:00
+
+i 2014-12-02 09:00:00 client:project  Task-C
+O 2014-12-02 12:30:00
+i 2014-12-02 13:30:00 client:project  Task-D
+o 2014-12-02 16:00:00
+i 2014-12-02 16:00:00 client:project  Task-D
+O 2014-12-02 18:00:00

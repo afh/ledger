@@ -71,6 +71,13 @@ namespace {
     return post.reported_account();
   }
 
+  boost::optional<value_t> py_checkin(post_t& post) {
+    return value_t(post.checkin.get());
+  }
+  boost::optional<value_t> py_checkout(post_t& post) {
+    return value_t(post.checkout.get());
+  }
+
 } // unnamed namespace
 
 void export_post()
@@ -165,6 +172,15 @@ void export_post()
     .def("get_tag", py_get_tag_1s)
     .def("get_tag", py_get_tag_1m)
     .def("get_tag", py_get_tag_2m)
+
+    /*
+    .add_property("checkout", &post_t::checkout)
+    .add_property("checkin",
+                  make_getter(&post_t::checkin),
+                  make_setter(&post_t::checkin))
+    */
+    .def("checkin", py_checkin)
+    .def("checkout", py_checkout)
 
     .add_property("date", &post_t::date)
     .add_property("aux_date", &post_t::aux_date)
