@@ -6,12 +6,12 @@
 ; significant in payee and tag values.
 ;
 ; running
-;     ledger -f test/spaces.dat payees
+;     ledger -f test/spaces.ledger payees
 ; yielded two distinct payees, because utils.h/next_element() didn't
 ; handle a single space followed by a null correctly.
 ;
 ; running 
-;     ledger -f test/spaces.dat reg --group-by "tag('test')"
+;     ledger -f test/spaces.ledger reg --group-by "tag('test')"
 ; yielded four groups.
 
 2011/11/28 * test

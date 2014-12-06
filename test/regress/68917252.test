@@ -1,4 +1,4 @@
-test -f /dev/null --input-date-format "%m/%d/%Y" convert test/regress/68917252.dat
+test -f /dev/null --input-date-format "%m/%d/%Y" convert test/regress/68917252.ledger
 2011/12/12 * 
     Expenses:Unknown                              10
     Equity:Unknown

@@ -18,13 +18,13 @@ if not os.path.isdir(tests) and not os.path.isfile(tests):
     sys.exit(1)
 
 commands = [
-    "-f '$tests/standard.dat' -O 0ecbb1b15e2cf3e515cc0f8533e5bb0fb2326728",
-    "-f '$tests/standard.dat' -B c56a21d23a6535184e7152ee138c28974f14280c",
-    "-f '$tests/standard.dat' -V c56a21d23a6535184e7152ee138c28974f14280c",
-    "-f '$tests/standard.dat' -G c56a21d23a6535184e7152ee138c28974f14280c",
-    "-f '$tests/standard.dat' -B c0226fafdf9e6711ac9121cf263e2d50791859cb",
-    "-f '$tests/standard.dat' -V c0226fafdf9e6711ac9121cf263e2d50791859cb",
-    "-f '$tests/standard.dat' -G c0226fafdf9e6711ac9121cf263e2d50791859cb"
+    "-f '$tests/standard.ledger' -O 0ecbb1b15e2cf3e515cc0f8533e5bb0fb2326728",
+    "-f '$tests/standard.ledger' -B c56a21d23a6535184e7152ee138c28974f14280c",
+    "-f '$tests/standard.ledger' -V c56a21d23a6535184e7152ee138c28974f14280c",
+    "-f '$tests/standard.ledger' -G c56a21d23a6535184e7152ee138c28974f14280c",
+    "-f '$tests/standard.ledger' -B c0226fafdf9e6711ac9121cf263e2d50791859cb",
+    "-f '$tests/standard.ledger' -V c0226fafdf9e6711ac9121cf263e2d50791859cb",
+    "-f '$tests/standard.ledger' -G c0226fafdf9e6711ac9121cf263e2d50791859cb"
 ]
 
 def clean(num):

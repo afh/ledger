@@ -2,7 +2,7 @@
 
 # ex: speedcmp ledger ledger-2.4 50
 
-export LEDGER_FILE=$PWD/tools/temp.dat
+export LEDGER_FILE=$PWD/tools/temp.ledger
 export LEDGER_CACHE=$PWD/tools/temp.cache
 
 count=$1

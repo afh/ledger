@@ -6,7 +6,7 @@ total_eur = ledger.Amount("0.00 EUR")
 total_gbp = ledger.Amount("0.00 GBP")
 total = ledger.Amount("0.00 EUR")
 
-for post in ledger.read_journal("test/regress/78AB4B87.dat").query("^income:"):
+for post in ledger.read_journal("test/regress/78AB4B87.ledger").query("^income:"):
     print post.amount
     print post.amount.commodity
     if post.amount.commodity == "EUR":

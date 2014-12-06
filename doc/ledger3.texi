@@ -33,7 +33,7 @@
 @c UUID is the first 7 digits from the commands sha1sum, e.g.:
 @c 
 @c @smallexample @c command:CDE330A
-@c $ ledger -f sample.dat reg expenses
+@c $ ledger -f sample.ledger reg expenses
 @c @end smallexample
 @c 
 @c Then DocTests.py will look for corresponding documented output,
@@ -47,7 +47,7 @@
 @c                                 Expenses:Docs                $30.00       $90.0
 @c @end smallexample
 @c 
-@c Now where does this data in sample.dat come from?
+@c Now where does this data in sample.ledger come from?
 @c DocTests.py is a bit smart about ledger's file argument, since
 @c it will check if the given filename exists in the test/input/
 @c directory.
@@ -66,7 +66,7 @@
 @c @end smallexample
 @c 
 @c @smallexample @c command:35CB2A3
-@c $ ledger -f inline.dat accounts
+@c $ ledger -f inline.ledger accounts
 @c @end smallexample
 @c 
 @c @smallexample @c output:35CB2A3
@@ -79,7 +79,7 @@
 @c e.g.:
 @c
 @c @smallexample @c command:94FD2B6,with_input:35CB2A3
-@c $ ledger -f inline.dat bal expenses
+@c $ ledger -f inline.ledger bal expenses
 @c @end smallexample
 @c
 @c @smallexample @c output:94FD2B6
@@ -319,20 +319,20 @@ And just for the sake of example---as a starting point for those who
 want to dive in head-first---here are the journal transactions from
 above, formatted as the Ledger program wishes to see them:
 
-@smallexample @c input:48DDF26
+@smallexample @c input:F590016
 2004/09/29 Pacific Bell
     Expenses:Pacific Bell              $23.00
     Assets:Checking
 @end smallexample
 
 The account balances and registers in this file, if saved as
-@file{ledger.dat}, could be reported using:
+@file{journal.ledger}, could be reported using:
 
-@smallexample @c command:48DDF26
-$ ledger -f ledger.dat balance
+@smallexample @c command:F590016
+$ ledger -f journal.ledger balance
 @end smallexample
 
-@smallexample @c output:48DDF26
+@smallexample @c output:F590016
              $-23.00  Assets:Checking
               $23.00  Expenses:Pacific Bell
 --------------------
@@ -341,21 +341,21 @@ $ ledger -f ledger.dat balance
 
 Or
 
-@smallexample @c command:8C7295F,with_input:48DDF26
-$ ledger -f ledger.dat register checking
+@smallexample @c command:23706C3,with_input:F590016
+$ ledger -f journal.ledger register checking
 @end smallexample
 
-@smallexample @c output:8C7295F
+@smallexample @c output:23706C3
 04-Sep-29 Pacific Bell          Assets:Checking             $-23.00      $-23.00
 @end smallexample
 
 And even:
 
-@smallexample @c command:BB32EF2,with_input:48DDF26
-$ ledger -f ledger.dat register Bell
+@smallexample @c command:E48B7AF,with_input:F590016
+$ ledger -f journal.ledger register Bell
 @end smallexample
 
-@smallexample @c output:BB32EF2
+@smallexample @c output:E48B7AF
 04-Sep-29 Pacific Bell          Expenses:Pacific Bell        $23.00       $23.00
 @end smallexample
 
@@ -411,7 +411,7 @@ You can also find help in the @code{#ledger} channel on the IRC server
 A journal is a record of your financial transactions and will be central
 to using Ledger.  For now we just want to get a taste of what Ledger can
 do.  An example journal is included with the source code distribution,
-called @file{drewr3.dat} (@pxref{Example Journal File}).  Copy it
+called @file{drewr3.ledger} (@pxref{Example Journal File}).  Copy it
 someplace convenient and open up a terminal window in that directory.
 
 If you would rather start with your own journal right away please
@@ -445,13 +445,13 @@ for each.
 
 To find the balances of all of your accounts, run this command:
 
-@smallexample @c command:1071890
-$ ledger -f drewr3.dat balance
+@smallexample @c command:9B7A093
+$ ledger -f drewr3.ledger balance
 @end smallexample
 
 Ledger will generate:
 
-@smallexample @c output:1071890
+@smallexample @c output:9B7A093
          $ -3,804.00  Assets
           $ 1,396.00    Checking
              $ 30.00      Business
@@ -480,11 +480,11 @@ pare this down to show only the accounts you want.
 
 A more useful report is to show only your Assets and Liabilities:
 
-@smallexample @c command:5BF4D8E
-$ ledger -f drewr3.dat balance Assets Liabilities
+@smallexample @c command:D9E6E49
+$ ledger -f drewr3.ledger balance Assets Liabilities
 @end smallexample
 
-@smallexample @c output:5BF4D8E
+@smallexample @c output:D9E6E49
          $ -3,804.00  Assets
           $ 1,396.00    Checking
              $ 30.00      Business
@@ -504,14 +504,14 @@ $ ledger -f drewr3.dat balance Assets Liabilities
 
 To show all transactions and a running total:
 
-@smallexample @c command:66E3A2C
-$ ledger -f drewr3.dat register
+@smallexample @c command:096DF09
+$ ledger -f drewr3.ledger register
 @end smallexample
 
 @noindent
 Ledger will generate:
 
-@smallexample @c output:66E3A2C
+@smallexample @c output:096DF09
 10-Dec-01 Checking balance      Assets:Checking          $ 1,000.00   $ 1,000.00
                                 Equit:Opening Balances  $ -1,000.00            0
 10-Dec-20 Organic Co-op         Expense:Food:Groceries      $ 37.50      $ 37.50
@@ -552,11 +552,11 @@ interested in seeing transactions for:
 @cindex accounts, limiting by
 @cindex limiting by accounts
 
-@smallexample @c command:96B0EB3
-$ ledger -f drewr3.dat register Groceries
+@smallexample @c command:6BBD960
+$ ledger -f drewr3.ledger register Groceries
 @end smallexample
 
-@smallexample @c output:96B0EB3
+@smallexample @c output:6BBD960
 10-Dec-20 Organic Co-op         Expense:Food:Groceries      $ 37.50      $ 37.50
                                 Expense:Food:Groceries      $ 37.50      $ 75.00
                                 Expense:Food:Groceries      $ 37.50     $ 112.50
@@ -570,11 +570,11 @@ $ ledger -f drewr3.dat register Groceries
 @noindent
 Which matches the balance reported for the @samp{Groceries} account:
 
-@smallexample @c command:AECD64E
-$ ledger -f drewr3.dat balance Groceries
+@smallexample @c command:3274E67
+$ ledger -f drewr3.ledger balance Groceries
 @end smallexample
 
-@smallexample @c output:AECD64E
+@smallexample @c output:3274E67
             $ 334.00  Expenses:Food:Groceries
 @end smallexample
 
@@ -582,11 +582,11 @@ $ ledger -f drewr3.dat balance Groceries
 If you would like to find transaction to only a certain payee use
 @samp{payee} or @samp{@@}:
 
-@smallexample @c command:C6BC57E
-$ ledger -f drewr3.dat register payee "Organic"
+@smallexample @c command:93AD91D
+$ ledger -f drewr3.ledger register payee "Organic"
 @end smallexample
 
-@smallexample @c output:C6BC57E
+@smallexample @c output:93AD91D
 10-Dec-20 Organic Co-op         Expense:Food:Groceries      $ 37.50      $ 37.50
                                 Expense:Food:Groceries      $ 37.50      $ 75.00
                                 Expense:Food:Groceries      $ 37.50     $ 112.50
@@ -608,11 +608,11 @@ a check to clear, but you should treat it as money spent.  The
 @command{cleared} report will not format correctly for accounts that
 contain multiple commodities):
 
-@smallexample @c command:B86F6A6
-$ ledger -f drewr3.dat cleared
+@smallexample @c command:D0CF421
+$ ledger -f drewr3.ledger cleared
 @end smallexample
 
-@smallexample @c output:B86F6A6
+@smallexample @c output:D0CF421
      $ -3,804.00            $ 775.00                 Assets
       $ 1,396.00            $ 775.00    10-Dec-20      Checking
          $ 30.00                   0                     Business
@@ -802,11 +802,11 @@ spend each month on X?  Ledger provides a simple way of displaying
 monthly totals for any account.  Here is an example that summarizes
 your monthly automobile expenses:
 
-@smallexample @c command:DB524E4
-$ ledger -M register -f drewr3.dat expenses:auto
+@smallexample @c command:39F8126
+$ ledger -M register -f drewr3.ledger expenses:auto
 @end smallexample
 
-@smallexample @c output:DB524E4
+@smallexample @c output:39F8126
 11-Jan-01 - 11-Jan-31           Expenses:Auto            $ 5,500.00   $ 5,500.00
 @end smallexample
 
@@ -1673,7 +1673,7 @@ entry.
 For example, the following entries reflect transactions made for a
 business trip to Europe from the US:
 
-@smallexample @c input:82150D9
+@smallexample @c input:B74322C
 2011/09/23 Cash in Munich
     Assets:Cash                               €50.00
     Assets:Checking                          $-66.00
@@ -1689,11 +1689,11 @@ spent on Dinner in Munich.
 
 Running a ledger balance report shows:
 
-@smallexample @c command:82150D9
-$ ledger -f example.dat bal
+@smallexample @c command:B74322C
+$ ledger -f example.ledger bal
 @end smallexample
 
-@smallexample @c output:82150D9
+@smallexample @c output:B74322C
              $-66.00
               €15.00  Assets
               €15.00    Cash
@@ -2010,16 +2010,16 @@ accounts are not previously defined:
 
 @smallexample
 $ ledger bal --strict
-Warning: "FinanceData/Master.dat", line 6: Unknown account 'Liabilities:Tithe Owed'
-Warning: "FinanceData/Master.dat", line 8: Unknown account 'Liabilities:Tithe Owed'
-Warning: "FinanceData/Master.dat", line 15: Unknown account 'Allocation:Equities:Domestic'
+Warning: "FinanceData/Master.ledger", line 6: Unknown account 'Liabilities:Tithe Owed'
+Warning: "FinanceData/Master.ledger", line 8: Unknown account 'Liabilities:Tithe Owed'
+Warning: "FinanceData/Master.ledger", line 15: Unknown account 'Allocation:Equities:Domestic'
 @end smallexample
 
 If you have a large Ledger register already created use the
 @command{accounts} command to get started:
 
 @smallexample
-$ ledger accounts >> Accounts.dat
+$ ledger accounts >> Accounts.ledger
 @end smallexample
 
 @noindent
@@ -2641,18 +2641,18 @@ Let's take an example file, with data ranging from year 2000 until
 2004.  We want to archive years 2000 and 2001 to their own file,
 leaving just 2003 and 2004 in the current file.  So, use
 @command{print} to output all the earlier transactions to a file
-called @file{ledger-old.dat}:
+called @file{ledger-old.ledger}:
 
 @smallexample
-$ ledger -f ledger.dat -b 2000 -e 2001 print > ledger-old.dat
+$ ledger -f journal.ledger -b 2000 -e 2001 print > journal-old.ledger
 @end smallexample
 
 To delete older data from the current ledger file, use @command{print}
 again, this time specifying year 2002 as the starting date:
 
 @smallexample
-$ ledger -f ledger.dat -b 2002 print > x
-$ mv x ledger.dat
+$ ledger -f journal.ledger -b 2002 print > x
+$ mv x journal.ledger
 @end smallexample
 
 However, now the current file contains @emph{only} postings from 2002
@@ -2662,13 +2662,13 @@ compensate for this, we must append an equity report for the old ledger
 at the beginning of the new one:
 
 @smallexample
-$ ledger -f ledger-old.dat equity > equity.dat
-$ cat equity.dat ledger.dat > x
-$ mv x ledger.dat
-$ rm equity.dat
+$ ledger -f journal-old.ledger equity > equity.ledger
+$ cat equity.ledger journal.ledger > x
+$ mv x journal.ledger
+$ rm equity.ledger
 @end smallexample
 
-Now the balances reported from @file{ledger.dat} are identical to what
+Now the balances reported from @file{journal.ledger} are identical to what
 they were before the data was split.
 
 How often should you split your ledger?  You never need to, if you
@@ -4037,14 +4037,14 @@ options.
 The balance report is the most commonly used report.  The simplest
 invocation is:
 
-@smallexample @c command:1D00D56
-$ ledger balance -f drewr3.dat
+@smallexample @c command:4DE8157
+$ ledger balance -f drewr3.ledger
 @end smallexample
 
 @noindent
 which will print the balances of every account in your journal.
 
-@smallexample @c output:1D00D56
+@smallexample @c output:4DE8157
          $ -3,804.00  Assets
           $ 1,396.00    Checking
              $ 30.00      Business
@@ -4071,11 +4071,11 @@ Most times, this is more than you want.  Limiting the results to
 specific accounts is as easy as entering the names of the accounts
 after the command:
 
-@smallexample @c command:06B2AD4
-$ ledger balance -f drewr3.dat Auto MasterCard
+@smallexample @c command:2056D59
+$ ledger balance -f drewr3.ledger Auto MasterCard
 @end smallexample
 
-@smallexample @c output:06B2AD4
+@smallexample @c output:2056D59
           $ 5,500.00  Expenses:Auto
             $ -20.00  Liabilities:MasterCard
 --------------------
@@ -4089,11 +4089,11 @@ Note the implicit logical or between @samp{Auto} and
 If you want the entire contents of a branch of your account tree, use
 the highest common name in the branch:
 
-@smallexample @c command:B0468E1
-$ ledger balance -f drewr3.dat Income
+@smallexample @c command:C9E5526
+$ ledger balance -f drewr3.ledger Income
 @end smallexample
 
-@smallexample @c output:B0468E1
+@smallexample @c output:C9E5526
          $ -2,030.00  Income
          $ -2,000.00    Salary
             $ -30.00    Sales
@@ -4104,20 +4104,20 @@ $ ledger balance -f drewr3.dat Income
 You can use general regular expressions in nearly any place Ledger
 needs a string:
 
-@smallexample @c command:EAE389F
-$ ledger balance -f drewr3.dat ^Bo
+@smallexample @c command:AB61A71
+$ ledger balance -f drewr3.ledger ^Bo
 @end smallexample
-@smallexample @c output:EAE389F
+@smallexample @c output:AB61A71
 @end smallexample
 
 This first example looks for any account starting with @samp{Bo}, of
 which there are none.
 
-@smallexample @c command:E2AF6AD
-$ ledger balance -f drewr3.dat Bo
+@smallexample @c command:B3A0A8B
+$ ledger balance -f drewr3.ledger Bo
 @end smallexample
 
-@smallexample @c output:E2AF6AD
+@smallexample @c output:B3A0A8B
              $ 20.00  Expenses:Books
 @end smallexample
 
@@ -5764,12 +5764,12 @@ Display the options in effect for this Ledger invocation, along with
 their values and the source of those values, for example:
 
 @smallexample
-$ ledger --options bal --cleared -f ~/ledger/test/input/drewr3.dat
+$ ledger --options bal --cleared -f ~/ledger/test/input/drewr3.ledger
 ===========================================================================
 [Global scope options]
 
 [Session scope options]
-                  --file = ~/ledger/test/input/drewr3.dat      -f
+                  --file = ~/ledger/test/input/drewr3.ledger      -f
               --price-db = ~/FinanceData/PriceDB               $price-db
 
 [Report scope options]
@@ -5877,11 +5877,11 @@ Format Codes}).
 @item --master-account @var{STR}
 Prepend all account names with the argument.
 
-@smallexample @c command:A76BB56
-$ ledger -f drewr3.dat bal --no-total --master-account HUMBUG
+@smallexample @c command:9063C78
+$ ledger -f drewr3.ledger bal --no-total --master-account HUMBUG
 @end smallexample
 
-@smallexample @c output:A76BB56
+@smallexample @c output:9063C78
                    0  HUMBUG
          $ -3,804.00    Assets
           $ 1,396.00      Checking
@@ -6766,7 +6766,7 @@ In the balance report, it shows all the accounts affected by
 transactions having a related posting.  For example, if a file had
 this transaction:
 
-@smallexample @c input:94C5675
+@smallexample @c input:71EFA8F
 2004/03/20 Safeway
     Expenses:Food                       $65.00
     Expenses:Cash                       $20.00
@@ -6775,14 +6775,14 @@ this transaction:
 
 And the register command was:
 
-@smallexample @c command:94C5675
-$ ledger -f example.dat -r register food
+@smallexample @c command:71EFA8F
+$ ledger -f example.ledger -r register food
 @end smallexample
 
 The following would be printed, showing the postings related to the
 posting that matched:
 
-@smallexample @c output:94C5675
+@smallexample @c output:71EFA8F
 04-Mar-20 Safeway               Expenses:Cash                $20.00       $20.00
                                 Assets:Checking             $-85.00      $-65.00
 @end smallexample
@@ -7252,11 +7252,11 @@ they cannot have a different future value:
 
 @smallexample @c input:validate
 = /^Expenses:/
-    ; VALUE:: market(amount, post.date, exchange)
+    ; VALUE:: market(amount, post.ledgere, exchange)
 @end smallexample
 
 This says the future valuation is the same as the valuation at the time
-of posting.  post.date equals the posting's date, while just 'date' is
+of posting.  post.ledgere equals the posting's date, while just 'date' is
 the value of @option{--now @var{DATE}} (defaults to today).
 
 Or how about valuating miles based on a reimbursement rate during a
@@ -8566,7 +8566,7 @@ Here is how you would traverse all the postings in your data file:
 @smallexample
 import ledger
 
-for xact in ledger.read_journal("sample.dat").xacts():
+for xact in ledger.read_journal("sample.ledger").xacts():
     for post in xact.posts():
         print "Transferring %s to/from %s" % (post.amount, post.account)
 @end smallexample
@@ -8612,7 +8612,7 @@ generally looking at raw data.  In order to look at cooked data, you
 must generate a report of some kind by querying the journal:
 
 @smallexample
-for post in ledger.read_journal("sample.dat").query("food"):
+for post in ledger.read_journal("sample.ledger").query("food"):
     print "Transferring %s to/from %s" % (post.amount, post.account)
 @end smallexample
 
@@ -8623,7 +8623,7 @@ looking at its @code{xact} member:
 
 @smallexample
 last_xact = None
-for post in ledger.read_journal("sample.dat").query(""):
+for post in ledger.read_journal("sample.ledger").query(""):
     if post.xact != last_xact:
         for post in post.xact.posts:
             print "Transferring %s to/from %s" % (post.amount,
@@ -8662,7 +8662,7 @@ tag PATH
     assert check_path(value)
 
 2012-02-29 KFC
-    ; PATH: somebogusfile.dat
+    ; PATH: somebogusfile.ledger
     Expenses:Food                $20
     Assets:Cash
 @end smallexample
@@ -8681,7 +8681,7 @@ a Balance.  For example:
 
 @smallexample
 total = Balance()
-for post in ledger.read_journal("sample.dat").query(""):
+for post in ledger.read_journal("sample.ledger").query(""):
     total += post.amount
 print total
 @end smallexample
@@ -9509,7 +9509,7 @@ is now @env{LEDGER_PRICE_EXP}.
 @appendix Example Journal File
 
 The following journal file is included with the source distribution of
-ledger.  It is called @file{drewr.dat} and exhibits many ledger
+ledger.  It is called @file{drewr.ledger} and exhibits many ledger
 features, include automatic and virtual transactions,
 
 @smallexample @c input:validate

@@ -985,7 +985,7 @@ Directory where the debug binary.
 
 @item ledger-texi-sample-doc-path
 Location for sample data to be used in texi tests, defaults to
-@file{~/ledger/doc/sample.dat}.
+@file{~/ledger/doc/sample.ledger}.
 
 @item ledger-texi-normalization-args
 texi normalization for producing ledger output, defaults to

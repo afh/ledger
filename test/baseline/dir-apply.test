@@ -23,7 +23,7 @@ apply account Master Account
 end
 
 apply account Master Account
-include dir-apply.dat
+include dir-apply.ledger
 end
 
 test reg food

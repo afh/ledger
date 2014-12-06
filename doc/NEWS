@@ -406,7 +406,7 @@ features, please see the manual.
 - Added a "dump" command for creating binary files, which load much
   faster than their textual originals.  For example:
 
-    ledger -f huge.dat -o huge.cache dump
+    ledger -f huge.ledger -o huge.cache dump
     ledger -f huge.cache bal
 
   The second command will load significantly faster (usually about six

@@ -1,4 +1,4 @@
-test -f /dev/null convert test/baseline/feat-convert-with-directives.dat --detail --now '2014/08/01'
+test -f /dev/null convert test/baseline/feat-convert-with-directives.ledger --detail --now '2014/08/01'
 2012/01/01 * KFC
     ; CSV: 2012/01/01,KFC,$10
     ; Imported: 2014/08/01
@@ -14,7 +14,7 @@ test -f /dev/null convert test/baseline/feat-convert-with-directives.dat --detai
     Equity:Unknown
 end test
 
-test -f /dev/null convert test/baseline/feat-convert-with-directives.dat --rich-data --date-format %d-%m-%Y --now '2014/08/01'
+test -f /dev/null convert test/baseline/feat-convert-with-directives.ledger --rich-data --date-format %d-%m-%Y --now '2014/08/01'
 01-01-2012 * KFC
     ; CSV: 2012/01/01,KFC,$10
     ; Imported: 2014/08/01

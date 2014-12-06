@@ -14,7 +14,7 @@
     Expenses:Food             20.00 EUR
     Liabilities:CC           -20.00 EUR
 
-test --input-date-format "%Y-%m-%d" --auto-match convert test/baseline/opt-auto-match.dat
+test --input-date-format "%Y-%m-%d" --auto-match convert test/baseline/opt-auto-match.ledger
 2012/03/01 * Food
     Assets:Cash                                   10
     Equity:Unknown

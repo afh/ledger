@@ -126,9 +126,9 @@ class DocTests:
         findex = index+1
         command.insert(findex, '--file')
         if validate_command:
-          command.insert(findex+1, 'sample.dat')
+          command.insert(findex+1, 'sample.ledger')
         else:
-          command.insert(findex+1, test_id + '.dat')
+          command.insert(findex+1, test_id + '.ledger')
     return (command, findex+1)
 
   def test_examples(self):

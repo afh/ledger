@@ -138,7 +138,7 @@ class LedgerHarness:
 
 if __name__ == '__main__':
     harness = LedgerHarness(sys.argv)
-    proc = harness.run('$ledger -f doc/sample.dat reg')
+    proc = harness.run('$ledger -f doc/sample.ledger reg')
     print 'STDOUT:'
     print proc.stdout.read()
     print 'STDERR:'

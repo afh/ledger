@@ -1,4 +1,4 @@
-;; a.dat
+;; a.ledger
 
 2012-01-01 Test
     Expenses:Unknown        $100.00
@@ -27,7 +27,7 @@
     Liabilities:MasterCard  $150.00 = $0
     <Assets:Checking>
 
-;; b.dat
+;; b.ledger
 
 2012-01-01 Test
     Assets:Checking         $150.00

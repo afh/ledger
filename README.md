@@ -26,7 +26,7 @@ installed (see below), then simply do this:
 
 Now try your first ledger command:
 
-    ./ledger -f test/input/sample.dat reg
+    ./ledger -f test/input/sample.ledger reg
 
 For help on keeping your journal have a look at the
 [documentation](http://www.ledger-cli.org/docs.html) and the

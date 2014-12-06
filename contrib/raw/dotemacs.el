@@ -7,6 +7,7 @@
 (add-to-list 'load-path "/home/adamsrl/AdamsInfoServ/BusinessDocuments/Ledger/AdamsRussell/bin")
 (autoload 'ledger-mode "ldg-new" nil t)
 (add-to-list 'auto-mode-alist '("\\.dat$" . ledger-mode))
+(add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
 
 (add-hook 'ledger-mode-hook
           (lambda ()

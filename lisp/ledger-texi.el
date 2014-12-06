@@ -23,7 +23,7 @@
   "Options for working on Ledger texi documentation"
   :group 'ledger)
 
-(defcustom ledger-texi-sample-doc-path "~/ledger/doc/sample.dat"
+(defcustom ledger-texi-sample-doc-path "~/ledger/doc/sample.ledger"
   "Location for sample data to be used in texi tests"
   :type 'file
   :group 'ledger-texi)
@@ -153,7 +153,7 @@
               (let ((beg (point)))
                 (re-search-forward "@end \\(\\(?:small\\)?example\\)")
                 (setq data-file (ledger-texi-write-test-data
-                                 (format "%s.dat" label)
+                                 (format "%s.ledger" label)
                                  (buffer-substring-no-properties
                                   beg (match-beginning 0))))))))
 

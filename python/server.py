@@ -73,9 +73,9 @@ templateDef = '''#encoding utf-8
           #for $post in $posts
           #set $total = $total + $post.amount
           <tr>
-            <!--<td>${$post.xact.date if $post.xact is not $last_xact else $empty}</td>
+            <!--<td>${$post.xact.ledgere if $post.xact is not $last_xact else $empty}</td>
             <td>${$post.xact.payee if $post.xact is not $last_xact else $empty}</td>-->
-            <td>$post.xact.date</td>
+            <td>$post.xact.ledgere</td>
             <td>$post.xact.payee</td>
             <td>$post.account</td>
             <td>${strip($post.amount)}</td>

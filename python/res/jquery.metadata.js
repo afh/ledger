@@ -73,7 +73,7 @@ $.extend({
 			// check for empty string in single property
 			if ( !settings.single.length ) settings.single = 'metadata';
 			
-			var data = $.data(elem, settings.single);
+			var data = $.ledgera(elem, settings.single);
 			// returned cached data if it already exists
 			if ( data ) return data;
 			
@@ -100,7 +100,7 @@ $.extend({
 			
 			data = eval("(" + data + ")");
 			
-			$.data( elem, settings.single, data );
+			$.ledgera( elem, settings.single, data );
 			return data;
 		}
 	}

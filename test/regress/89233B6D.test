@@ -1,9 +1,9 @@
 !apply account A
-!include 89233B6D-a.dat
+!include 89233B6D-a.ledger
 !end
 
 !apply account B
-!include 89233B6D-b.dat
+!include 89233B6D-b.ledger
 !end
 
 test reg "^A:"

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 grep -h '; RECEIPT: ' \
-	*.dat \
-	*/*.dat \
+	*.ledger \
+	*/*.ledger \
 	| sed 's,\W*; RECEIPT: ,,g' \
 	| tr , '\n' \
 	| sort -u \
