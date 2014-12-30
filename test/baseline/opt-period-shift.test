@@ -1,0 +1,69 @@
+test period "january 2014"
+--- Period expression tokens ---
+TOK_A_MONTH: Jan
+TOK_A_YEAR: 2014
+END_REACHED: <EOF>
+
+--- Before stabilization ---
+   range: in year 2014 month Jan
+
+--- After stabilization ---
+   range: in year 2014 month Jan
+   start: 14-Jan-01
+  finish: 14-Feb-01
+
+--- Sample dates in range (max. 20) ---
+ 1: 14-Jan-01
+end test
+
+test --period-shift 14 period "january 2014"
+--- Period expression tokens ---
+TOK_A_MONTH: Jan
+TOK_A_YEAR: 2014
+END_REACHED: <EOF>
+
+--- Before stabilization ---
+   range: in year 2014 month Jan
+
+--- After stabilization ---
+   range: in year 2014 month Jan
+   start: 14-Jan-15
+  finish: 14-Feb-15
+
+--- Sample dates in range (max. 20) ---
+ 1: 14-Jan-15
+end test
+
+test --period-shift 90 period "january 2014"
+--- Period expression tokens ---
+TOK_A_MONTH: Jan
+TOK_A_YEAR: 2014
+END_REACHED: <EOF>
+
+--- Before stabilization ---
+   range: in year 2014 month Jan
+
+--- After stabilization ---
+   range: in year 2014 month Jan
+   start: 14-Apr-01
+  finish: 14-May-01
+
+--- Sample dates in range (max. 20) ---
+ 1: 14-Apr-01
+end test
+
+test -f test/input/sample.dat --monthly --period-shift 14 reg expenses
+04-May-15 - 04-Jun-14           Expenses:Books               $20.00       $20.00
+                                Expenses:Cards               $40.00       $60.00
+                                Expenses:Docs                $30.00       $90.00
+end test
+
+test -f test/input/sample.dat --monthly --period-shift 14 reg income -> 1
+__ERROR__
+Error: Failed to find period for interval report
+end test
+
+test --period-shift fourteen period "january 2014" -> 1
+__ERROR__
+Error: Argument to --period-shift must be an integer
+end test

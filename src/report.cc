@@ -95,6 +95,14 @@ void report_t::normalize_options(const string& verb)
     set_date_format(HANDLER(date_format_).str().c_str());
   if (HANDLED(datetime_format_))
     set_datetime_format(HANDLER(datetime_format_).str().c_str());
+  if (HANDLED(period_shift_)) {
+    try {
+      period_shift = boost::lexical_cast<uint16_t>(HANDLER(period_shift_).str());
+    }
+    catch (const boost::bad_lexical_cast&) {
+      throw std::logic_error(_("Argument to --period-shift must be an integer"));
+    }
+  }
   if (HANDLED(start_of_week_)) {
     if (optional<date_time::weekdays> weekday =
         string_to_day_of_week(HANDLER(start_of_week_).str()))
@@ -1213,6 +1221,7 @@ option_t<report_t> * report_t::lookup_option(const char * p)
     else OPT(pending);
     else OPT(percent);
     else OPT_(period_);
+    else OPT(period_shift_);
     else OPT_ALT(sort_xacts_, period_sort_);
     else OPT(pivot_);
     else OPT(plot_amount_format_);

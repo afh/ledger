@@ -5472,6 +5472,10 @@ Limit the processing to transactions before @var{DATE}.
 @itemx -p @var{PERIOD_EXPRESSION}
 Limit the processing to transactions in @var{PERIOD_EXPRESSION}.
 
+@item --period-shift @var{INT}
+Shift the starting day for @option{--monthly} reports by @var{INT} days.
+It is similar to the @option{--start-of-week} option, just for months.
+
 @item --period-sort @var{VEXPR}
 Sort postings within each period according to @var{VEXPR}.
 

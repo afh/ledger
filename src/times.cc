@@ -42,6 +42,7 @@ namespace ledger {
 optional<datetime_t> epoch;
 
 date_time::weekdays start_of_week = gregorian::Sunday;
+uint16_t period_shift = 0;
 
 //#define USE_BOOST_FACETS 1
 #if defined(USE_BOOST_FACETS)
@@ -360,9 +361,16 @@ date_t date_specifier_t::begin() const
   // jww (2009-11-16): Handle wday.  If a month is set, find the most recent
   // wday in that month; if the year is set, then in that year.
 
-  return gregorian::date(static_cast<date_t::year_type>(the_year),
+  date_t result = gregorian::date(static_cast<date_t::year_type>(the_year),
                          static_cast<date_t::month_type>(the_month),
                          static_cast<date_t::day_type>(the_day));
+  if (period_shift > 0) {
+    DEBUG("times.interval",
+          "stabilize: shifting by " << period_shift << " days");
+    result += gregorian::days(period_shift);
+  }
+
+  return result;
 }
 
 date_t date_specifier_t::end() const
@@ -1258,6 +1266,11 @@ date_t date_duration_t::find_nearest(const date_t& date, skip_quantum_t skip)
     break;
   case date_duration_t::MONTHS:
     result = date_t(date.year(), date.month(), 1);
+    if (period_shift > 0) {
+      DEBUG("times.interval",
+            "stabilize: shifting by " << period_shift << " days");
+      result += gregorian::days(period_shift);
+    }
     break;
   case date_duration_t::WEEKS:
     result = date;

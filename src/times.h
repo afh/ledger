@@ -78,6 +78,7 @@ extern optional<datetime_t> epoch;
   (epoch ? epoch->date() : boost::gregorian::day_clock::local_day())
 
 extern date_time::weekdays start_of_week;
+extern uint16_t period_shift;
 
 optional<date_time::weekdays>
 string_to_day_of_week(const std::string& str);
