@@ -1,7 +1,7 @@
 # The following will be generated or updated when the 'doc' target is built:
 #   * user guide and man pages: if BUILD_DOCS is set
 #   * HTML versions of the above: if BUILD_DOCS and BUILD_WEB_DOCS are set
-#   * Doxygen / reference documentation: if USE_DOXYGEN is set
+#   * Doxygen / reference documentation: if BUILD_DEV_DOCS is set
 
 ########################################################################
 
@@ -37,7 +37,7 @@ if (BUILD_WEB_DOCS)
   endif()
 endif()
 
-if (USE_DOXYGEN)
+if (BUILD_DEV_DOCS)
   find_package(Doxygen)
   if (NOT DOXYGEN_FOUND)
     message(WARNING "Could not find doxygen. Reference documentation cannot be built.")
@@ -108,7 +108,7 @@ endif(BUILD_WEB_DOCS)
 
 ########################################################################
 
-if (USE_DOXYGEN)
+if (BUILD_DEV_DOCS)
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
     ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
