@@ -27,7 +27,7 @@ endif()
 ########################################################################
 
 option(USE_PYTHON "Build support for the Python scripting bridge" OFF)
-option(USE_DOXYGEN "Build reference documentation using Doxygen" OFF)
+option(BULD_DEV_DOCS "Build reference documentation using Doxygen" OFF)
 
 option(DISABLE_ASSERTS "Build without any internal consistency checks" OFF)
 option(BUILD_DEBUG "Build support for runtime debugging" OFF)
