@@ -701,7 +701,7 @@ class PrepareBuild(CommandLineApp):
         self.log.info('System type is => ' + system)
 
         if self.options.enable_doxygen:
-            self.configure_args.append('-DUSE_DOXYGEN=1')
+            self.configure_args.append('-DBUILD_DEV_DOCS=1')
         if self.options.python:
             self.configure_args.append('-DUSE_PYTHON=1')
 
