@@ -1,30 +1,49 @@
-# - Try to find utfcpp
-# Once done, this will define
+#.rst
+# FindUtfcpp
+# ----------
 #
-#  UTFCPP_FOUND        - system has utfcpp's utf8.h
-#  UTFCPP_PATH         - the utfcpp include directories
+# Finds the Utfcpp headers
+# See http://utfcpp.sourceforge.net/
+#
+# This will define the following variables::
+#
+#   Utfcpp_FOUND        - True if the system has utfcpp headers
+#   Utfcpp_INCLUDE_DIRS - Utfcpp include directories
+#
 
-include(CheckCXXSourceCompiles)
+#=============================================================================
+# Copyright 2015 Alexis Hildebrandt
+#
+# Distributed under the OSI-approved BSD License (the "License");
+# see accompanying file Copyright.txt for details.
+#
+# This software is distributed WITHOUT ANY WARRANTY; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the License for more information.
+#=============================================================================
 
-set(UTFCPP_FOUND FALSE)
-
-find_path(UTFCPP_INCLUDE_DIR
+find_path(Utfcpp_INCLUDE_DIR
     NAMES utf8.h
-    HINTS  "${UTFCPP_PATH}" "${PROJECT_SOURCE_DIR}/lib/utfcpp/v2_0/source"
+    PATHS "${Utfcpp_ROOT_DIR}"
+    PATH_SUFFIXES include
 )
 
-if (UTFCPP_INCLUDE_DIR)
-  set(CMAKE_REQUIRED_INCLUDES "${UTFCPP_INCLUDE_DIR}")
-  set(UTFCPP_FOUND TRUE)
+include(FindPackageHandleStandardArgs)
+if(${CMAKE_VERSION} VERSION_GREATER "2.8.10")
+find_package_handle_standard_args(Utfcpp
+  FOUND_VAR Utfcpp_FOUND
+  REQUIRED_VARS Utfcpp_INCLUDE_DIR
+)
+else()
+find_package_handle_standard_args(Utfcpp
+  # FOUND_VAR was introduced with CMake 2.8.11
+  REQUIRED_VARS Utfcpp_INCLUDE_DIR
+)
+set(Utfcpp_FOUND ${UTFCPP_FOUND})
 endif()
 
-check_cxx_source_compiles("
-#include <string>
-#include \"utf8.h\"
+if(Utfcpp_FOUND)
+  set(Utfcpp_INCLUDE_DIRS ${Utfcpp_INCLUDE_DIR})
+endif()
 
-int main(int argc, char** argv) {
-    std::string input = std::string(\"utfcpp\");
-    const char * p = input.c_str();
-    std::size_t len = input.length();
-    utf8::is_valid(p, p + len);
-}" HAVE_WORKING_UTFCPP)
+mark_as_advanced(Utfcpp_INCLUDE_DIR)
