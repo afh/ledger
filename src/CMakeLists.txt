@@ -271,7 +271,7 @@ if (BUILD_LIBRARY)
     VERSION ${Ledger_VERSION_MAJOR}
     SOVERSION ${Ledger_VERSION_MAJOR})
 
-  add_executable(ledger main.cc global.cc)
+  add_executable(ledger ${LEDGER_CLI_SOURCES})
   target_link_libraries(ledger libledger)
   if (CMAKE_SYSTEM_NAME STREQUAL Darwin AND HAVE_BOOST_PYTHON)
     target_link_libraries(ledger ${PYTHON_LIBRARIES})
@@ -281,7 +281,7 @@ if (BUILD_LIBRARY)
   install(FILES ${LEDGER_INCLUDES}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
 else()
-  add_executable(ledger ${LEDGER_SOURCES} main.cc global.cc)
+  add_executable(ledger ${LEDGER_SOURCES} ${LEDGER_CLI_SOURCES})
   add_ledger_library_dependencies(ledger)
 endif()
 
