@@ -122,6 +122,13 @@ else()
   set(HAVE_EDIT 0)
 endif()
 
+find_package(Libintl)
+if (Libintl_FOUND)
+  set(HAVE_GETTEXT 1)
+else()
+  set(HAVE_GETTEXT 0)
+endif()
+
 find_package(Utfcpp)
 if(NOT Utfcpp_FOUND)
   # If utfcpp cannot be found in a standard system location or
@@ -141,18 +148,6 @@ else()
   set(HAVE_UNIX_PIPES 0)
 endif()
 
-#find_package(Gettext)           # Used for running tests
-
-#if (GETTEXT_FOUND)
-#  set(HAVE_GETTEXT 1)
-#else()
-  set(HAVE_GETTEXT 0)
-#endif()
-
-#find_path(INTL_PATH libintl.h)
-#find_library(INTL_LIB intl)
-#include_directories(SYSTEM "${INTL_PATH}")
-
 ########################################################################
 
 macro(add_ledger_library_dependencies _target)
@@ -163,7 +158,7 @@ macro(add_ledger_library_dependencies _target)
     target_link_libraries(${_target} Editline::Editline)
   endif()
   if (HAVE_GETTEXT)
-    target_link_libraries(${_target} ${INTL_LIB})
+    target_link_libraries(${_target} Libintl::Libintl)
   endif()
   if (HAVE_BOOST_PYTHON)
     if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
