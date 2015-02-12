@@ -14,8 +14,35 @@ set(Ledger_VERSION_DATE  20141005)
 
 set(Ledger_TEST_TIMEZONE "America/Chicago")
 
+########################################################################
+
+option(USE_PYTHON "Enable support for the Python scripting bridge" OFF)
+option(BUILD_EMACSLISP "Build and install ledger-mode for Emacs" OFF)
+
+option(BUILD_DOCS "Build and install documentation" OFF)
+option(BUILD_WEB_DOCS "Build version of documentation suitable for viewing online" OFF)
+option(BUILD_DEV_DOCS "Build reference documentation using Doxygen" OFF)
+option(BUILD_A4_PDF "Build pdf version of documentation on A4 paper" OFF)
+
+option(BUILD_DEBUG "Build support for runtime debugging" OFF)
+option(BUILD_LIBRARY "Build and install Ledger as a library" ON)
+
+option(DISABLE_ASSERTS "Build without any internal consistency checks" OFF)
+option(CLANG_GCOV "Enable code coverage" OFF)
+option(CLANG_GPROF "Enable code profiling" OFF)
+
+########################################################################
+
 # Point CMake at any custom modules we may ship
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+
+if (CMAKE_CXX_COMPILER MATCHES "clang"
+    OR CMAKE_CXX_COMPILER MATCHES "g\\+\\+")
+  set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")
+endif()
 
 enable_testing()
 
@@ -26,19 +53,14 @@ endif()
 
 ########################################################################
 
-option(USE_PYTHON "Build support for the Python scripting bridge" OFF)
-option(BULD_DEV_DOCS "Build reference documentation using Doxygen" OFF)
+if (CLANG_GCOV)
+  set(BUILD_DEBUG ON)
+  set(DISABLE_ASSERTS ON)
+endif()
 
-option(DISABLE_ASSERTS "Build without any internal consistency checks" OFF)
-option(BUILD_DEBUG "Build support for runtime debugging" OFF)
-
-option(BUILD_LIBRARY "Build and install Ledger as a library" ON)
-option(BUILD_DOCS "Build and install documentation" OFF)
-option(BUILD_WEB_DOCS "Build version of documentation suitable for viewing online" OFF)
-option(BUILD_EMACSLISP "Build and install ledger-mode for Emacs" OFF)
-
-# Point CMake at any custom modules we may ship
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+if (CLANG_GPROF)
+  set(BUILD_DEBUG ON)
+endif()
 
 if (BUILD_DEBUG)
   set(CMAKE_BUILD_TYPE Debug)
@@ -58,6 +80,10 @@ if (CLANG_GCOV)
   set(PROFILE_LIBS profile_rt)
   set(CMAKE_REQUIRED_LIBRARIES ${PROFILE_LIBS})
 endif()
+
+########################################################################
+
+message(STATUS "Building ${PROJECT_NAME} ${Ledger_VERSION_MAJOR}.${Ledger_VERSION_MINOR}.${Ledger_VERSION_PATCH}${Ledger_VERSION_PRERELEASE} (${Ledger_VERSION_DATE}) on ${CMAKE_HOST_SYSTEM} using CMake ${CMAKE_VERSION} with ${CMAKE_GENERATOR}")
 
 ########################################################################
 
@@ -86,39 +112,33 @@ endif()
 find_package(Boost 1.49.0
   REQUIRED date_time filesystem system iostreams regex unit_test_framework
   ${BOOST_PYTHON})
-
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
 find_package(Icu QUIET COMPONENTS icuuc)
+
 include(CheckForBoostRegexIcu)
+# CheckForBoostRegexIcu requires find_package(Boost) and find_package(Icu)
 if (BOOST_REGEX_UNICODE_RUNS)
   set(HAVE_BOOST_REGEX_UNICODE 1)
 else()
   set(HAVE_BOOST_REGEX_UNICODE 0)
 endif()
 
-########################################################################
-
-include(CheckIncludeFiles)
-include(CheckFunctionExists)
-include(CheckCSourceCompiles)
-include(CheckCXXSourceRuns)
-include(CMakePushCheckState)
-
-check_function_exists(access HAVE_ACCESS)
-check_function_exists(realpath HAVE_REALPATH)
-check_function_exists(getpwuid HAVE_GETPWUID)
-check_function_exists(getpwnam HAVE_GETPWNAM)
-check_function_exists(ioctl HAVE_IOCTL)
-check_function_exists(isatty HAVE_ISATTY)
-
-########################################################################
-
-include_directories(${CMAKE_INCLUDE_PATH})
-
 find_package(Gmp 4.2.2 REQUIRED)
 find_package(Mpfr 2.4.0 REQUIRED)
+
+find_package(Utfcpp)
+if(NOT Utfcpp_FOUND)
+  # If utfcpp cannot be found in a standard system location or
+  # in Utfcpp_ROOT_DIR fall back to utfcpp provided with the ledger source.
+  message(STATUS "Looking for Utfcpp in ledger source tree")
+  set(Utfcpp_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/utfcpp/v2_0/source")
+  find_package(Utfcpp REQUIRED)
+endif()
+if(Utfcpp_FOUND)
+  include_directories("${Utfcpp_INCLUDE_DIRS}")
+endif()
 
 find_package(Editline)
 if (Editline_FOUND)
@@ -134,24 +154,29 @@ else()
   set(HAVE_GETTEXT 0)
 endif()
 
-find_package(Utfcpp)
-if(NOT Utfcpp_FOUND)
-  # If utfcpp cannot be found in a standard system location or
-  # in Utfcpp_ROOT_DIR fall back to utfcpp provided with the ledger source.
-  message(STATUS "Looking for Utfcpp in ledger source tree")
-  set(Utfcpp_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/utfcpp/source")
-  find_package(Utfcpp REQUIRED)
-endif()
-if(Utfcpp_FOUND)
-  include_directories("${Utfcpp_INCLUDE_DIRS}")
-endif()
-
 include(CheckForUnixPipes)
 if (UNIX_PIPES_COMPILES)
   set(HAVE_UNIX_PIPES 1)
 else()
   set(HAVE_UNIX_PIPES 0)
 endif()
+
+include(CheckFunctionExists)
+check_function_exists(ioctl HAVE_IOCTL)
+check_function_exists(isatty HAVE_ISATTY)
+check_function_exists(access HAVE_ACCESS)
+check_function_exists(realpath HAVE_REALPATH)
+check_function_exists(getpwuid HAVE_GETPWUID)
+check_function_exists(getpwnam HAVE_GETPWNAM)
+
+########################################################################
+
+include_directories(${CMAKE_INCLUDE_PATH})
+include_directories(${PROJECT_BINARY_DIR})
+
+configure_file(
+  ${PROJECT_SOURCE_DIR}/src/system.hh.in
+  ${PROJECT_BINARY_DIR}/system.hh)
 
 ########################################################################
 
@@ -182,40 +207,12 @@ endmacro(add_ledger_library_dependencies _target)
 
 ########################################################################
 
-include(FindUtfcpp)
-if (UTFCPP_FOUND)
-  include_directories("${UTFCPP_INCLUDE_DIR}")
-else()
-  message(FATAL_ERROR "Missing required header file: utf8.h\n"
-    "Define UTFCPP_PATH or install utfcpp locally into the source tree below lib/utfcpp/."
-    )
-endif()
-
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-
-# add the binary tree to the search path for include files so that we will
-# find TutorialConfig.h
-include_directories("${PROJECT_SOURCE_DIR}/lib")
-# find system.hh
-include_directories("${PROJECT_BINARY_DIR}")
-
-configure_file(
-  ${PROJECT_SOURCE_DIR}/src/system.hh.in
-  ${PROJECT_BINARY_DIR}/system.hh)
-
-if (CMAKE_CXX_COMPILER MATCHES "clang")
-  set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")
-elseif(CMAKE_CXX_COMPILER MATCHES "g\\+\\+")
-  set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")
-endif()
-
 add_subdirectory(src)
 add_subdirectory(doc)
+add_subdirectory(test)
 if (BUILD_EMACSLISP)
   add_subdirectory(lisp)
 endif()
-add_subdirectory(test)
 
 ########################################################################
 
@@ -231,7 +228,17 @@ set (CPACK_GENERATOR "TBZ2")
 set (CPACK_SOURCE_GENERATOR "TBZ2")
 set (CPACK_SOURCE_PACKAGE_FILE_NAME
   "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
-set (CPACK_SOURCE_IGNORE_FILES "/.git*;/.dir-locals.el;~$;/doc/website/;/doc/wiki/;/lib/*.sh;/lib/Makefile;/tools/;${CPACK_SOURCE_IGNORE_FILES}")
+
+list (APPEND CPACK_SOURCE_IGNORE_FILES
+    ~$
+    /.git*
+    /.dir-locals.el
+    /doc/website/
+    /doc/wiki/
+    /lib/*.sh
+    /lib/Makefile
+    /tools/
+  )
 
 include (CPack)
 
