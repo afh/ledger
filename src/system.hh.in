@@ -57,23 +57,23 @@
 #define Ledger_VERSION_PRERELEASE "@Ledger_VERSION_PRERELEASE@"
 #define Ledger_VERSION_DATE      @Ledger_VERSION_DATE@
 
-#define HAVE_EDIT                @HAVE_EDIT@
-#define HAVE_GETTEXT             @HAVE_GETTEXT@
+#cmakedefine01 HAVE_EDIT
+#cmakedefine01 HAVE_GETTEXT
 
-#define HAVE_ACCESS              @HAVE_ACCESS@
-#define HAVE_REALPATH            @HAVE_REALPATH@
-#define HAVE_GETPWUID            @HAVE_GETPWUID@
-#define HAVE_GETPWNAM            @HAVE_GETPWNAM@
-#define HAVE_IOCTL               @HAVE_IOCTL@
-#define HAVE_ISATTY              @HAVE_ISATTY@
+#cmakedefine01 HAVE_ACCESS
+#cmakedefine01 HAVE_REALPATH
+#cmakedefine01 HAVE_GETPWUID
+#cmakedefine01 HAVE_GETPWNAM
+#cmakedefine01 HAVE_IOCTL
+#cmakedefine01 HAVE_ISATTY
 
-#define HAVE_UNIX_PIPES          @HAVE_UNIX_PIPES@
+#cmakedefine01 HAVE_UNIX_PIPES
 
-#define HAVE_BOOST_PYTHON        @HAVE_BOOST_PYTHON@
-#define HAVE_BOOST_REGEX_UNICODE @HAVE_BOOST_REGEX_UNICODE@
+#cmakedefine01 HAVE_BOOST_PYTHON
+#cmakedefine01 HAVE_BOOST_REGEX_UNICODE
 
-#define DEBUG_MODE               @DEBUG_MODE@
-#define NO_ASSERTS               @NO_ASSERTS@
+#cmakedefine01 DEBUG_MODE
+#cmakedefine01 NO_ASSERTS
 
 #define DOCUMENT_MODEL           0
 #define REDUCE_TO_INTEGER        0
