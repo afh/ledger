@@ -60,6 +60,7 @@ endif()
 
 if (CLANG_GPROF)
   set(BUILD_DEBUG ON)
+  add_definitions(-pg)
 endif()
 
 if (BUILD_DEBUG)
@@ -77,8 +78,16 @@ else()
 endif()
 
 if (CLANG_GCOV)
-  set(PROFILE_LIBS profile_rt)
-  set(CMAKE_REQUIRED_LIBRARIES ${PROFILE_LIBS})
+  include(CodeCoverage)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_COVERAGE}")
+  set(CMAKE_EXE_LINKDER_FLAGS "${CMAKE_EXE_LINKDER_FLAGS} ${CMAKE_EXE_LINKDER_FLAGS_COVERAGE}")
+  set(CMAKE_SHARED_LINKDER_FLAGS "${CMAKE_SHARED_LINKDER_FLAGS} ${CMAKE_SHARED_LINKDER_FLAGS_COVERAGE}")
+  list(APPEND ignore test/* lib/* boost/* /usr/* /opt/* /Applications/*)
+  setup_target_for_coverage(ledger_coverage
+    ctest
+    ${CMAKE_BINARY_DIR}/ledger_coverage
+    "${ignore}"
+    )
 endif()
 
 ########################################################################
@@ -202,7 +211,6 @@ macro(add_ledger_library_dependencies _target)
   if (HAVE_BOOST_REGEX_UNICODE)
     target_link_libraries(${_target} Icu::Icu)
   endif()
-  target_link_libraries(${_target} ${PROFILE_LIBS})
 endmacro(add_ledger_library_dependencies _target)
 
 ########################################################################
