@@ -4,6 +4,8 @@
 set -e
 set -o pipefail
 
+pip install cpp-coveralls --user
+
 if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   for formula in $(echo "${BREWS//,/ }"); do
     echo "Checking ${formula} formula"

@@ -26,7 +26,7 @@ env:
       # List of required boost libraries to build
     - BOOST_LIBS="date_time,filesystem,iostreams,python,regex,system,test"
       # List of required Homebrew formulae to install
-    - BREWS="gmp,mpfr"
+    - BREWS="gmp,mpfr,lcov"
 
 matrix:
   exclude:
@@ -57,6 +57,7 @@ addons:
       - libgmp-dev
       - libmpfr-dev
       - libedit-dev
+      - lcov
       #- libboost1.55-dev
       #- libboost-test1.55-dev
       #- libboost-regex1.55-dev
@@ -80,7 +81,7 @@ install:
   - tools/travis-install.sh
 
 before_script:
-  - cmake . -DUSE_PYTHON=ON -DBUILD_DEBUG=ON
+  - cmake . -DBUILD_DEBUG=ON -DUSE_PYTHON=ON -DCLANG_GCOV=ON
   - make
 
 script:
@@ -92,6 +93,10 @@ after_script:
   # should be reintegrated into CTest once they reliably verify the documentation.
   - python test/CheckTexinfo.py -l ledger -s .
   - python test/CheckManpage.py -l ledger -s .
+
+after_success:
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then make ledger_coverage fi
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then $HOME/.local/bin/coveralls --exclude lib --exclude tests --gcov-options '\-lp' fi
 
 notifications:
   email:
