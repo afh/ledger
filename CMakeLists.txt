@@ -222,6 +222,17 @@ if (BUILD_EMACSLISP)
   add_subdirectory(lisp)
 endif()
 
+find_program(SLOCCOUNT sloccount)
+if (NOT SLOCCOUNT)
+  message(WARNING "Could not find sloccount. Unable to count sources lines of code.")
+else()
+add_custom_target(sloc
+  COMMAND ${SLOCCOUNT} src python lisp test
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMENT "Count source lines of code"
+  )
+endif()
+
 ########################################################################
 
 # build a CPack driven installer package
