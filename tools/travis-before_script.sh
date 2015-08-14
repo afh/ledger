@@ -9,5 +9,8 @@ if [ "${COVERITY_SCAN_BRANCH}" = 1 ]; then
   exit 0
 fi
 
+cmake --version
+make --version
+
 cmake . -DBUILD_DEBUG=ON -DUSE_PYTHON=ON -DCLANG_GCOV=ON
 make

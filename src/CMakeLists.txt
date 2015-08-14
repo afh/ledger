@@ -139,7 +139,7 @@ set(LEDGER_INCLUDES
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   if ((CMAKE_CXX_COMPILER MATCHES "clang") OR (CMAKE_CXX_COMPILER MATCHES "cxx"))
-    add_compile_options(
+    add_definitions(
       -Weverything
       -Wno-disabled-macro-expansion
       -Wno-padded
@@ -209,7 +209,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       -Wno-deprecated
       -Wno-strict-aliasing)
 
-    add_compile_options(${GXX_WARNING_FLAGS})
+    add_definitions(${GXX_WARNING_FLAGS})
 
     macro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
       set(_gch_filename "${_header_filename}.gch")

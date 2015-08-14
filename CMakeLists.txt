@@ -46,9 +46,9 @@ endif()
 
 enable_testing()
 
-add_compile_options(-std=c++11)
+add_definitions(-std=c++11)
 if (CYGWIN)
-  add_compile_options(-U__STRICT_ANSI__)
+  add_definitions(-U__STRICT_ANSI__)
 endif()
 
 ########################################################################
@@ -60,7 +60,7 @@ endif()
 
 if (CLANG_GPROF)
   set(BUILD_DEBUG ON)
-  add_compile_options(-pg)
+  add_definitions(-pg)
 endif()
 
 if (BUILD_DEBUG)
