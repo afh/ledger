@@ -90,7 +90,7 @@ install:
 
 before_script:
   - cmake . -DUSE_PYTHON=ON -DBUILD_DEBUG=ON
-  - make
+  - make -j
 
 script:
   - ctest --output-on-failure
