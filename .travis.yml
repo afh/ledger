@@ -8,12 +8,6 @@
 language: cpp
 sudo: false
 dist: trusty
-compiler:
-  - clang
-  - gcc
-os:
-  - linux
-  - osx
 cache:
   apt: true
 
@@ -35,6 +29,7 @@ matrix:
   #allow_failures:
   include:
     - os: linux
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -48,6 +43,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
     - os: linux
+      compiler: clang
       addons:
         apt:
           sources:
@@ -61,11 +57,13 @@ matrix:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 
     - os: osx
+      compiler: gcc
       osx_image: xcode9.2
       env:
         - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
 
     - os: osx
+      compiler: clang
       osx_image: xcode9.2
       env:
         - MATRIX_EVAL=""
