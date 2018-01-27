@@ -60,7 +60,7 @@ matrix:
       compiler: gcc
       osx_image: xcode9.2
       env:
-        - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="brew install --overwrite gcc && CC=gcc-7 && CXX=g++-7"
 
     - os: osx
       compiler: clang
