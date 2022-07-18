@@ -11,7 +11,7 @@
 
     packages = forAllSystems (system: let
         pkgs = nixpkgsFor.${system};
-      in {
+      in rec {
       ledger = pkgs.stdenv.mkDerivation {
         pname = "ledger";
         version = "3.2.1-${self.shortRev or "dirty"}";
@@ -65,9 +65,20 @@
           maintainers = with pkgs.lib.maintainers; [ jwiegley ];
         };
       };
+      default = ledger;
     });
 
-    defaultPackage = forAllSystems (system: self.packages.${system}.ledger);
-
+    devShells = forAllSystems (system:
+        let pkgs = nixpkgsFor.${system};
+        in rec {
+        ledger = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            ninja swig4
+          ]
+          ++ self.packages.${system}.default.buildInputs
+          ++ self.packages.${system}.default.nativeBuildInputs;
+        };
+        default = ledger;
+      });
   };
 }
