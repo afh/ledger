@@ -1,22 +1,21 @@
-cmake_minimum_required(VERSION 3.0)
+set(Required_CMake_Version 3.16.2)
+set(Required_Boost_Version 1.72)
+set(Required_Gmp_Version 6.1.2)
+set(Required_Mpfr_Version 4.0.2)
+set(Required_Python_Version 3.9)
+set(Required_Gpgmepp_Version 1.13.1)
+
+cmake_minimum_required(VERSION ${Required_CMake_Version})
 
 PROJECT(ledger)
 
-set(Ledger_VERSION_MAJOR 3)
-set(Ledger_VERSION_MINOR 3)
-set(Ledger_VERSION_PATCH 0)
-set(Ledger_VERSION_PRERELEASE "")
-set(Ledger_VERSION_DATE  20230208)
-
-set(Ledger_TEST_TIMEZONE "America/Chicago")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/doc")
+include(LedgerVersion)
 
 # Point CMake at any custom modules we may ship
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-if ((${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.7.0") AND (${CMAKE_VERSION} VERSION_LESS "3.16.0"))
-  # use backported module from 3.15 (introduced 3.12) to support older versions of cmake.
-  # this only works with cmake 3.7 or higher.
-  list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/python-backport")
-endif()
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+set(Ledger_TEST_TIMEZONE "America/Chicago")
 
 enable_testing()
 
@@ -72,16 +71,12 @@ if (USE_PYTHON)
 
   set(_ledger_python_module_dir "${CMAKE_BINARY_DIR}/python/${PROJECT_NAME}")
 
-  find_package(Python COMPONENTS Interpreter Development)
-  if (PYTHON_FOUND)
-    if (${Python_VERSION_MAJOR} VERSION_GREATER_EQUAL "3")
-      set(BOOST_PYTHON "python${Python_VERSION_MAJOR}${Python_VERSION_MINOR}")
-      set(HAVE_BOOST_PYTHON 1)
-      include_directories(SYSTEM ${Python_INCLUDE_DIRS})
-    else()
-      set(HAVE_BOOST_PYTHON 0)
-      message("Ledger requires Python >= 3.x")
-    endif()
+  find_package(Python
+    COMPONENTS Interpreter Development)
+  if (PYTHON_FOUND AND ${Python_VERSION} VERSION_LESS ${Required_Python_Version})
+    set(BOOST_PYTHON "python${Python_VERSION_MAJOR}${Python_VERSION_MINOR}")
+    set(HAVE_BOOST_PYTHON 1)
+    include_directories(SYSTEM ${Python_INCLUDE_DIRS})
   else()
     set(HAVE_BOOST_PYTHON 0)
     message("Could not find a Python library to use with Boost.Python")
@@ -91,7 +86,7 @@ else()
 endif()
 
 # Set BOOST_ROOT to help CMake to find the right Boost version
-find_package(Boost 1.49.0
+find_package(Boost ${Required_Boost_Version}
   REQUIRED date_time filesystem system iostreams regex unit_test_framework
   ${BOOST_PYTHON} OPTIONAL_COMPONENTS nowide)
 
@@ -106,7 +101,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 # Crypto
 if (USE_GPGME)
-  find_package(Gpgmepp REQUIRED)
+  find_package(Gpgmepp ${Required_Gpgmepp_Version} REQUIRED)
   set(HAVE_GPGME 1)
   include_directories(SYSTEM ${Gpgmepp_INCLUDE_DIRS})
   link_directories(${Gpgmepp_LIBRARY_DIRS})
@@ -190,35 +185,6 @@ endif()
 
 cmake_pop_check_state()
 
-# Check if fix for https://github.com/boostorg/python/issues/39 is needed
-if (HAVE_BOOST_PYTHON)
-cmake_push_check_state()
-
-set(CMAKE_REQUIRED_INCLUDES
-    ${CMAKE_INCLUDE_PATH} ${Boost_INCLUDE_DIRS} ${Python_INCLUDE_DIRS})
-set(CMAKE_REQUIRED_LIBRARIES
-    ${Boost_LIBRARIES} ${Python_LIBRARIES} ${PROFILE_LIBS})
-
-check_cxx_source_compiles("
-#include <boost/python.hpp>
-
-struct X { int y; };
-
-int main()
-{
-  boost::python::make_setter(&X::y);
-  return 0;
-}" BOOST_MAKE_SETTER_COMPILES)
-
-if (BOOST_MAKE_SETTER_COMPILES)
-  set(HAVE_BOOST_159_ISSUE_39 0)
-else()
-  set(HAVE_BOOST_159_ISSUE_39 1)
-endif()
-
-cmake_pop_check_state()
-endif()
-
 ########################################################################
 
 include_directories(${CMAKE_INCLUDE_PATH})
@@ -256,7 +222,31 @@ macro(find_req_library_and_header _header_var _header _lib_var _lib)
 endmacro(find_req_library_and_header _header_var _header _lib_var _lib)
 
 find_req_library_and_header(GMP_PATH gmp.h GMP_LIB gmp)
+if (GMP_PATH AND EXISTS "${GMP_PATH}/gmp.h")
+  file(STRINGS "${GMP_PATH}/gmp.h" gmp_header_str REGEX "^#define[\t ]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[\t ]+[0-9]+")
+  string(REGEX REPLACE ".*#define __GNU_MP_VERSION[\t ]+([0-9]+).*" "\\1" GMP_VERSION_MAJOR "${gmp_header_str}")
+  string(REGEX REPLACE ".*#define __GNU_MP_VERSION_MINOR[\t ]+([0-9]+).*" "\\1" GMP_VERSION_MINOR "${gmp_header_str}")
+  string(REGEX REPLACE ".*#define __GNU_MP_VERSION_PATCHLEVEL[\t ]+([0-9]+).*" "\\1" GMP_VERSION_PATCH "${gmp_header_str}")
+  unset(gmp_header_str)
+  set(GMP_VERSION_STRING "${GMP_VERSION_MAJOR}.${GMP_VERSION_MINOR}.${GMP_VERSION_PATCH}")
+  if ("${GMP_VERSION_STRING}" VERSION_LESS ${Required_Gmp_Version})
+    message(FATAL_ERROR "Ledger requires GMP version ${Expected_Gmp_Version} or greater, but only GMP version ${GMP_VERSION_STRING} was found")
+  endif()
+endif()
+
 find_req_library_and_header(MPFR_PATH mpfr.h MPFR_LIB mpfr)
+if (MPFR_PATH AND EXISTS "${MPFR_PATH}/mpfr.h")
+  file(STRINGS "${MPFR_PATH}/mpfr.h" mpfr_header_str REGEX "^#define[\t ]+MPFR_VERSION_(MAJOR|MINOR|PATCHLEVEL)[\t ]+[0-9]+")
+  string(REGEX REPLACE ".*#define MPFR_VERSION_MAJOR[\t ]+([0-9]+).*" "\\1" MPFR_VERSION_MAJOR "${mpfr_header_str}")
+  string(REGEX REPLACE ".*#define MPFR_VERSION_MINOR[\t ]+([0-9]+).*" "\\1" MPFR_VERSION_MINOR "${mpfr_header_str}")
+  string(REGEX REPLACE ".*#define MPFR_VERSION_PATCHLEVEL[\t ]+([0-9]+).*" "\\1" MPFR_VERSION_PATCH "${mpfr_header_str}")
+  unset(mpfr_header_str)
+  set(MPFR_VERSION_STRING "${MPFR_VERSION_MAJOR}.${MPFR_VERSION_MINOR}.${MPFR_VERSION_PATCH}")
+  if ("${MPFR_VERSION_STRING}" VERSION_LESS ${Required_Mpfr_Version})
+    message(FATAL_ERROR "Ledger requires MPFR version ${Expected_Mpfr_Version} or greater, but only MPFR version ${MPFR_VERSION_STRING} was found")
+  endif()
+endif()
+
 
 check_library_exists(edit readline "" HAVE_EDIT)
 find_opt_library_and_header(EDIT_PATH histedit.h EDIT_LIB edit HAVE_EDIT)

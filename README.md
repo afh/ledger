@@ -60,17 +60,19 @@ current `master` branch:
 
 Dependency  | Version (or greater)
 ------------|---------------------
-[Boost]     | 1.49
-[GMP]       | 4.2.2
-[MPFR]      | 2.4.0
-[utfcpp]    | 2.3.4
+[CMake]     | 3.16.2
+[Boost]     | 1.72
+[Gmp]       | 6.1.2
+[Mpfr]      | 4.0.2
+[utfcpp]    | 3.2.3
 [gettext]   | 0.17 _optional_
 [libedit]   | 20090111-3.0 _optional_
 [Python]    | 3.9 _optional_
+[Gpgmepp]   | 1.13.1 _optional_
 [doxygen]   | 1.5.7.1 _optional_, for `make docs`
 [graphviz]  | 2.20.3 _optional_, for `make docs`
 [texinfo]   | 4.13 _optional_, for `make docs`
-[lcov]      | 1.6 _optional_, for `make report`, used with `/./acprep gcov`
+[lcov]      | 1.6 _optional_, for `make report`, used with `./acprep gcov`
 [sloccount] | 2.26 _optional_, for `make sloc`
 
 ### macOS
@@ -183,6 +185,7 @@ hack as much as you like, then send me a pull request via GitHub.
 [ledger/vim-ledger repository]: https://github.com/ledger/vim-ledger
 [Homebrew]: https://brew.sh/
 [MacPorts]: https://www.macports.org/
+[CMake]: https://cmake.org
 [Boost]: https://boost.org
 [GMP]: https://gmplib.org/
 [MPFR]: https://www.mpfr.org/
@@ -190,6 +193,7 @@ hack as much as you like, then send me a pull request via GitHub.
 [gettext]: https://www.gnu.org/software/gettext/
 [libedit]: https://thrysoee.dk/editline/
 [Python]: https://python.org
+[Gpgmepp]: https://www.gnupg.org/related_software/gpgme/
 [doxygen]: https://www.doxygen.org/
 [graphviz]: https://graphviz.org/
 [texinfo]: https://www.gnu.org/software/texinfo/
