@@ -1,3 +1,36 @@
+
+########################################################################
+
+macro(add_ledger_library_dependencies _target)
+  target_link_libraries(${_target} ${MPFR_LIB})
+  target_link_libraries(${_target} ${GMP_LIB})
+  if (HAVE_EDIT)
+    target_link_libraries(${_target} ${EDIT_LIB})
+  endif()
+  if (HAVE_GETTEXT)
+    target_link_libraries(${_target} ${INTL_LIB})
+  endif()
+  if (HAVE_GPGME)
+    target_link_libraries(${_target} Gpgmepp)
+  endif()
+  if (HAVE_BOOST_PYTHON)
+    if (CMAKE_SYSTEM_NAME STREQUAL Darwin)
+      # Don't link directly to a Python framework on macOS, to avoid segfaults
+      # when the module is imported from a different interpreter
+      target_link_libraries(${_target} ${Boost_LIBRARIES})
+      set_target_properties(${_target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    else()
+      target_link_libraries(${_target} ${Boost_LIBRARIES} ${Python_LIBRARIES})
+    endif()
+  else()
+    target_link_libraries(${_target} ${Boost_LIBRARIES})
+  endif()
+  if (HAVE_BOOST_REGEX_UNICODE)
+    target_link_libraries(${_target} icuuc)
+  endif()
+  target_link_libraries(${_target} ${PROFILE_LIBS})
+endmacro(add_ledger_library_dependencies _target)
+
 set(LEDGER_CLI_SOURCES
   global.cc
   main.cc)
@@ -287,19 +320,21 @@ if (BUILD_LIBRARY)
     VERSION ${Ledger_VERSION_MAJOR}
     SOVERSION ${Ledger_VERSION_MAJOR})
 
-  add_executable(ledger main.cc global.cc)
-  target_link_libraries(ledger libledger)
-  if (HAVE_GPGME)
-    target_link_libraries(ledger Gpgmepp)
-  endif()
+  if(NOT SKBUILD)
+    install(TARGETS libledger DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    add_executable(ledger main.cc global.cc)
+    target_link_libraries(ledger libledger)
+    if (HAVE_GPGME)
+      target_link_libraries(ledger Gpgmepp)
+    endif()
 
-  if (HAVE_BOOST_PYTHON)
-    target_link_libraries(ledger ${Python_LIBRARIES})
-  endif()
+    if (HAVE_BOOST_PYTHON)
+      target_link_libraries(ledger ${Python_LIBRARIES})
+    endif()
 
-  install(TARGETS libledger DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  install(FILES ${LEDGER_INCLUDES}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
+    install(FILES ${LEDGER_INCLUDES}
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
+  endif()
 else()
   add_executable(ledger ${LEDGER_SOURCES} main.cc global.cc)
   add_ledger_library_dependencies(ledger)
@@ -320,12 +355,21 @@ if (USE_PYTHON)
     if (WIN32 AND NOT CYGWIN)
       set(_ledger_shared_library_suffix ".pyd")
     elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
+      # Should Python's sysconfig.get_config_var("EXT_SUFFIX") be used?
       set(_ledger_shared_library_suffix ".so")
     endif()
     set(_ledger_python_package "core")
     # NOTA BENE: The underscore before the actual module name *is* significant.
     # See https://www.boost.org/doc/libs/1_81_0/libs/python/doc/html/tutorial/tutorial/techniques.html#tutorial.techniques.creating_packages
     set(_ledger_python_module_name "${_ledger_python_package}/_${_ledger_python_package}${_ledger_shared_library_suffix}")
+
+    if(SKBUILD)
+      #Python_add_library("_${_ledger_python_package}" ${LEDGER_SOURCES} MODULE WITH_SOABI)
+      #install(TARGETS "_${_ledger_python_package}" DESTINATION ${SKBUILD_PROJECT_NAME})
+      ## PythonExtensions may not be available
+      #find_package(PythonExtensions REQUIRED)
+      #python_extension_module("_${_ledger_python_package}" MODULE_SUFFIX "${_ledger_shared_library_suffix}")
+    endif()
 
     # FIXME: symlink would be sufficient:
     # maybe using install(CODE "...") and
@@ -335,14 +379,18 @@ if (USE_PYTHON)
       TARGET libledger POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy_if_different
       $<TARGET_FILE:libledger> "${_ledger_python_module_dir}/${_ledger_python_module_name}")
-    install(
-      FILES "${_ledger_python_module_dir}/${_ledger_python_module_name}"
-      DESTINATION "${Python_SITEARCH}/${PROJECT_NAME}/${_ledger_python_package}")
+    if (NOT SKBUILD)
+      install(TARGETS libledger LIBRARY DESTINATION "_${_ledger_python_package}")
+      install(
+        FILES "${_ledger_python_module_dir}/${_ledger_python_module_name}"
+        DESTINATION "${Python_SITEARCH}/${PYPKG}/${_ledger_python_package}")
+    endif()
   else()
     message(WARNING "Python_SITEARCH not set. Will not install python module.")
   endif()
 endif()
 
+if (NOT SKBUILD)
 install(TARGETS ledger DESTINATION ${CMAKE_INSTALL_BINDIR})
-
+endif()
 ### CMakeLists.txt ends here

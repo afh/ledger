@@ -6,6 +6,7 @@
   outputs = { self, nixpkgs }: let
     usePython = true;
     gpgmeSupport = true;
+    static = false;
     forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
     nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
@@ -30,7 +31,12 @@
               then [ python3 (boost.override { enablePython = true; python = python3; }) ]
               else [ boost ]);
 
-        nativeBuildInputs = [ cmake texinfo tzdata ];
+        nativeBuildInputs = [
+          cmake texinfo tzdata
+          #(pkgs.texlive.combine { inherit (pkgs.texlive)
+          #  scheme-minimal texinfo eurosym collection-fontutils metafont;
+          #})
+        ];
 
         enableParallelBuilding = true;
 

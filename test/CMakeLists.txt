@@ -40,11 +40,13 @@ macro(add_ledger_harness_tests _class)
   endif()
 endmacro(add_ledger_harness_tests _class)
 
+if (NOT SKBUILD)
 add_subdirectory(manual)
 add_subdirectory(baseline)
 add_subdirectory(regress)
+endif()
 
-if (Python_EXECUTABLE)
+if (Python_EXECUTABLE AND NOT SKBUILD)
   set(_class DocTests)
   file(GLOB ${_class}_TESTS ${PROJECT_SOURCE_DIR}/doc/*.texi)
   foreach(TestFile ${${_class}_TESTS})
@@ -69,7 +71,7 @@ if (Python_EXECUTABLE)
 
   if (HAVE_BOOST_PYTHON)
     add_test(NAME demo
-      COMMAND ${Python_EXECUTABLE} -m ledger.demo
+      COMMAND ${Python_EXECUTABLE} -m ${PYPKG}.demo
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
     set_tests_properties(demo
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE};PYTHONPATH=python")

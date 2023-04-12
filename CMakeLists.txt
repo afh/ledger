@@ -1,13 +1,20 @@
 set(Required_CMake_Version 3.16.2)
+set(Required_CMake_Policy 3.22)
 set(Required_Boost_Version 1.72)
 set(Required_Gmp_Version 6.1.2)
 set(Required_Mpfr_Version 4.0.2)
 set(Required_Python_Version 3.9)
 set(Required_Gpgmepp_Version 1.13.1)
 
-cmake_minimum_required(VERSION ${Required_CMake_Version})
+cmake_minimum_required(VERSION ${Required_CMake_Version}...${Required_CMake_Policy})
 
-PROJECT(ledger)
+#if (SKBUILD)
+#PROJECT(${SKBUILD_PROJECT_NAME})
+#else()
+  PROJECT(ledger)
+#endif()
+
+# message(ERROR "BUILDING: ${CMAKE_PROJECT_NAME}")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/doc")
 include(LedgerVersion)
@@ -69,10 +76,11 @@ if (USE_PYTHON)
     message(ERROR "Building the python module requires BUILD_LIBRARY=ON.")
   endif()
 
-  set(_ledger_python_module_dir "${CMAKE_BINARY_DIR}/python/${PROJECT_NAME}")
+  set(PYPKG lpy)
+  set(_ledger_python_module_dir "${CMAKE_BINARY_DIR}/python/${PYPKG}")
 
   find_package(Python
-    COMPONENTS Interpreter Development)
+    COMPONENTS Interpreter Development Development.Module)
   if (PYTHON_FOUND AND ${Python_VERSION} VERSION_GREATER_EQUAL ${Required_Python_Version})
     set(BOOST_PYTHON "python${Python_VERSION_MAJOR}${Python_VERSION_MINOR}")
     set(HAVE_BOOST_PYTHON 1)
@@ -265,38 +273,6 @@ find_opt_library_and_header(EDIT_PATH histedit.h EDIT_LIB edit HAVE_EDIT)
 
 ########################################################################
 
-macro(add_ledger_library_dependencies _target)
-  target_link_libraries(${_target} ${MPFR_LIB})
-  target_link_libraries(${_target} ${GMP_LIB})
-  if (HAVE_EDIT)
-    target_link_libraries(${_target} ${EDIT_LIB})
-  endif()
-  if (HAVE_GETTEXT)
-    target_link_libraries(${_target} ${INTL_LIB})
-  endif()
-  if (HAVE_GPGME)
-    target_link_libraries(${_target} Gpgmepp)
-  endif()
-  if (HAVE_BOOST_PYTHON)
-    if (CMAKE_SYSTEM_NAME STREQUAL Darwin)
-      # Don't link directly to a Python framework on macOS, to avoid segfaults
-      # when the module is imported from a different interpreter
-      target_link_libraries(${_target} ${Boost_LIBRARIES})
-      set_target_properties(${_target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    else()
-      target_link_libraries(${_target} ${Boost_LIBRARIES} ${Python_LIBRARIES})
-    endif()
-  else()
-    target_link_libraries(${_target} ${Boost_LIBRARIES})
-  endif()
-  if (HAVE_BOOST_REGEX_UNICODE)
-    target_link_libraries(${_target} icuuc)
-  endif()
-  target_link_libraries(${_target} ${PROFILE_LIBS})
-endmacro(add_ledger_library_dependencies _target)
-
-########################################################################
-
 include(FindUtfcpp)
 if (UTFCPP_FOUND)
   include_directories("${UTFCPP_INCLUDE_DIR}")
@@ -322,7 +298,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 add_subdirectory(src)
+if (NOT SKBUILD)
 add_subdirectory(doc)
+endif()
 add_subdirectory(test)
 if (USE_PYTHON)
 add_subdirectory(python)
