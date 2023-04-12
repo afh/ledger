@@ -2,6 +2,7 @@
   description = "A double-entry accounting system with a command-line reporting interface";
 
   nixConfig.bash-prompt = "ledger$ ";
+
   outputs = { self, nixpkgs }: let
     usePython = true;
     gpgmeSupport = true;
@@ -15,7 +16,7 @@
       in with pkgs; {
       ledger = stdenv.mkDerivation {
         pname = "ledger";
-        version = "3.3.1-${self.shortRev or "dirty"}";
+        version = "3.3.2-${self.shortRev or "dirty"}";
 
         src = self;
 

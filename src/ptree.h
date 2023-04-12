@@ -39,12 +39,8 @@
  *
  * @ingroup report
  *
- * @brief Brief
- *
- * Long.
  */
-#ifndef INCLUDED_PTREE_H
-#define INCLUDED_PTREE_H
+#pragma once
 
 #include "chain.h"
 
@@ -99,5 +95,3 @@ public:
 };
 
 } // namespace ledger
-
-#endif // INCLUDED_PTREE_H

@@ -39,8 +39,7 @@
  *
  * @ingroup data
  */
-#ifndef INCLUDED_ACCOUNT_H
-#define INCLUDED_ACCOUNT_H
+#pragma once
 
 #include "scope.h"
 
@@ -54,7 +53,7 @@ typedef std::list<post_t *> posts_list;
 typedef std::map<string, account_t *> accounts_map;
 typedef std::map<string, posts_list> deferred_posts_map_t;
 
-class account_t : public supports_flags<>, public scope_t
+class account_t : public flags::supports_flags<>, public scope_t
 {
 #define ACCOUNT_NORMAL    0x00  // no flags at all, a basic account
 #define ACCOUNT_KNOWN     0x01
@@ -304,5 +303,3 @@ struct account_compare {
 };
 
 } // namespace ledger
-
-#endif // INCLUDED_ACCOUNT_H

@@ -50,8 +50,7 @@
  * automatically expanded to include as many extra digits as necessary
  * to avoid losing information.
  */
-#ifndef INCLUDED_AMOUNT_H
-#define INCLUDED_AMOUNT_H
+#pragma once
 
 #include "utils.h"
 #include "times.h"
@@ -77,7 +76,7 @@ enum parse_flags_enum_t {
   PARSE_SOFT_FAIL  = 0x80
 };
 
-typedef basic_flags_t<parse_flags_enum_t, uint_least8_t> parse_flags_t;
+typedef flags::basic_t<parse_flags_enum_t, uint_least8_t> parse_flags_t;
 
 /**
  * @brief Encapsulate infinite-precision commoditized amounts
@@ -786,5 +785,3 @@ void put_amount(property_tree::ptree& pt, const amount_t& amt,
                 bool commodity_details = false);
 
 } // namespace ledger
-
-#endif // INCLUDED_AMOUNT_H

@@ -29,8 +29,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef INCLUDED_PYUTILS_H
-#define INCLUDED_PYUTILS_H
+/**
+ * @file   pyutils.h
+ * @author John Wiegley
+ *
+ * @ingroup python
+ *
+ * @brief Basic utilities for Python API.
+ */
+#pragma once
+
+namespace ledger { namespace python {
 
 template <typename T, typename TfromPy>
 struct object_from_python
@@ -135,6 +144,8 @@ PyObject * str_to_py_unicode(const T& str)
   return object(handle<>(borrowed(uni))).ptr();
 }
 
+} } // namespace ledger::python
+
 namespace boost { namespace python {
 
 // Use expr to create the PyObject corresponding to x
@@ -171,7 +182,7 @@ namespace boost { namespace python {
         : handle<>                                      \
       {                                                 \
           arg_to_python(T const& x)                     \
-            : python::handle<>(expr) {}                 \
+            : boost::python::handle<>(expr) {}                 \
       };                                                \
     }
 
@@ -183,5 +194,3 @@ namespace boost { namespace python {
 } } // namespace boost::python
 
 //boost::python::register_ptr_to_python< boost::shared_ptr<Base> >();
-
-#endif // INCLUDED_PYUTILS_H

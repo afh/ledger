@@ -39,8 +39,7 @@
  *
  * @ingroup data
  */
-#ifndef INCLUDED_ITEM_H
-#define INCLUDED_ITEM_H
+#pragma once
 
 #include "scope.h"
 
@@ -80,7 +79,7 @@ struct position_t
   }
 };
 
-class item_t : public supports_flags<uint_least16_t>, public scope_t
+class item_t : public flags::supports_flags<uint_least16_t>, public scope_t
 {
 public:
 #define ITEM_NORMAL            0x00 // no flags at all, a basic posting
@@ -214,5 +213,3 @@ string  item_context(const item_t& item, const string& desc);
 void    put_metadata(property_tree::ptree& pt, const item_t::string_map& metadata);
 
 } // namespace ledger
-
-#endif // INCLUDED_ITEM_H

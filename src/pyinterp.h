@@ -29,8 +29,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef INCLUDED_PYINTERP_H
-#define INCLUDED_PYINTERP_H
+/**
+ * @defgroup python Python API
+ */
+
+/**
+ * @file   pyinterp.h
+ * @author John Wiegley
+ *
+ * @ingroup python
+ *
+ * @brief Basic type for Python API.
+ */
+#pragma once
 
 #include "session.h"
 
@@ -41,19 +52,19 @@ namespace ledger {
 class python_module_t : public scope_t, public noncopyable
 {
 public:
-  string         module_name;
-  python::object module_object;
-  python::dict   module_globals;
+  string                module_name;
+  boost::python::object module_object;
+  boost::python::dict   module_globals;
 
   explicit python_module_t(const string& name);
-  explicit python_module_t(const string& name, python::object obj);
+  explicit python_module_t(const string& name, boost::python::object obj);
 
   void import_module(const string& name, bool import_direct = false);
 
   virtual expr_t::ptr_op_t lookup(const symbol_t::kind_t kind,
                                   const string& name);
 
-  void define_global(const string& name, python::object obj) {
+  void define_global(const string& name, boost::python::object obj) {
     module_globals[name] = obj;
   }
 
@@ -91,7 +102,7 @@ public:
   void initialize();
   void hack_system_paths();
 
-  python::object import_option(const string& name);
+  boost::python::object import_option(const string& name);
 
   enum py_eval_mode_t {
     PY_EVAL_EXPR,
@@ -99,9 +110,9 @@ public:
     PY_EVAL_MULTI
   };
 
-  python::object eval(std::istream& in, py_eval_mode_t mode = PY_EVAL_EXPR);
-  python::object eval(const string& str, py_eval_mode_t mode = PY_EVAL_EXPR);
-  python::object eval(const char * c_str, py_eval_mode_t mode = PY_EVAL_EXPR) {
+  boost::python::object eval(std::istream& in, py_eval_mode_t mode = PY_EVAL_EXPR);
+  boost::python::object eval(const string& str, py_eval_mode_t mode = PY_EVAL_EXPR);
+  boost::python::object eval(const char * c_str, py_eval_mode_t mode = PY_EVAL_EXPR) {
     return eval(string(c_str), mode);
   }
 
@@ -111,14 +122,14 @@ public:
     functor_t();
 
   protected:
-    python::object func;
+    boost::python::object func;
 
   public:
     string name;
 
-    functor_t(python::object _func, const string& _name)
+    functor_t(boost::python::object _func, const string& _name)
       : func(_func), name(_name) {
-      TRACE_CTOR(functor_t, "python::object, const string&");
+      TRACE_CTOR(functor_t, "boost::python::object, const string&");
     }
     functor_t(const functor_t& other)
       : func(other.func), name(other.name) {
@@ -145,5 +156,3 @@ extern shared_ptr<python_interpreter_t> python_session;
 } // namespace ledger
 
 #endif // HAVE_BOOST_PYTHON
-
-#endif // INCLUDED_PYINTERP_H
