@@ -4,6 +4,7 @@ set(Required_Gmp_Version 6.1.2)
 set(Required_Mpfr_Version 4.0.2)
 set(Required_Python_Version 3.9)
 set(Required_Gpgmepp_Version 1.13.1)
+set(Required_Gettext_Version 0.20.1)
 
 cmake_minimum_required(VERSION ${Required_CMake_Version})
 
@@ -21,7 +22,7 @@ enable_testing()
 
 add_definitions(
   -std=c++11
-  -DBOOST_FILESYSTEM_NO_DEPRECATED
+  -DBOOST_FILESYSTEM_NO_DEPRECATED # For details see https://www.boost.org/doc/libs/1_48_0/libs/filesystem/v3/doc/deprecated.html
 )
 if (CYGWIN)
   add_definitions(-U__STRICT_ANSI__)
@@ -249,17 +250,16 @@ endif()
 check_library_exists(edit readline "" HAVE_EDIT)
 find_opt_library_and_header(EDIT_PATH histedit.h EDIT_LIB edit HAVE_EDIT)
 
-#find_package(Gettext)           # Used for running tests
+find_package(Gettext ${Required_Gettext_Version})
 
-#if (GETTEXT_FOUND)
-#  set(HAVE_GETTEXT 1)
-#else()
+if (GETTEXT_FOUND)
+  set(HAVE_GETTEXT 1)
+  find_library(INTL_LIB intl)
+  find_path(INTL_PATH libintl.h)
+  include_directories(SYSTEM "${INTL_PATH}")
+else()
   set(HAVE_GETTEXT 0)
-#endif()
-
-#find_path(INTL_PATH libintl.h)
-#find_library(INTL_LIB intl)
-#include_directories(SYSTEM "${INTL_PATH}")
+endif()
 
 ########################################################################
 

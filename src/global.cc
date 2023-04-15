@@ -187,7 +187,7 @@ void global_scope_t::report_error(const std::exception& err)
     if (! context.empty())
       std::cerr << context << std::endl;
 
-    std::cerr << _("Error: ") << err.what() << std::endl;
+    std::cerr << _f("Error: %1%") % err.what() << std::endl;
   } else {
     caught_signal = NONE_CAUGHT;
   }

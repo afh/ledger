@@ -46,20 +46,20 @@ namespace ledger {
 void draft_t::xact_template_t::dump(std::ostream& out) const
 {
   if (date)
-    out << _("Date:       ") << *date << std::endl;
+    out << _f("Date:       %1%") % *date << std::endl;
   else
     out << _("Date:       <today>") << std::endl;
 
   if (code)
-    out << _("Code:       ") << *code << std::endl;
+    out << _f("Code:       %1%") % *code << std::endl;
   if (note)
-    out << _("Note:       ") << *note << std::endl;
+    out << _f("Note:       %1%") % *note << std::endl;
 
   if (payee_mask.empty())
     out << _("Payee mask: INVALID (template expression will cause an error)")
         << std::endl;
   else
-    out << _("Payee mask: ") << payee_mask << std::endl;
+    out << _f("Payee mask: %1%") % payee_mask << std::endl;
 
   if (posts.empty()) {
     out << std::endl
@@ -72,25 +72,30 @@ void draft_t::xact_template_t::dump(std::ostream& out) const
           << std::endl;
 
       if (post.account_mask)
-        out << _("  Account mask: ") << *post.account_mask << std::endl;
+        out << _f("  Account mask: %1%") % *post.account_mask << std::endl;
       else if (post.from)
-        out << _("  Account mask: <use last of last related accounts>") << std::endl;
+        out << _("  Account mask: <use last of last related accounts>")
+          << std::endl;
       else
-        out << _("  Account mask: <use first of last related accounts>") << std::endl;
+        out << _("  Account mask: <use first of last related accounts>")
+          << std::endl;
 
       if (post.amount)
-        out << _("  Amount:       ") << *post.amount << std::endl;
+        out << _f("  Amount:       %1%") % *post.amount << std::endl;
 
       if (post.cost)
-        out << _("  Cost:         ") << *post.cost_operator
-            << " " << *post.cost << std::endl;
+        // TRANSLATORS:
+        // %1% signifies the cost operator of the post
+        // %2% signifies the cost the post
+        out << _f("  Cost:         %1% %2%") % *post.cost_operator % *post.cost
+            << std::endl;
     }
   }
 }
 
 void draft_t::parse_args(const value_t& args)
 {
-  regex  date_mask(_("([0-9]+(?:[-/.][0-9]+)?(?:[-/.][0-9]+))?"));
+  regex  date_mask("([0-9]+(?:[-/.][0-9]+)?(?:[-/.][0-9]+))?");
   smatch what;
   bool   check_for_date = true;
 

@@ -103,7 +103,7 @@ public:
   virtual ~account_t();
 
   virtual string description() {
-    return string(_("account ")) + fullname();
+    return string(_("account")) + " " + fullname();
   }
 
   operator string() const {

@@ -162,8 +162,11 @@ shared_ptr<Data> decrypted_stream_t::decrypt(shared_ptr<Data> enc_d) {
 
 static inline void init_lib() {
   auto err = GpgME::initializeLibrary(0);
-  if (err.code() != GPG_ERR_NO_ERROR)
+  if (err.code() != GPG_ERR_NO_ERROR) {
+    /* TRANSLATORS: The first argument is the source of the error and
+       the second is the error as a string. */
     throw_(runtime_error, _f("%1%: %2%") % err.source() % err.asString());
+  }
 }
 
 static inline void rewind(Data * d) {

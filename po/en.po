@@ -1,0 +1,2301 @@
+# English translations for ledger package.
+# Copyright (C) 2023 John Wiegley
+# This file is distributed under the same license as the ledger package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ledger 3.3.2\n"
+"Report-Msgid-Bugs-To: ledgercli@googlegroups.com\n"
+"POT-Creation-Date: 2023-04-15 23:12+0200\n"
+"PO-Revision-Date: 2023-04-15 23:10+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/account.cc:288
+msgid "An account does not have a 'cost' value"
+msgstr "An account does not have a 'cost' value"
+
+#: ../src/account.h:106 ../src/views.cc:207
+msgid "account"
+msgstr "account"
+
+#: ../src/amount.cc:146
+msgid "Cannot output amount to a floating-point representation"
+msgstr "Cannot output amount to a floating-point representation"
+
+#: ../src/amount.cc:384
+msgid "Cannot compare an amount to an uninitialized amount"
+msgstr "Cannot compare an amount to an uninitialized amount"
+
+#: ../src/amount.cc:386
+msgid "Cannot compare an uninitialized amount to an amount"
+msgstr "Cannot compare an uninitialized amount to an amount"
+
+#: ../src/amount.cc:388
+msgid "Cannot compare two uninitialized amounts"
+msgstr "Cannot compare two uninitialized amounts"
+
+#: ../src/amount.cc:393
+#, boost-format
+msgid "Cannot compare amounts with different commodities: '%1%' and '%2%'"
+msgstr "Cannot compare amounts with different commodities: '%1%' and '%2%'"
+
+#: ../src/amount.cc:419
+msgid "Cannot add an uninitialized amount to an amount"
+msgstr "Cannot add an uninitialized amount to an amount"
+
+#: ../src/amount.cc:421
+msgid "Cannot add an amount to an uninitialized amount"
+msgstr "Cannot add an amount to an uninitialized amount"
+
+#: ../src/amount.cc:423
+msgid "Cannot add two uninitialized amounts"
+msgstr "Cannot add two uninitialized amounts"
+
+#: ../src/amount.cc:428
+#, boost-format
+msgid "Adding amounts with different commodities: '%1%' != '%2%'"
+msgstr "Adding amounts with different commodities: '%1%' != '%2%'"
+
+#: ../src/amount.cc:449
+msgid "Cannot subtract an amount from an uninitialized amount"
+msgstr "Cannot subtract an amount from an uninitialized amount"
+
+#: ../src/amount.cc:451
+msgid "Cannot subtract an uninitialized amount from an amount"
+msgstr "Cannot subtract an uninitialized amount from an amount"
+
+#: ../src/amount.cc:453
+msgid "Cannot subtract two uninitialized amounts"
+msgstr "Cannot subtract two uninitialized amounts"
+
+#: ../src/amount.cc:458
+#, boost-format
+msgid "Subtracting amounts with different commodities: '%1%' != '%2%'"
+msgstr "Subtracting amounts with different commodities: '%1%' != '%2%'"
+
+#: ../src/amount.cc:479
+msgid "Cannot multiply an amount by an uninitialized amount"
+msgstr "Cannot multiply an amount by an uninitialized amount"
+
+#: ../src/amount.cc:481
+msgid "Cannot multiply an uninitialized amount by an amount"
+msgstr "Cannot multiply an uninitialized amount by an amount"
+
+#: ../src/amount.cc:483
+msgid "Cannot multiply two uninitialized amounts"
+msgstr "Cannot multiply two uninitialized amounts"
+
+#: ../src/amount.cc:510
+msgid "Cannot divide an amount by an uninitialized amount"
+msgstr "Cannot divide an amount by an uninitialized amount"
+
+#: ../src/amount.cc:512
+msgid "Cannot divide an uninitialized amount by an amount"
+msgstr "Cannot divide an uninitialized amount by an amount"
+
+#: ../src/amount.cc:514
+msgid "Cannot divide two uninitialized amounts"
+msgstr "Cannot divide two uninitialized amounts"
+
+#: ../src/amount.cc:518 ../src/balance.cc:165
+msgid "Divide by zero"
+msgstr "Divide by zero"
+
+#: ../src/amount.cc:551
+msgid "Cannot determine precision of an uninitialized amount"
+msgstr "Cannot determine precision of an uninitialized amount"
+
+#: ../src/amount.cc:560
+msgid "Cannot determine if precision of an uninitialized amount is kept"
+msgstr "Cannot determine if precision of an uninitialized amount is kept"
+
+#: ../src/amount.cc:569
+msgid "Cannot set whether to keep the precision of an uninitialized amount"
+msgstr "Cannot set whether to keep the precision of an uninitialized amount"
+
+#: ../src/amount.cc:581
+msgid "Cannot determine display precision of an uninitialized amount"
+msgstr "Cannot determine display precision of an uninitialized amount"
+
+#: ../src/amount.cc:597
+msgid "Cannot negate an uninitialized amount"
+msgstr "Cannot negate an uninitialized amount"
+
+#: ../src/amount.cc:604
+msgid "Cannot invert an uninitialized amount"
+msgstr "Cannot invert an uninitialized amount"
+
+#: ../src/amount.cc:615
+msgid "Cannot set rounding for an uninitialized amount"
+msgstr "Cannot set rounding for an uninitialized amount"
+
+#: ../src/amount.cc:627
+msgid "Cannot truncate an uninitialized amount"
+msgstr "Cannot truncate an uninitialized amount"
+
+#: ../src/amount.cc:664
+msgid "Cannot compute floor on an uninitialized amount"
+msgstr "Cannot compute floor on an uninitialized amount"
+
+#: ../src/amount.cc:675
+msgid "Cannot compute ceiling on an uninitialized amount"
+msgstr "Cannot compute ceiling on an uninitialized amount"
+
+#: ../src/amount.cc:686
+msgid "Cannot round an uninitialized amount"
+msgstr "Cannot round an uninitialized amount"
+
+#: ../src/amount.cc:694
+msgid "Cannot unround an uninitialized amount"
+msgstr "Cannot unround an uninitialized amount"
+
+#: ../src/amount.cc:708
+msgid "Cannot reduce an uninitialized amount"
+msgstr "Cannot reduce an uninitialized amount"
+
+#: ../src/amount.cc:719
+msgid "Cannot unreduce an uninitialized amount"
+msgstr "Cannot unreduce an uninitialized amount"
+
+#: ../src/amount.cc:802
+msgid "Cannot determine value of an uninitialized amount"
+msgstr "Cannot determine value of an uninitialized amount"
+
+#: ../src/amount.cc:822
+msgid "Cannot determine sign of an uninitialized amount"
+msgstr "Cannot determine sign of an uninitialized amount"
+
+#: ../src/amount.cc:830
+msgid "Cannot determine if an uninitialized amount is zero"
+msgstr "Cannot determine if an uninitialized amount is zero"
+
+#: ../src/amount.cc:866
+msgid "Cannot convert an uninitialized amount to a double"
+msgstr "Cannot convert an uninitialized amount to a double"
+
+#: ../src/amount.cc:875
+msgid "Cannot convert an uninitialized amount to a long"
+msgstr "Cannot convert an uninitialized amount to a long"
+
+#: ../src/amount.cc:904
+msgid "Cannot annotate the commodity of an uninitialized amount"
+msgstr "Cannot annotate the commodity of an uninitialized amount"
+
+#: ../src/amount.cc:934
+msgid "Cannot determine if an uninitialized amount's commodity is annotated"
+msgstr "Cannot determine if an uninitialized amount's commodity is annotated"
+
+#: ../src/amount.cc:945
+msgid "Cannot return commodity annotation details of an uninitialized amount"
+msgstr "Cannot return commodity annotation details of an uninitialized amount"
+
+#: ../src/amount.cc:949
+msgid "Request for annotation details from an unannotated amount"
+msgstr "Request for annotation details from an unannotated amount"
+
+#: ../src/amount.cc:959
+msgid "Cannot strip commodity annotations from an uninitialized amount"
+msgstr "Cannot strip commodity annotations from an uninitialized amount"
+
+#: ../src/amount.cc:1052
+msgid "No quantity specified for amount"
+msgstr "No quantity specified for amount"
+
+#: ../src/amount.cc:1117
+msgid "Too many periods in amount"
+msgstr "Too many periods in amount"
+
+#: ../src/amount.cc:1121 ../src/amount.cc:1128
+msgid "Incorrect use of thousand-mark period"
+msgstr "Incorrect use of thousand-mark period"
+
+#: ../src/amount.cc:1141
+msgid "Too many commas in amount"
+msgstr "Too many commas in amount"
+
+#: ../src/amount.cc:1145
+msgid "Incorrect use of decimal comma"
+msgstr "Incorrect use of decimal comma"
+
+#: ../src/amount.cc:1155
+msgid "Incorrect use of thousand-mark comma"
+msgstr "Incorrect use of thousand-mark comma"
+
+#: ../src/annotate.cc:92
+msgid "Commodity specifies more than one price"
+msgstr "Commodity specifies more than one price"
+
+#: ../src/annotate.cc:113
+msgid "Commodity lot price lacks double closing brace"
+msgstr "Commodity lot price lacks double closing brace"
+
+#: ../src/annotate.cc:118
+msgid "Commodity lot price lacks closing brace"
+msgstr "Commodity lot price lacks closing brace"
+
+#: ../src/annotate.cc:129
+msgid "Commodity specifies more than one date"
+msgstr "Commodity specifies more than one date"
+
+#: ../src/annotate.cc:136
+msgid "Commodity date lacks closing bracket"
+msgstr "Commodity date lacks closing bracket"
+
+#: ../src/annotate.cc:151
+msgid "Commodity specifies more than one valuation expression"
+msgstr "Commodity specifies more than one valuation expression"
+
+#: ../src/annotate.cc:162 ../src/annotate.cc:165
+msgid "Commodity valuation expression lacks closing parentheses"
+msgstr "Commodity valuation expression lacks closing parentheses"
+
+#: ../src/annotate.cc:171
+msgid "Commodity specifies more than one tag"
+msgstr "Commodity specifies more than one tag"
+
+#: ../src/annotate.cc:177
+msgid "Commodity tag lacks closing parenthesis"
+msgstr "Commodity tag lacks closing parenthesis"
+
+#: ../src/balance.cc:74
+msgid "Cannot add an uninitialized amount to a balance"
+msgstr "Cannot add an uninitialized amount to a balance"
+
+#: ../src/balance.cc:101
+msgid "Cannot subtract an uninitialized amount from a balance"
+msgstr "Cannot subtract an uninitialized amount from a balance"
+
+#: ../src/balance.cc:123
+msgid "Cannot multiply a balance by an uninitialized amount"
+msgstr "Cannot multiply a balance by an uninitialized amount"
+
+#: ../src/balance.cc:145
+msgid ""
+"Cannot multiply a balance with annotated commodities by a commoditized amount"
+msgstr ""
+"Cannot multiply a balance with annotated commodities by a commoditized amount"
+
+#: ../src/balance.cc:150
+msgid "Cannot multiply a multi-commodity balance by a commoditized amount"
+msgstr "Cannot multiply a multi-commodity balance by a commoditized amount"
+
+#: ../src/balance.cc:159
+msgid "Cannot divide a balance by an uninitialized amount"
+msgstr "Cannot divide a balance by an uninitialized amount"
+
+#: ../src/balance.cc:181
+msgid ""
+"Cannot divide a balance with annotated commodities by a commoditized amount"
+msgstr ""
+"Cannot divide a balance with annotated commodities by a commoditized amount"
+
+#: ../src/balance.cc:186
+msgid "Cannot divide a multi-commodity balance by a commoditized amount"
+msgstr "Cannot divide a multi-commodity balance by a commoditized amount"
+
+#: ../src/balance.cc:247
+#, boost-format
+msgid "Requested amount of a balance with multiple commodities: %1%"
+msgstr "Requested amount of a balance with multiple commodities: %1%"
+
+#: ../src/balance.h:113
+msgid "Cannot initialize a balance from an uninitialized amount"
+msgstr "Cannot initialize a balance from an uninitialized amount"
+
+#: ../src/balance.h:156
+msgid "Cannot assign an uninitialized amount to a balance"
+msgstr "Cannot assign an uninitialized amount to a balance"
+
+#: ../src/balance.h:193
+msgid "Cannot compare a balance to an uninitialized amount"
+msgstr "Cannot compare a balance to an uninitialized amount"
+
+#: ../src/balance.h:479
+msgid "Cannot convert an empty balance to an amount"
+msgstr "Cannot convert an empty balance to an amount"
+
+#: ../src/balance.h:484
+msgid "Cannot convert a balance with multiple commodities to an amount"
+msgstr "Cannot convert a balance with multiple commodities to an amount"
+
+#: ../src/commodity.cc:307 ../src/commodity.cc:338
+msgid "Quoted commodity symbol lacks closing quote"
+msgstr "Quoted commodity symbol lacks closing quote"
+
+#: ../src/commodity.cc:315
+msgid "Backslash at end of commodity name"
+msgstr "Backslash at end of commodity name"
+
+#: ../src/commodity.cc:350
+msgid "Failed to parse commodity"
+msgstr "Failed to parse commodity"
+
+#: ../src/compare.cc:65
+msgid "Could not determine sorting value based an expression"
+msgstr "Could not determine sorting value based an expression"
+
+#: ../src/context.h:122
+#, boost-format
+msgid "Cannot read journal file %1%"
+msgstr "Cannot read journal file %1%"
+
+#: ../src/convert.cc:54
+msgid "Equity:Unknown"
+msgstr "Equity:Unknown"
+
+#: ../src/convert.cc:57 ../src/draft.cc:426
+msgid "Expenses:Unknown"
+msgstr "Expenses:Unknown"
+
+#: ../src/convert.cc:81 ../src/convert.cc:82 ../src/convert.cc:94
+#: ../src/convert.cc:95 ../src/item.h:137 ../src/journal.cc:386
+#: ../src/textual.cc:1964 ../src/textual.cc:1965
+msgid "UUID"
+msgstr "UUID"
+
+#: ../src/convert.cc:111 ../src/draft.cc:500
+msgid "Failed to finalize derived transaction (check commodities)"
+msgstr "Failed to finalize derived transaction (check commodities)"
+
+#: ../src/convert.cc:122 ../src/textual.cc:272
+#, boost-format
+msgid "While parsing file %1%"
+msgstr "While parsing file %1%"
+
+#: ../src/convert.cc:125
+msgid "While parsing CSV line:"
+msgstr "While parsing CSV line:"
+
+#: ../src/csv.cc:201
+msgid "Cannot have two values for a single transaction"
+msgstr "Cannot have two values for a single transaction"
+
+#: ../src/csv.cc:234
+msgid "Imported"
+msgstr "Imported"
+
+#: ../src/csv.cc:236
+msgid "CSV"
+msgstr "CSV"
+
+#: ../src/draft.cc:49
+#, boost-format
+msgid "Date:       %1%"
+msgstr "Date:       %1%"
+
+#: ../src/draft.cc:51
+msgid "Date:       <today>"
+msgstr "Date:       <today>"
+
+#: ../src/draft.cc:54
+#, boost-format
+msgid "Code:       %1%"
+msgstr "Code:       %1%"
+
+#: ../src/draft.cc:56
+#, boost-format
+msgid "Note:       %1%"
+msgstr "Note:       %1%"
+
+#: ../src/draft.cc:59
+msgid "Payee mask: INVALID (template expression will cause an error)"
+msgstr "Payee mask: INVALID (template expression will cause an error)"
+
+#: ../src/draft.cc:62
+#, boost-format
+msgid "Payee mask: %1%"
+msgstr "Payee mask: %1%"
+
+#: ../src/draft.cc:66
+msgid "<Posting copied from last related transaction>"
+msgstr "<Posting copied from last related transaction>"
+
+#: ../src/draft.cc:71
+#, boost-format
+msgid "[Posting \"%1%\"]"
+msgstr "[Posting \"%1%\"]"
+
+#: ../src/draft.cc:71 ../src/times.cc:1542
+msgid "from"
+msgstr "from"
+
+#: ../src/draft.cc:71 ../src/times.cc:1544
+msgid "to"
+msgstr "to"
+
+#: ../src/draft.cc:75
+#, boost-format
+msgid "  Account mask: %1%"
+msgstr "  Account mask: %1%"
+
+#: ../src/draft.cc:77
+msgid "  Account mask: <use last of last related accounts>"
+msgstr "  Account mask: <use last of last related accounts>"
+
+#: ../src/draft.cc:80
+msgid "  Account mask: <use first of last related accounts>"
+msgstr "  Account mask: <use first of last related accounts>"
+
+#: ../src/draft.cc:84
+#, boost-format
+msgid "  Amount:       %1%"
+msgstr "  Amount:       %1%"
+
+#. TRANSLATORS:
+#. %1% signifies the cost operator of the post
+#. %2% signifies the cost the post
+#: ../src/draft.cc:90
+#, boost-format
+msgid "  Cost:         %1% %2%"
+msgstr "  Cost:         %1% %2%"
+
+#: ../src/draft.cc:136 ../src/draft.cc:145 ../src/draft.cc:151
+#: ../src/draft.cc:157 ../src/draft.cc:162 ../src/draft.cc:172
+#: ../src/draft.cc:175
+msgid "Invalid xact command arguments"
+msgstr "Invalid xact command arguments"
+
+#: ../src/draft.cc:245
+msgid "'xact' command requires at least a payee"
+msgstr "'xact' command requires at least a payee"
+
+#: ../src/draft.cc:315
+#, boost-format
+msgid "No accounts, and no past transaction matching '%1%'"
+msgstr "No accounts, and no past transaction matching '%1%'"
+
+#: ../src/draft.cc:422
+msgid "Liabilities:Unknown"
+msgstr "Liabilities:Unknown"
+
+#: ../src/draft.cc:458 ../src/textual.cc:1590
+msgid "A posting's cost may not be negative"
+msgstr "A posting's cost may not be negative"
+
+#: ../src/draft.cc:510 ../src/precmd.cc:183
+msgid "--- Input arguments ---"
+msgstr "--- Input arguments ---"
+
+#: ../src/draft.cc:515
+msgid "--- Transaction template ---"
+msgstr "--- Transaction template ---"
+
+#: ../src/error.cc:92
+msgid "<no source context>"
+msgstr "<no source context>"
+
+#: ../src/expr.cc:140
+msgid "While evaluating value expression:"
+msgstr "While evaluating value expression:"
+
+#: ../src/expr.cc:144
+msgid "The value expression tree was:"
+msgstr "The value expression tree was:"
+
+#: ../src/expr.cc:207
+msgid "<empty expression>"
+msgstr "<empty expression>"
+
+#: ../src/expr.cc:311
+#, boost-format
+msgid "While parsing value expression on line %1%:"
+msgstr "While parsing value expression on line %1%:"
+
+#: ../src/exprbase.h:216 ../src/precmd.cc:97
+msgid "--- Input expression ---"
+msgstr "--- Input expression ---"
+
+#: ../src/exprbase.h:219 ../src/precmd.cc:100
+msgid "--- Text as parsed ---"
+msgstr "--- Text as parsed ---"
+
+#: ../src/exprbase.h:223 ../src/precmd.cc:105
+msgid "--- Expression tree ---"
+msgstr "--- Expression tree ---"
+
+#: ../src/exprbase.h:226 ../src/precmd.cc:110
+msgid "--- Compiled tree ---"
+msgstr "--- Compiled tree ---"
+
+#: ../src/exprbase.h:230
+msgid "--- Result value ---"
+msgstr "--- Result value ---"
+
+#: ../src/filters.cc:628
+msgid "Equity:Unrealized Gains"
+msgstr "Equity:Unrealized Gains"
+
+#: ../src/filters.cc:637
+msgid "Equity:Unrealized Losses"
+msgstr "Equity:Unrealized Losses"
+
+#: ../src/filters.cc:687 ../src/filters.cc:747
+msgid "Commodities revalued"
+msgstr "Commodities revalued"
+
+#: ../src/filters.cc:934
+msgid ""
+"'equity' cannot accept virtual and non-virtual postings to the same account"
+msgstr ""
+"'equity' cannot accept virtual and non-virtual postings to the same account"
+
+#: ../src/filters.cc:998
+msgid "Failed to find period for interval report"
+msgstr "Failed to find period for interval report"
+
+#: ../src/filters.cc:1103 ../src/filters.h:809
+msgid "Opening Balances"
+msgstr "Opening Balances"
+
+#: ../src/filters.cc:1297
+msgid "Failed to find period for periodic transaction"
+msgstr "Failed to find period for periodic transaction"
+
+#: ../src/filters.cc:1317
+msgid "Budget transaction"
+msgstr "Budget transaction"
+
+#: ../src/filters.cc:1460
+msgid "Forecast transaction"
+msgstr "Forecast transaction"
+
+#: ../src/filters.h:161
+msgid "While handling posting"
+msgstr "While handling posting"
+
+#: ../src/filters.h:471
+msgid "<Total>"
+msgstr "<Total>"
+
+#: ../src/filters.h:562
+msgid "<Adjustment>"
+msgstr "<Adjustment>"
+
+#: ../src/filters.h:563 ../src/filters.h:622
+msgid "<Revalued>"
+msgstr "<Revalued>"
+
+#: ../src/filters.h:756
+msgid "<None>"
+msgstr "<None>"
+
+#: ../src/filters.h:808
+msgid "Equity"
+msgstr "Equity"
+
+#: ../src/format.cc:240 ../src/format.cc:379
+#, boost-format
+msgid "Unrecognized formatting character: %1%"
+msgstr "Unrecognized formatting character: %1%"
+
+#: ../src/format.cc:250
+msgid "Prior field reference, but no template"
+msgstr "Prior field reference, but no template"
+
+#: ../src/format.cc:256
+msgid "%$ field reference must be a digit from 1-9"
+msgstr "%$ field reference must be a digit from 1-9"
+
+#: ../src/format.cc:268
+msgid "%$ reference to a non-existent prior field"
+msgstr "%$ reference to a non-existent prior field"
+
+#: ../src/format.cc:443
+msgid "While calculating format expression:"
+msgstr "While calculating format expression:"
+
+#: ../src/generate.cc:375 ../src/generate.cc:381
+#, boost-format
+msgid "While parsing generated transaction (seed %1%):"
+msgstr "While parsing generated transaction (seed %1%):"
+
+#: ../src/global.cc:122
+#, boost-format
+msgid "Transactions found in initialization file '%1%'"
+msgstr "Transactions found in initialization file '%1%'"
+
+#: ../src/global.cc:140
+#, boost-format
+msgid "Could not find specified init file %1%"
+msgstr "Could not find specified init file %1%"
+
+#: ../src/global.cc:190 ../src/textual.cc:284
+#, boost-format
+msgid "Error: %1%"
+msgstr "Error: %1%"
+
+#: ../src/global.cc:242
+#, boost-format
+msgid "Unrecognized command '%1%'"
+msgstr "Unrecognized command '%1%'"
+
+#: ../src/global.cc:466 ../src/stream.cc:70
+msgid "Failed to fork child process"
+msgstr "Failed to fork child process"
+
+#: ../src/global.cc:526
+msgid "Argument to --trace must be an integer"
+msgstr "Argument to --trace must be an integer"
+
+#: ../src/global.h:66
+msgid "global scope"
+msgstr "global scope"
+
+#: ../src/global.h:126
+#, boost-format
+msgid "Ledger %1%, the command-line accounting tool"
+msgstr "Ledger %1%, the command-line accounting tool"
+
+#: ../src/global.h:129
+msgid "with support for gpg encrypted journals"
+msgstr "with support for gpg encrypted journals"
+
+#: ../src/global.h:131
+msgid "without support for gpg encrypted journals"
+msgstr "without support for gpg encrypted journals"
+
+#: ../src/global.h:135
+msgid "and with Python support"
+msgstr "and with Python support"
+
+#: ../src/global.h:137
+msgid "and without Python support"
+msgstr "and without Python support"
+
+#: ../src/global.h:140
+#, boost-format
+msgid "Copyright (c) 2003-2023, %1%.  All rights reserved."
+msgstr "Copyright (c) 2003-2023, %1%.  All rights reserved."
+
+#. This is a proper name. See the gettext manual, section Names.
+#: ../src/global.h:141
+msgid "John Wiegley"
+msgstr "John Wiegley"
+
+#: ../src/global.h:143
+msgid ""
+"This program is made available under the terms of the BSD Public License.\n"
+"See LICENSE file included with the distribution for details and disclaimer."
+msgstr ""
+"This program is made available under the terms of the BSD Public License.\n"
+"See LICENSE file included with the distribution for details and disclaimer."
+
+#: ../src/gpgme.cc:66
+#, boost-format
+msgid "Reading decrypted data: GPGME: %1%"
+msgstr "Reading decrypted data: GPGME: %1%"
+
+#: ../src/gpgme.cc:104
+#, boost-format
+msgid "Could not open file: %1%"
+msgstr "Could not open file: %1%"
+
+#: ../src/gpgme.cc:117
+#, boost-format
+msgid "Unsupported encryption type: %1%"
+msgstr "Unsupported encryption type: %1%"
+
+#: ../src/gpgme.cc:158
+#, boost-format
+msgid "Decryption error: %1%: %2%"
+msgstr "Decryption error: %1%: %2%"
+
+#. TRANSLATORS: The first argument is the source of the error and
+#. the second is the error as a string.
+#: ../src/gpgme.cc:168
+#, boost-format
+msgid "%1%: %2%"
+msgstr "%1%: %2%"
+
+#: ../src/item.cc:273 ../src/item.cc:305 ../src/post.cc:307
+#, boost-format
+msgid "Expected string or mask for argument 1, but received %1%"
+msgstr "Expected string or mask for argument 1, but received %1%"
+
+#: ../src/item.cc:281 ../src/item.cc:313
+#, boost-format
+msgid "Expected masks for arguments 1 and 2, but received %1% and %2%"
+msgstr "Expected masks for arguments 1 and 2, but received %1% and %2%"
+
+#: ../src/item.cc:285 ../src/item.cc:317 ../src/scope.cc:84
+msgid "Too few arguments to function"
+msgstr "Too few arguments to function"
+
+#: ../src/item.cc:288 ../src/item.cc:320
+msgid "Too many arguments to function"
+msgstr "Too many arguments to function"
+
+#. TRANSLATORS: %1% signifies desc [TODO: specify what desc is]
+#: ../src/item.cc:587
+#, boost-format
+msgid "%1% from streamed input:"
+msgstr "%1% from streamed input:"
+
+#. TRANSLATORS:
+#. %1% signifies desc [TODO: specify what desc is]
+#. %2% signifies a filename
+#: ../src/item.cc:594
+#, boost-format
+msgid "%1% from '%2%'"
+msgstr "%1% from '%2%'"
+
+#. TRANSLATORS:
+#. %1% signifies the starting line
+#. %2% signifies the ending line
+#: ../src/item.cc:600
+#, boost-format
+msgid ", lines %1%-%2%:"
+msgstr ", lines %1%-%2%:"
+
+#: ../src/item.cc:602
+#, boost-format
+msgid ", line %1%:"
+msgstr ", line %1%:"
+
+#: ../src/journal.cc:132
+msgid "Unknown"
+msgstr "Unknown"
+
+#: ../src/journal.cc:149 ../src/journal.cc:152
+#, boost-format
+msgid "Unknown account '%1%'"
+msgstr "Unknown account '%1%'"
+
+#: ../src/journal.cc:179 ../src/journal.cc:196
+#, boost-format
+msgid "Infinite recursion on alias expansion for %1%"
+msgstr "Infinite recursion on alias expansion for %1%"
+
+#: ../src/journal.cc:231 ../src/journal.cc:234
+#, boost-format
+msgid "Unknown payee '%1%'"
+msgstr "Unknown payee '%1%'"
+
+#: ../src/journal.cc:272 ../src/journal.cc:275
+#, boost-format
+msgid "Unknown commodity '%1%'"
+msgstr "Unknown commodity '%1%'"
+
+#: ../src/journal.cc:292 ../src/journal.cc:295
+#, boost-format
+msgid "Unknown metadata tag '%1%'"
+msgstr "Unknown metadata tag '%1%'"
+
+#: ../src/journal.cc:318
+#, boost-format
+msgid "Metadata assertion failed for (%1%: %2%): %3%"
+msgstr "Metadata assertion failed for (%1%: %2%): %3%"
+
+#: ../src/journal.cc:322
+#, boost-format
+msgid "Metadata check failed for (%1%: %2%): %3%"
+msgstr "Metadata check failed for (%1%: %2%): %3%"
+
+#: ../src/journal.cc:423
+msgid "While comparing this previously seen transaction:"
+msgstr "While comparing this previously seen transaction:"
+
+#: ../src/journal.cc:427
+msgid "to this later transaction:"
+msgstr "to this later transaction:"
+
+#: ../src/journal.cc:432
+msgid "Transactions with the same UUID must have equivalent postings"
+msgstr "Transactions with the same UUID must have equivalent postings"
+
+#: ../src/journal.cc:482
+#, boost-format
+msgid "No default scope in which to read journal file '%1%'"
+msgstr "No default scope in which to read journal file '%1%'"
+
+#: ../src/main.cc:158
+#, boost-format
+msgid "Failed to expand history reference '%1%'"
+msgstr "Failed to expand history reference '%1%'"
+
+#: ../src/op.cc:82
+#, boost-format
+msgid "Expected return of %1%, but received %2%"
+msgstr "Expected return of %1%, but received %2%"
+
+#: ../src/op.cc:168 ../src/op.cc:489
+msgid "Invalid function definition"
+msgstr "Invalid function definition"
+
+#: ../src/op.cc:184
+#, boost-format
+msgid "Invalid function or lambda parameter: %1%"
+msgstr "Invalid function or lambda parameter: %1%"
+
+#: ../src/op.cc:202
+msgid "Syntax error"
+msgstr "Syntax error"
+
+#: ../src/op.cc:245
+#, boost-format
+msgid "Unknown identifier '%1%'"
+msgstr "Unknown identifier '%1%'"
+
+#: ../src/op.cc:315
+msgid "Left operand does not evaluate to an object"
+msgstr "Left operand does not evaluate to an object"
+
+#: ../src/op.cc:415
+#, boost-format
+msgid "Unexpected expr node '%1%'"
+msgstr "Unexpected expr node '%1%'"
+
+#: ../src/op.cc:450
+msgid "Function recursion_depth too deep (> 256)"
+msgstr "Function recursion_depth too deep (> 256)"
+
+#: ../src/op.cc:465
+#, boost-format
+msgid "Cannot call %1% as a function"
+msgstr "Cannot call %1% as a function"
+
+#: ../src/op.cc:507
+#, boost-format
+msgid "Too few arguments in function call (saw %1%, wanted %2%)"
+msgstr "Too few arguments in function call (saw %1%, wanted %2%)"
+
+#: ../src/op.cc:558
+#, boost-format
+msgid "While calling function '%1% %2%':"
+msgstr "While calling function '%1% %2%':"
+
+#: ../src/option.cc:47 ../src/option.cc:206 ../src/textual.cc:568
+#, boost-format
+msgid "Illegal option --%1%"
+msgstr "Illegal option --%1%"
+
+#: ../src/option.cc:96
+#, boost-format
+msgid "While parsing option '%1%'"
+msgstr "While parsing option '%1%'"
+
+#: ../src/option.cc:98
+#, boost-format
+msgid "While parsing environment variable '%1%'"
+msgstr "While parsing environment variable '%1%'"
+
+#: ../src/option.cc:145
+#, boost-format
+msgid "While parsing environment variable option '%1%':"
+msgstr "While parsing environment variable option '%1%':"
+
+#: ../src/option.cc:212
+#, boost-format
+msgid "Missing option argument for --%1%"
+msgstr "Missing option argument for --%1%"
+
+#: ../src/option.cc:219 ../src/option.cc:230
+#, boost-format
+msgid "Illegal option -%1%"
+msgstr "Illegal option -%1%"
+
+#: ../src/option.cc:242
+#, boost-format
+msgid "Missing option argument for -%1%"
+msgstr "Missing option argument for -%1%"
+
+#: ../src/option.h:131 ../src/option.h:172 ../src/option.h:180
+#, boost-format
+msgid "No argument provided for %1%"
+msgstr "No argument provided for %1%"
+
+#: ../src/option.h:174
+#, boost-format
+msgid "Too many arguments provided for %1%"
+msgstr "Too many arguments provided for %1%"
+
+#: ../src/option.h:176 ../src/option.h:183
+#, boost-format
+msgid "Context argument for %1% not a string"
+msgstr "Context argument for %1% not a string"
+
+#: ../src/parser.cc:116 ../src/parser.cc:140 ../src/parser.cc:157
+#: ../src/parser.cc:198 ../src/parser.cc:228 ../src/parser.cc:295
+#: ../src/parser.cc:327 ../src/parser.cc:354 ../src/parser.cc:380
+#: ../src/parser.cc:389 ../src/query.cc:254 ../src/query.cc:350
+#: ../src/query.cc:379 ../src/query.cc:403
+#, boost-format
+msgid "%1% operator not followed by argument"
+msgstr "%1% operator not followed by argument"
+
+#: ../src/parser.cc:396
+msgid "'if' keyword not followed by argument"
+msgstr "'if' keyword not followed by argument"
+
+#: ../src/parser.cc:402
+msgid "'else' keyword not followed by argument"
+msgstr "'else' keyword not followed by argument"
+
+#: ../src/parser.cc:569
+msgid "While parsing value expression:"
+msgstr "While parsing value expression:"
+
+#: ../src/post.cc:127 ../src/views.cc:140
+msgid "Payee"
+msgstr "Payee"
+
+#: ../src/post.cc:313
+#, boost-format
+msgid "Could not find an account matching '%1%'"
+msgstr "Could not find an account matching '%1%'"
+
+#: ../src/post.cc:570 ../src/xact.cc:725
+msgid "Amount expressions must result in a simple amount"
+msgstr "Amount expressions must result in a simple amount"
+
+#: ../src/post.cc:684
+msgid "Value"
+msgstr "Value"
+
+#: ../src/post.h:116
+#, boost-format
+msgid "posting at line %1%"
+msgstr "posting at line %1%"
+
+#: ../src/post.h:119
+msgid "generated posting"
+msgstr "generated posting"
+
+#: ../src/precmd.cc:67
+msgid "--- Context is first posting of the following transaction ---"
+msgstr "--- Context is first posting of the following transaction ---"
+
+#: ../src/precmd.cc:90
+msgid "Usage: parse TEXT"
+msgstr "Usage: parse TEXT"
+
+#: ../src/precmd.cc:113
+msgid "--- Calculated value ---"
+msgstr "--- Calculated value ---"
+
+#: ../src/precmd.cc:137
+msgid "Usage: format TEXT"
+msgstr "Usage: format TEXT"
+
+#: ../src/precmd.cc:144
+msgid "--- Input format string ---"
+msgstr "--- Input format string ---"
+
+#: ../src/precmd.cc:147
+msgid "--- Format elements ---"
+msgstr "--- Format elements ---"
+
+#: ../src/precmd.cc:151
+msgid "--- Formatted string ---"
+msgstr "--- Formatted string ---"
+
+#: ../src/precmd.cc:164
+msgid "Usage: period TEXT"
+msgstr "Usage: period TEXT"
+
+#: ../src/precmd.cc:197
+msgid "====== Display predicate ======"
+msgstr "====== Display predicate ======"
+
+#: ../src/py_account.cc:62 ../src/py_balance.cc:96 ../src/py_journal.cc:72
+#: ../src/py_journal.cc:106 ../src/py_xact.cc:60
+msgid "Index out of range"
+msgstr "Index out of range"
+
+#: ../src/py_amount.cc:79
+msgid "Argument to amount.print_(file) is not a file object"
+msgstr "Argument to amount.print_(file) is not a file object"
+
+#: ../src/py_amount.cc:127
+msgid ""
+"Construct an amount object whose display precision is always equal to its\n"
+"internal precision."
+msgstr ""
+"Construct an amount object whose display precision is always equal to its\n"
+"internal precision."
+
+#: ../src/py_amount.cc:134
+msgid "Compare two amounts for equality, returning <0, 0 or >0."
+msgstr "Compare two amounts for equality, returning <0, 0 or >0."
+
+#: ../src/py_balance.cc:83
+msgid "Argument to balance.print_(file) is not a file object"
+msgstr "Argument to balance.print_(file) is not a file object"
+
+#: ../src/py_journal.cc:184
+msgid "Cannot have more than one active journal query"
+msgstr "Cannot have more than one active journal query"
+
+#: ../src/pyinterp.cc:126 ../src/pyinterp.cc:131
+#, boost-format
+msgid "Module import failed (couldn't find %1%)"
+msgstr "Module import failed (couldn't find %1%)"
+
+#: ../src/pyinterp.cc:172
+msgid "Python failed to initialize"
+msgstr "Python failed to initialize"
+
+#: ../src/pyinterp.cc:207
+msgid "Python failed to initialize (couldn't find ledger)"
+msgstr "Python failed to initialize (couldn't find ledger)"
+
+#: ../src/pyinterp.cc:252
+#, boost-format
+msgid "Python failed to import: %1%"
+msgstr "Python failed to import: %1%"
+
+#: ../src/pyinterp.cc:294 ../src/pyinterp.cc:316
+msgid "Failed to evaluate Python code"
+msgstr "Failed to evaluate Python code"
+
+#: ../src/pyinterp.cc:346 ../src/pyinterp.cc:360
+msgid "Failed to execute Python module"
+msgstr "Failed to execute Python module"
+
+#: ../src/pyinterp.cc:495
+msgid "Cannot downcast scoped object to specific type"
+msgstr "Cannot downcast scoped object to specific type"
+
+#: ../src/pyinterp.cc:548 ../src/pyinterp.cc:561
+#, boost-format
+msgid "Failed call to Python function '%1%'"
+msgstr "Failed call to Python function '%1%'"
+
+#: ../src/query.cc:72
+msgid "Unexpected '\\' at end of pattern"
+msgstr "Unexpected '\\' at end of pattern"
+
+#: ../src/query.cc:82
+#, boost-format
+msgid "Expected '%1%' at end of pattern"
+msgstr "Expected '%1%' at end of pattern"
+
+#: ../src/query.cc:84
+msgid "Match pattern is empty"
+msgstr "Match pattern is empty"
+
+#: ../src/query.cc:225 ../src/token.cc:510
+#, boost-format
+msgid "Missing '%1%'"
+msgstr "Missing '%1%'"
+
+#: ../src/query.cc:280
+msgid "Metadata equality operator not followed by term"
+msgstr "Metadata equality operator not followed by term"
+
+#: ../src/report.cc:613
+#, boost-format
+msgid "Attempting to get argument at index %1% from %2%"
+msgstr "Attempting to get argument at index %1% from %2%"
+
+#: ../src/report.cc:620
+#, boost-format
+msgid "Attempting to get index %1% from %2% with %3% elements"
+msgstr "Attempting to get index %1% from %2% with %3% elements"
+
+#: ../src/report.cc:924
+#, boost-format
+msgid "Attempting to nail down %1%"
+msgstr "Attempting to nail down %1%"
+
+#: ../src/report.cc:1372
+msgid "The i value expression variable is no longer supported"
+msgstr "The i value expression variable is no longer supported"
+
+#: ../src/report.cc:1375
+msgid "The A value expression variable is no longer supported"
+msgstr "The A value expression variable is no longer supported"
+
+#: ../src/report.cc:1379
+msgid "The V and v value expression variables are no longer supported"
+msgstr "The V and v value expression variables are no longer supported"
+
+#: ../src/report.cc:1383
+msgid "The I and B value expression variables are no longer supported"
+msgstr "The I and B value expression variables are no longer supported"
+
+#: ../src/report.cc:1387
+msgid "The G and g value expression variables are no longer supported"
+msgstr "The G and g value expression variables are no longer supported"
+
+#: ../src/report.h:142
+msgid "current report"
+msgstr "current report"
+
+#: ../src/report.h:447 ../src/report.h:794
+#, boost-format
+msgid "Could not determine beginning of period '%1%'"
+msgstr "Could not determine beginning of period '%1%'"
+
+#: ../src/report.h:664
+#, boost-format
+msgid "Could not determine end of period '%1%'"
+msgstr "Could not determine end of period '%1%'"
+
+#: ../src/report.h:1032
+#, boost-format
+msgid "Unrecognized truncation style: '%1%'"
+msgstr "Unrecognized truncation style: '%1%'"
+
+#: ../src/scope.cc:61
+#, boost-format
+msgid "Redefinition of '%1%' in the same scope"
+msgstr "Redefinition of '%1%' in the same scope"
+
+#: ../src/scope.cc:91
+#, boost-format
+msgid "Expected %1% for argument %2%, but received %3%"
+msgstr "Expected %1% for argument %2%, but received %3%"
+
+#: ../src/scope.h:128
+msgid "<empty>"
+msgstr "<empty>"
+
+#: ../src/scope.h:229 ../src/scope.h:239
+msgid "Could not find scope"
+msgstr "Could not find scope"
+
+#: ../src/select.cc:102
+msgid "Usage: select TEXT"
+msgstr "Usage: select TEXT"
+
+#: ../src/session.cc:81
+msgid "No journal file was specified (please use -f)"
+msgstr "No journal file was specified (please use -f)"
+
+#: ../src/session.cc:98
+#, boost-format
+msgid "Could not find specified price-db file %1%"
+msgstr "Could not find specified price-db file %1%"
+
+#: ../src/session.cc:138
+msgid "Transactions not allowed in price history file"
+msgstr "Transactions not allowed in price history file"
+
+#: ../src/session.h:82
+msgid "current session"
+msgstr "current session"
+
+#: ../src/stats.cc:64
+#, boost-format
+msgid "Time period: %1% to %2% (%3% day)"
+msgid_plural "Time period: %1% to %2% (%3% days)"
+msgstr[0] "Time period: %1% to %2% (%3% day)"
+msgstr[1] "Time period: %1% to %2% (%3% days)"
+
+#: ../src/stats.cc:74
+msgid "Files these postings came from:"
+msgstr "Files these postings came from:"
+
+#: ../src/stats.cc:80
+#, boost-format
+msgid "Unique payees:          %|1$6|"
+msgstr "Unique payees:          %|1$6|"
+
+#: ../src/stats.cc:83
+#, boost-format
+msgid "Unique accounts:        %|1$6|"
+msgstr "Unique accounts:        %|1$6|"
+
+#: ../src/stats.cc:88
+#, boost-format
+msgid "Number of postings:     %|1$6| (%|2$.2| per day)"
+msgstr "Number of postings:     %|1$6| (%|2$.2| per day)"
+
+#: ../src/stats.cc:94
+#, boost-format
+msgid "Uncleared postings:     %|1$6|"
+msgstr "Uncleared postings:     %|1$6|"
+
+#: ../src/stats.cc:100
+#, boost-format
+msgid "Days since last post:   %|1$6|"
+msgstr "Days since last post:   %|1$6|"
+
+#: ../src/stats.cc:104
+#, boost-format
+msgid "Posts in last 7 days:   %|1$6|"
+msgstr "Posts in last 7 days:   %|1$6|"
+
+#: ../src/stats.cc:107
+#, boost-format
+msgid "Posts in last 30 days:  %|1$6|"
+msgstr "Posts in last 30 days:  %|1$6|"
+
+#: ../src/stats.cc:110
+#, boost-format
+msgid "Posts seen this month:  %|1$6|"
+msgstr "Posts seen this month:  %|1$6|"
+
+#: ../src/stream.cc:66
+msgid "Failed to create pipe"
+msgstr "Failed to create pipe"
+
+#: ../src/stream.cc:127
+msgid "Error in the pager"
+msgstr "Error in the pager"
+
+#: ../src/textual.cc:95
+msgid "textual parser"
+msgstr "textual parser"
+
+#: ../src/textual.cc:269
+#, boost-format
+msgid "In file included from %1%"
+msgstr "In file included from %1%"
+
+#: ../src/textual.cc:319
+#, boost-format
+msgid "Line exceeds %1% characters"
+msgstr "Line exceeds %1% characters"
+
+#: ../src/textual.cc:369
+msgid "Unexpected whitespace at beginning of line"
+msgstr "Unexpected whitespace at beginning of line"
+
+#: ../src/textual.cc:445 ../src/textual.cc:1297
+#, boost-format
+msgid "Directive '%1%' requires an argument"
+msgstr "Directive '%1%' requires an argument"
+
+#: ../src/textual.cc:543
+msgid "Pricing entry failed to parse"
+msgstr "Pricing entry failed to parse"
+
+#: ../src/textual.cc:584
+msgid "Expected predicate after '='"
+msgstr "Expected predicate after '='"
+
+#: ../src/textual.cc:659
+msgid "While parsing automated transaction:"
+msgstr "While parsing automated transaction:"
+
+#: ../src/textual.cc:699
+msgid "Period transaction failed to balance"
+msgstr "Period transaction failed to balance"
+
+#: ../src/textual.cc:706
+msgid "While parsing periodic transaction:"
+msgstr "While parsing periodic transaction:"
+
+#: ../src/textual.cc:729
+msgid "Failed to parse transaction"
+msgstr "Failed to parse transaction"
+
+#: ../src/textual.cc:823
+#, boost-format
+msgid "File to include was not found: %1%"
+msgstr "File to include was not found: %1%"
+
+#: ../src/textual.cc:832
+#, boost-format
+msgid "Directive 'apply %1%' requires an argument"
+msgstr "Directive 'apply %1%' requires an argument"
+
+#: ../src/textual.cc:872
+msgid "Error in fixed directive"
+msgstr "Error in fixed directive"
+
+#: ../src/textual.cc:887
+#, boost-format
+msgid "Argument '%1%' not a valid year"
+msgstr "Argument '%1%' not a valid year"
+
+#: ../src/textual.cc:899
+msgid "'end' or 'end apply' found, but no enclosing 'apply' directive"
+msgstr "'end' or 'end apply' found, but no enclosing 'apply' directive"
+
+#: ../src/textual.cc:902
+#, boost-format
+msgid "'end apply %1%' found, but no enclosing 'apply' directive"
+msgstr "'end apply %1%' found, but no enclosing 'apply' directive"
+
+#: ../src/textual.cc:909
+#, boost-format
+msgid "'end apply %1%' directive does not match 'apply %2%' directive"
+msgstr "'end apply %1%' directive does not match 'apply %2%' directive"
+
+#: ../src/textual.cc:938
+#, boost-format
+msgid "Account directive '%1%' requires an argument"
+msgstr "Account directive '%1%' requires an argument"
+
+#: ../src/textual.cc:1004
+#, boost-format
+msgid "Illegal alias %1%=%2%"
+msgstr "Illegal alias %1%=%2%"
+
+#: ../src/textual.cc:1057
+#, boost-format
+msgid "Payee directive '%1%' requires an argument"
+msgstr "Payee directive '%1%' requires an argument"
+
+#: ../src/textual.cc:1100
+#, boost-format
+msgid "Commodity directive '%1%' requires an argument"
+msgstr "Commodity directive '%1%' requires an argument"
+
+#: ../src/textual.cc:1138
+#, boost-format
+msgid ""
+"commodity directive symbol %1% and format directive symbol %2% should be the "
+"same"
+msgstr ""
+"commodity directive symbol %1% and format directive symbol %2% should be the "
+"same"
+
+#: ../src/textual.cc:1189
+#, boost-format
+msgid "Assertion failed: %1%"
+msgstr "Assertion failed: %1%"
+
+#: ../src/textual.cc:1196
+#, boost-format
+msgid "Check failed: %1%"
+msgstr "Check failed: %1%"
+
+#: ../src/textual.cc:1269
+msgid "'import' directive seen, but Python support is missing"
+msgstr "'import' directive seen, but Python support is missing"
+
+#: ../src/textual.cc:1275
+msgid "'python' directive seen, but Python support is missing"
+msgstr "'python' directive seen, but Python support is missing"
+
+#: ../src/textual.cc:1471
+msgid "Posting has no account"
+msgstr "Posting has no account"
+
+#: ../src/textual.cc:1577
+msgid "Posting is missing a cost amount"
+msgstr "Posting is missing a cost amount"
+
+#: ../src/textual.cc:1621
+msgid "Expected a cost amount"
+msgstr "Expected a cost amount"
+
+#: ../src/textual.cc:1651
+msgid "Balance assignment must evaluate to a constant"
+msgstr "Balance assignment must evaluate to a constant"
+
+#: ../src/textual.cc:1653
+msgid "Balance assertion must evaluate to a constant"
+msgstr "Balance assertion must evaluate to a constant"
+
+#: ../src/textual.cc:1739
+#, boost-format
+msgid "Balance assertion off by %1% (expected to see %2%)"
+msgstr "Balance assertion off by %1% (expected to see %2%)"
+
+#: ../src/textual.cc:1749
+msgid "Expected an balance assignment/assertion amount"
+msgstr "Expected an balance assignment/assertion amount"
+
+#: ../src/textual.cc:1766
+#, boost-format
+msgid "Unexpected char '%1%' (Note: inline math requires parentheses)"
+msgstr "Unexpected char '%1%' (Note: inline math requires parentheses)"
+
+#: ../src/textual.cc:1787
+msgid "While parsing posting:"
+msgstr "While parsing posting:"
+
+#: ../src/textual.cc:1902
+msgid "<Unspecified payee>"
+msgstr "<Unspecified payee>"
+
+#: ../src/textual.cc:1954 ../src/xact.cc:705
+#, boost-format
+msgid "Transaction assertion failed: %1%"
+msgstr "Transaction assertion failed: %1%"
+
+#: ../src/textual.cc:1956 ../src/xact.cc:707
+#, boost-format
+msgid "Transaction check failed: %1%"
+msgstr "Transaction check failed: %1%"
+
+#: ../src/textual.cc:2015
+msgid "While parsing transaction:"
+msgstr "While parsing transaction:"
+
+#: ../src/timelog.cc:73
+msgid "Failed to record 'out' timelog transaction"
+msgstr "Failed to record 'out' timelog transaction"
+
+#: ../src/timelog.cc:89 ../src/timelog.cc:194
+msgid "Timelog check-out event without a check-in"
+msgstr "Timelog check-out event without a check-in"
+
+#: ../src/timelog.cc:93
+msgid "When multiple check-ins are active, checking out requires an account"
+msgstr "When multiple check-ins are active, checking out requires an account"
+
+#: ../src/timelog.cc:110
+msgid "Timelog check-out event does not match any current check-ins"
+msgstr "Timelog check-out event does not match any current check-ins"
+
+#: ../src/timelog.cc:114
+msgid "Timelog check-in has no corresponding check-out"
+msgstr "Timelog check-in has no corresponding check-out"
+
+#: ../src/timelog.cc:116
+msgid "Timelog check-out has no corresponding check-in"
+msgstr "Timelog check-out has no corresponding check-in"
+
+#: ../src/timelog.cc:120
+msgid "Timelog check-out date less than corresponding check-in"
+msgstr "Timelog check-out date less than corresponding check-in"
+
+#: ../src/timelog.cc:184
+msgid "Cannot double check-in to the same account"
+msgstr "Cannot double check-in to the same account"
+
+#: ../src/times.cc:130 ../src/times.cc:159 ../src/times.cc:182
+#: ../src/times.cc:241
+#, boost-format
+msgid "Invalid date: %1%"
+msgstr "Invalid date: %1%"
+
+#: ../src/times.cc:189
+msgid "sun"
+msgstr "sun"
+
+#: ../src/times.cc:189
+msgid "sunday"
+msgstr "sunday"
+
+#: ../src/times.cc:191
+msgid "mon"
+msgstr "mon"
+
+#: ../src/times.cc:191
+msgid "monday"
+msgstr "monday"
+
+#: ../src/times.cc:193
+msgid "tue"
+msgstr "tue"
+
+#: ../src/times.cc:193
+msgid "tuesday"
+msgstr "tuesday"
+
+#: ../src/times.cc:195
+msgid "wed"
+msgstr "wed"
+
+#: ../src/times.cc:195
+msgid "wednesday"
+msgstr "wednesday"
+
+#: ../src/times.cc:197
+msgid "thu"
+msgstr "thu"
+
+#: ../src/times.cc:197
+msgid "thursday"
+msgstr "thursday"
+
+#: ../src/times.cc:199
+msgid "fri"
+msgstr "fri"
+
+#: ../src/times.cc:199
+msgid "friday"
+msgstr "friday"
+
+#: ../src/times.cc:201
+msgid "sat"
+msgstr "sat"
+
+#: ../src/times.cc:201
+msgid "saturday"
+msgstr "saturday"
+
+#: ../src/times.cc:210
+msgid "jan"
+msgstr "jan"
+
+#: ../src/times.cc:210
+msgid "january"
+msgstr "january"
+
+#: ../src/times.cc:212
+msgid "feb"
+msgstr "feb"
+
+#: ../src/times.cc:212
+msgid "february"
+msgstr "february"
+
+#: ../src/times.cc:214
+msgid "mar"
+msgstr "mar"
+
+#: ../src/times.cc:214
+msgid "march"
+msgstr "march"
+
+#: ../src/times.cc:216
+msgid "apr"
+msgstr "apr"
+
+#: ../src/times.cc:216
+msgid "april"
+msgstr "april"
+
+#: ../src/times.cc:218
+msgid "may"
+msgstr "may"
+
+#: ../src/times.cc:220
+msgid "jun"
+msgstr "jun"
+
+#: ../src/times.cc:220
+msgid "june"
+msgstr "june"
+
+#: ../src/times.cc:222
+msgid "jul"
+msgstr "jul"
+
+#: ../src/times.cc:222
+msgid "july"
+msgstr "july"
+
+#: ../src/times.cc:224
+msgid "aug"
+msgstr "aug"
+
+#: ../src/times.cc:224
+msgid "august"
+msgstr "august"
+
+#: ../src/times.cc:226
+msgid "sep"
+msgstr "sep"
+
+#: ../src/times.cc:226
+msgid "september"
+msgstr "september"
+
+#: ../src/times.cc:228
+msgid "oct"
+msgstr "oct"
+
+#: ../src/times.cc:228
+msgid "october"
+msgstr "october"
+
+#: ../src/times.cc:230
+msgid "nov"
+msgstr "nov"
+
+#: ../src/times.cc:230
+msgid "november"
+msgstr "november"
+
+#: ../src/times.cc:232
+msgid "dec"
+msgstr "dec"
+
+#: ../src/times.cc:232
+msgid "december"
+msgstr "december"
+
+#: ../src/times.cc:255
+#, boost-format
+msgid "Invalid date/time: %1%"
+msgstr "Invalid date/time: %1%"
+
+#: ../src/times.cc:1294
+msgid "Invalid date interval: neither start, nor finish, nor duration"
+msgstr "Invalid date interval: neither start, nor finish, nor duration"
+
+#: ../src/times.cc:1312
+msgid "Date interval is improperly initialized"
+msgstr "Date interval is improperly initialized"
+
+#: ../src/times.cc:1382
+msgid "Cannot increment an unstarted date interval"
+msgstr "Cannot increment an unstarted date interval"
+
+#: ../src/times.cc:1388
+msgid "Cannot increment a date interval without a duration"
+msgstr "Cannot increment a date interval without a duration"
+
+#: ../src/times.cc:1407
+msgid "--- Before stabilization ---"
+msgstr "--- Before stabilization ---"
+
+#: ../src/times.cc:1410 ../src/times.cc:1429
+#, boost-format
+msgid "   range: %1%"
+msgstr "   range: %1%"
+
+#: ../src/times.cc:1412 ../src/times.cc:1431
+#, boost-format
+msgid "   start: %1%"
+msgstr "   start: %1%"
+
+#: ../src/times.cc:1414 ../src/times.cc:1433
+#, boost-format
+msgid "   finish: %1%"
+msgstr "   finish: %1%"
+
+#: ../src/times.cc:1417 ../src/times.cc:1436
+#, boost-format
+msgid "duration: %1%"
+msgstr "duration: %1%"
+
+#: ../src/times.cc:1426
+msgid "--- After stabilization ---"
+msgstr "--- After stabilization ---"
+
+#: ../src/times.cc:1439
+msgid "--- Sample dates in range (max. 20) ---"
+msgstr "--- Sample dates in range (max. 20) ---"
+
+#: ../src/times.cc:1538
+msgid "ago"
+msgstr "ago"
+
+#: ../src/times.cc:1540
+msgid "hence"
+msgstr "hence"
+
+#: ../src/times.cc:1542
+msgid "since"
+msgstr "since"
+
+#: ../src/times.cc:1544
+msgid "until"
+msgstr "until"
+
+#: ../src/times.cc:1546
+msgid "in"
+msgstr "in"
+
+#: ../src/times.cc:1548
+msgid "this"
+msgstr "this"
+
+#: ../src/times.cc:1550
+msgid "next"
+msgstr "next"
+
+#: ../src/times.cc:1552
+msgid "last"
+msgstr "last"
+
+#: ../src/times.cc:1554
+msgid "every"
+msgstr "every"
+
+#: ../src/times.cc:1556
+msgid "today"
+msgstr "today"
+
+#: ../src/times.cc:1558
+msgid "tomorrow"
+msgstr "tomorrow"
+
+#: ../src/times.cc:1560
+msgid "yesterday"
+msgstr "yesterday"
+
+#: ../src/times.cc:1562
+msgid "year"
+msgstr "year"
+
+#: ../src/times.cc:1564
+msgid "quarter"
+msgstr "quarter"
+
+#: ../src/times.cc:1566
+msgid "month"
+msgstr "month"
+
+#: ../src/times.cc:1568
+msgid "week"
+msgstr "week"
+
+#: ../src/times.cc:1570
+msgid "day"
+msgstr "day"
+
+#: ../src/times.cc:1572
+msgid "yearly"
+msgstr "yearly"
+
+#: ../src/times.cc:1574
+msgid "quarterly"
+msgstr "quarterly"
+
+#: ../src/times.cc:1576
+msgid "bimonthly"
+msgstr "bimonthly"
+
+#: ../src/times.cc:1578
+msgid "monthly"
+msgstr "monthly"
+
+#: ../src/times.cc:1580
+msgid "biweekly"
+msgstr "biweekly"
+
+#: ../src/times.cc:1582
+msgid "weekly"
+msgstr "weekly"
+
+#: ../src/times.cc:1584
+msgid "daily"
+msgstr "daily"
+
+#: ../src/times.cc:1586
+msgid "years"
+msgstr "years"
+
+#: ../src/times.cc:1588
+msgid "quarters"
+msgstr "quarters"
+
+#: ../src/times.cc:1590
+msgid "months"
+msgstr "months"
+
+#: ../src/times.cc:1592
+msgid "weeks"
+msgstr "weeks"
+
+#: ../src/times.cc:1594
+msgid "days"
+msgstr "days"
+
+#: ../src/times.cc:1613 ../src/token.cc:478
+msgid "Unexpected end of expression"
+msgstr "Unexpected end of expression"
+
+#: ../src/times.cc:1617
+#, boost-format
+msgid "Unexpected date period token '%1%'"
+msgstr "Unexpected date period token '%1%'"
+
+#: ../src/times.cc:1625 ../src/token.cc:514
+#, boost-format
+msgid "Invalid char '%1%'"
+msgstr "Invalid char '%1%'"
+
+#: ../src/times.cc:1627 ../src/token.cc:517
+#, boost-format
+msgid "Invalid char '%1%' (wanted '%2%')"
+msgstr "Invalid char '%1%' (wanted '%2%')"
+
+#: ../src/times.cc:1762
+msgid "--- Period expression tokens ---"
+msgstr "--- Period expression tokens ---"
+
+#: ../src/token.cc:148 ../src/token.cc:157
+msgid "Input stream no longer valid"
+msgstr "Input stream no longer valid"
+
+#: ../src/token.cc:212
+msgid "Date specifier does not refer to a starting date"
+msgstr "Date specifier does not refer to a starting date"
+
+#: ../src/token.cc:395 ../src/token.cc:419 ../src/token.cc:442
+msgid "Failed to reset input stream"
+msgstr "Failed to reset input stream"
+
+#: ../src/token.cc:428
+msgid "Unexpected EOF"
+msgstr "Unexpected EOF"
+
+#: ../src/token.cc:435
+msgid "Failed to parse identifier"
+msgstr "Failed to parse identifier"
+
+#: ../src/token.cc:465
+msgid "Failed to rewind input stream"
+msgstr "Failed to rewind input stream"
+
+#: ../src/token.cc:480
+#, boost-format
+msgid "Unexpected symbol '%1%'"
+msgstr "Unexpected symbol '%1%'"
+
+#: ../src/token.cc:482
+#, boost-format
+msgid "Unexpected value '%1%'"
+msgstr "Unexpected value '%1%'"
+
+#: ../src/token.cc:484
+#, boost-format
+msgid "Unexpected expression token '%1%'"
+msgstr "Unexpected expression token '%1%'"
+
+#: ../src/token.cc:490
+#, boost-format
+msgid "Unexpected end of expression (wanted '%1%')"
+msgstr "Unexpected end of expression (wanted '%1%')"
+
+#: ../src/token.cc:493
+#, boost-format
+msgid "Unexpected symbol '%1%' (wanted '%2%')"
+msgstr "Unexpected symbol '%1%' (wanted '%2%')"
+
+#: ../src/token.cc:496
+#, boost-format
+msgid "Unexpected value '%1%' (wanted '%2%')"
+msgstr "Unexpected value '%1%' (wanted '%2%')"
+
+#: ../src/token.cc:498
+#, boost-format
+msgid "Unexpected expression token '%1%' (wanted '%2%')"
+msgstr "Unexpected expression token '%1%' (wanted '%2%')"
+
+#: ../src/token.cc:508
+msgid "Unexpected end"
+msgstr "Unexpected end"
+
+#: ../src/token.cc:526
+#, boost-format
+msgid "Invalid token '%1%'"
+msgstr "Invalid token '%1%'"
+
+#: ../src/token.cc:529
+#, boost-format
+msgid "Invalid token '%1%' (wanted '%2%')"
+msgstr "Invalid token '%1%' (wanted '%2%')"
+
+#: ../src/utils.cc:412
+#, boost-format
+msgid "Attempting to delete %1% a non-living %2%"
+msgstr "Attempting to delete %1% a non-living %2%"
+
+#: ../src/utils.cc:427
+#, boost-format
+msgid "Failed to find %1% in live object counts"
+msgstr "Failed to find %1% in live object counts"
+
+#: ../src/utils.cc:529
+msgid "Invalid use of backslash"
+msgstr "Invalid use of backslash"
+
+#: ../src/utils.cc:551
+#, boost-format
+msgid "Unterminated string, expected '%1%'"
+msgstr "Unterminated string, expected '%1%'"
+
+#: ../src/utils.h:475
+msgid "Interrupted by user (use Control-D to quit)"
+msgstr "Interrupted by user (use Control-D to quit)"
+
+#: ../src/utils.h:477
+msgid "Pipe terminated"
+msgstr "Pipe terminated"
+
+#: ../src/value.cc:106
+#, boost-format
+msgid "Cannot determine truth of %1% (did you mean 'account =~ %2%'?)"
+msgstr "Cannot determine truth of %1% (did you mean 'account =~ %2%'?)"
+
+#: ../src/value.cc:123
+#, boost-format
+msgid "While taking boolean value of %1%:"
+msgstr "While taking boolean value of %1%:"
+
+#: ../src/value.cc:124
+#, boost-format
+msgid "Cannot determine truth of %1%"
+msgstr "Cannot determine truth of %1%"
+
+#: ../src/value.cc:306
+#, boost-format
+msgid "While calling number() on %1%:"
+msgstr "While calling number() on %1%:"
+
+#: ../src/value.cc:307
+#, boost-format
+msgid "Cannot determine numeric value of %1%"
+msgstr "Cannot determine numeric value of %1%"
+
+#: ../src/value.cc:330 ../src/value.cc:445
+#, boost-format
+msgid "While adding %1% to %2%:"
+msgstr "While adding %1% to %2%:"
+
+#: ../src/value.cc:331
+msgid "Cannot add sequences of different lengths"
+msgstr "Cannot add sequences of different lengths"
+
+#: ../src/value.cc:446
+#, boost-format
+msgid "Cannot add %1% to %2%"
+msgstr "Cannot add %1% to %2%"
+
+#: ../src/value.cc:464 ../src/value.cc:585
+#, boost-format
+msgid "While subtracting %1% from %2%:"
+msgstr "While subtracting %1% from %2%:"
+
+#: ../src/value.cc:465
+msgid "Cannot subtract sequences of different lengths"
+msgstr "Cannot subtract sequences of different lengths"
+
+#: ../src/value.cc:586
+#, boost-format
+msgid "Cannot subtract %1% from %2%"
+msgstr "Cannot subtract %1% from %2%"
+
+#: ../src/value.cc:667
+#, boost-format
+msgid "While multiplying %1% with %2%:"
+msgstr "While multiplying %1% with %2%:"
+
+#: ../src/value.cc:668
+#, boost-format
+msgid "Cannot multiply %1% with %2%"
+msgstr "Cannot multiply %1% with %2%"
+
+#: ../src/value.cc:745
+#, boost-format
+msgid "While dividing %1% by %2%:"
+msgstr "While dividing %1% by %2%:"
+
+#: ../src/value.cc:746
+#, boost-format
+msgid "Cannot divide %1% by %2%"
+msgstr "Cannot divide %1% by %2%"
+
+#: ../src/value.cc:831
+#, boost-format
+msgid "While comparing equality of %1% and %2%:"
+msgstr "While comparing equality of %1% and %2%:"
+
+#: ../src/value.cc:832 ../src/value.cc:958 ../src/value.cc:1079
+#, boost-format
+msgid "Cannot compare %1% to %2%"
+msgstr "Cannot compare %1% to %2%"
+
+#: ../src/value.cc:957
+#, boost-format
+msgid "While comparing if %1% is less than %2%:"
+msgstr "While comparing if %1% is less than %2%:"
+
+#: ../src/value.cc:1078
+#, boost-format
+msgid "While comparing if %1% is greater than %2%:"
+msgstr "While comparing if %1% is greater than %2%:"
+
+#: ../src/value.cc:1220
+#, boost-format
+msgid "While converting %1% to an amount:"
+msgstr "While converting %1% to an amount:"
+
+#: ../src/value.cc:1221
+#, boost-format
+msgid "Cannot convert %1% with multiple commodities to %2%"
+msgstr "Cannot convert %1% with multiple commodities to %2%"
+
+#: ../src/value.cc:1278
+#, boost-format
+msgid "While converting %1%:"
+msgstr "While converting %1%:"
+
+#: ../src/value.cc:1280
+#, boost-format
+msgid "Cannot convert %1% to %2%"
+msgstr "Cannot convert %1% to %2%"
+
+#: ../src/value.cc:1310
+#, boost-format
+msgid "While negating %1%:"
+msgstr "While negating %1%:"
+
+#: ../src/value.cc:1311
+#, boost-format
+msgid "Cannot negate %1%"
+msgstr "Cannot negate %1%"
+
+#: ../src/value.cc:1344
+#, boost-format
+msgid "While applying 'not' to %1%:"
+msgstr "While applying 'not' to %1%:"
+
+#: ../src/value.cc:1345
+#, boost-format
+msgid "Cannot 'not' %1%"
+msgstr "Cannot 'not' %1%"
+
+#: ../src/value.cc:1374
+#, boost-format
+msgid "While applying is_realzero to %1%:"
+msgstr "While applying is_realzero to %1%:"
+
+#: ../src/value.cc:1375
+#, boost-format
+msgid "Cannot determine if %1% is really zero"
+msgstr "Cannot determine if %1% is really zero"
+
+#: ../src/value.cc:1406
+#, boost-format
+msgid "While applying is_zero to %1%:"
+msgstr "While applying is_zero to %1%:"
+
+#: ../src/value.cc:1407
+#, boost-format
+msgid "Cannot determine if %1% is zero"
+msgstr "Cannot determine if %1% is zero"
+
+#: ../src/value.cc:1440
+#, boost-format
+msgid "While finding valuation of %1%:"
+msgstr "While finding valuation of %1%:"
+
+#: ../src/value.cc:1441
+#, boost-format
+msgid "Cannot find the value of %1%"
+msgstr "Cannot find the value of %1%"
+
+#: ../src/value.cc:1599
+#, boost-format
+msgid "While taking abs of %1%:"
+msgstr "While taking abs of %1%:"
+
+#: ../src/value.cc:1600
+#, boost-format
+msgid "Cannot abs %1%"
+msgstr "Cannot abs %1%"
+
+#: ../src/value.cc:1623
+#, boost-format
+msgid "While rounding %1%:"
+msgstr "While rounding %1%:"
+
+#: ../src/value.cc:1624
+#, boost-format
+msgid "Cannot set rounding for %1%"
+msgstr "Cannot set rounding for %1%"
+
+#: ../src/value.cc:1667
+#, boost-format
+msgid "While truncating %1%:"
+msgstr "While truncating %1%:"
+
+#: ../src/value.cc:1668
+#, boost-format
+msgid "Cannot truncate %1%"
+msgstr "Cannot truncate %1%"
+
+#: ../src/value.cc:1690
+#, boost-format
+msgid "While flooring %1%:"
+msgstr "While flooring %1%:"
+
+#: ../src/value.cc:1691
+#, boost-format
+msgid "Cannot floor %1%"
+msgstr "Cannot floor %1%"
+
+#: ../src/value.cc:1713
+#, boost-format
+msgid "While ceiling %1%:"
+msgstr "While ceiling %1%:"
+
+#: ../src/value.cc:1714
+#, boost-format
+msgid "Cannot ceiling %1%"
+msgstr "Cannot ceiling %1%"
+
+#: ../src/value.cc:1736
+#, boost-format
+msgid "While unrounding %1%:"
+msgstr "While unrounding %1%:"
+
+#: ../src/value.cc:1737
+#, boost-format
+msgid "Cannot unround %1%"
+msgstr "Cannot unround %1%"
+
+#: ../src/value.cc:1745
+#, boost-format
+msgid "While attempting to annotate %1%:"
+msgstr "While attempting to annotate %1%:"
+
+#: ../src/value.cc:1746
+#, boost-format
+msgid "Cannot annotate %1%"
+msgstr "Cannot annotate %1%"
+
+#: ../src/value.cc:1755
+#, boost-format
+msgid "While checking if %1% has annotations:"
+msgstr "While checking if %1% has annotations:"
+
+#: ../src/value.cc:1757
+#, boost-format
+msgid "Cannot determine whether %1% is annotated"
+msgstr "Cannot determine whether %1% is annotated"
+
+#: ../src/value.cc:1767
+#, boost-format
+msgid "While requesting the annotations of %1%:"
+msgstr "While requesting the annotations of %1%:"
+
+#: ../src/value.cc:1768
+#, boost-format
+msgid "Cannot request annotation of %1%"
+msgstr "Cannot request annotation of %1%"
+
+#: ../src/value.cc:1811
+msgid "an uninitialized value"
+msgstr "an uninitialized value"
+
+#: ../src/value.cc:1813
+msgid "a boolean"
+msgstr "a boolean"
+
+#: ../src/value.cc:1815
+msgid "a date/time"
+msgstr "a date/time"
+
+#: ../src/value.cc:1817
+msgid "a date"
+msgstr "a date"
+
+#: ../src/value.cc:1819
+msgid "an integer"
+msgstr "an integer"
+
+#: ../src/value.cc:1821
+msgid "an amount"
+msgstr "an amount"
+
+#: ../src/value.cc:1823
+msgid "a balance"
+msgstr "a balance"
+
+#: ../src/value.cc:1825
+msgid "a string"
+msgstr "a string"
+
+#: ../src/value.cc:1827
+msgid "a regexp"
+msgstr "a regexp"
+
+#: ../src/value.cc:1829
+msgid "a sequence"
+msgstr "a sequence"
+
+#: ../src/value.cc:1831
+msgid "a scope"
+msgstr "a scope"
+
+#: ../src/value.cc:1834
+msgid "an expr"
+msgstr "an expr"
+
+#: ../src/value.cc:1836
+msgid "an object"
+msgstr "an object"
+
+#: ../src/value.cc:1839
+msgid "<invalid>"
+msgstr "<invalid>"
+
+#: ../src/xact.cc:188
+#, boost-format
+msgid ""
+"Posting with null amount's account may be misspelled:\n"
+"  \"%1%\""
+msgstr ""
+"Posting with null amount's account may be misspelled:\n"
+"  \"%1%\""
+
+#: ../src/xact.cc:193
+msgid "Only one posting with null amount allowed per transaction"
+msgstr "Only one posting with null amount allowed per transaction"
+
+#: ../src/xact.cc:292 ../src/xact.cc:455
+msgid "A posting's cost must be of a different commodity than its amount"
+msgstr "A posting's cost must be of a different commodity than its amount"
+
+#: ../src/xact.cc:312
+msgid "Equity:Capital Gains"
+msgstr "Equity:Capital Gains"
+
+#: ../src/xact.cc:314
+msgid "Equity:Capital Losses"
+msgstr "Equity:Capital Losses"
+
+#: ../src/xact.cc:368 ../src/xact.cc:381 ../src/xact.cc:464
+msgid "Transaction does not balance"
+msgstr "Transaction does not balance"
+
+#: ../src/xact.cc:376 ../src/xact.cc:459
+msgid "While balancing transaction"
+msgstr "While balancing transaction"
+
+#: ../src/xact.cc:377 ../src/xact.cc:460
+msgid "Unbalanced remainder is:"
+msgstr "Unbalanced remainder is:"
+
+#: ../src/xact.cc:379 ../src/xact.cc:462
+msgid "Amount to balance against:"
+msgstr "Amount to balance against:"
+
+#: ../src/xact.cc:415
+msgid "There cannot be null amounts after balancing a transaction"
+msgstr "There cannot be null amounts after balancing a transaction"
+
+#: ../src/xact.cc:623
+msgid "Unhandled operator"
+msgstr "Unhandled operator"
+
+#: ../src/xact.cc:717
+msgid "Automated transaction's posting has no amount"
+msgstr "Automated transaction's posting has no amount"
+
+#: ../src/xact.cc:828
+msgid "While applying automated transaction"
+msgstr "While applying automated transaction"
+
+#: ../src/xact.cc:829
+msgid "While extending transaction"
+msgstr "While extending transaction"
+
+#: ../src/xact.h:117
+#, boost-format
+msgid "transaction at line %1%"
+msgstr "transaction at line %1%"
+
+#: ../src/xact.h:120
+msgid "generated transaction"
+msgstr "generated transaction"
+
+#: ../src/xact.h:179
+#, boost-format
+msgid "automated transaction at line %1%"
+msgstr "automated transaction at line %1%"
+
+#: ../src/xact.h:182
+msgid "generated automated transaction"
+msgstr "generated automated transaction"
+
+#: ../src/xact.h:222
+#, boost-format
+msgid "periodic transaction at line %1%"
+msgstr "periodic transaction at line %1%"
+
+#: ../src/xact.h:225
+msgid "generated periodic transaction"
+msgstr "generated periodic transaction"

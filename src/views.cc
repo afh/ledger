@@ -204,7 +204,7 @@ string r_post_t::payee() const
 
 string r_account_t::description()
 {
-  return string(_("account ")) + fullname();
+  return string(_("account")) + " " + fullname();
 }
 
 void r_account_t::add_post(r_post_ptr post)

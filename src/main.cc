@@ -88,6 +88,9 @@ int main(int argc, char * argv[], char * envp[])
 #endif
 
 #if HAVE_GETTEXT
+  ::setlocale(LC_MESSAGES, "");
+  ::bindtextdomain("ledger", "locale");
+  ::bind_textdomain_codeset("ledger", "UTF-8");
   ::textdomain("ledger");
 #endif
 
