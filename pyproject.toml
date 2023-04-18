@@ -1,0 +1,28 @@
+[project]
+name = "lpy"
+version = "3.3.2"
+requires-python = ">=3.9"
+
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+cmake.minimum-version = "3.16.2"
+sdist.reproducible = true
+#cmake.args = []
+cmake.verbose = false
+#logging.level = "DEBUG"
+ninja.make-fallback = true
+#wheel.py-api = "cp39"
+wheel.expand-macos-universal-tags = true
+wheel.packages = ["python/lpy"]
+strict-config = true
+#build-dir = "__skbuild"
+
+#sdist.include = ["src/some_generated_file.txt"]
+sdist.exclude = [ "*.nix", "*.lock", "contrib", "tools", "build*", "dist" ]
+
+[tool.scikit-build.cmake.define]
+USE_PYTHON = "ON"
+USE_GPGME = "ON"

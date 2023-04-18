@@ -414,6 +414,10 @@ configure_file(
   system.hh.in
   ${PROJECT_BINARY_DIR}/system.hh)
 
+configure_file(
+  ${PROJECT_SOURCE_DIR}/src/ledger.hh.in
+  ${PROJECT_BINARY_DIR}/ledger.hh)
+
 # add the binary tree to the search path for include files
 # so that we will find the generated system.hh.
 include_directories(${PROJECT_BINARY_DIR})
@@ -581,9 +585,11 @@ if (BUILD_LIBRARY)
     target_link_libraries(ledger ${Python3_LIBRARIES})
   endif()
 
-  install(TARGETS libledger DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  install(FILES ${LEDGER_INCLUDES}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
+  if (NOT SKBUILD)
+    install(TARGETS libledger DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(FILES ${LEDGER_INCLUDES}
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
+  endif()
 else()
   add_executable(ledger ${LEDGER_SOURCES} main.cc global.cc)
   add_ledger_library_dependencies(ledger)
@@ -616,14 +622,22 @@ if (USE_PYTHON)
       TARGET libledger POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy #_if_different
       $<TARGET_FILE:libledger> "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}")
-    install(
-      FILES "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}"
-      DESTINATION ${Python3_SITEARCH})
+    if (SKBUILD)
+      install(
+        FILES ${CMAKE_BINARY_DIR}/${_ledger_python_module_name}
+        DESTINATION lpy/core)
+    else()
+      install(
+        FILES ${CMAKE_BINARY_DIR}/${_ledger_python_module_name}
+        DESTINATION ${Python3_SITEARCH})
+    endif()
   else()
     message(WARNING "Python3_SITEARCH not set. Will not install python module.")
   endif()
 endif()
 
+if (NOT SKBUILD)
 install(TARGETS ledger DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 
 ### CMakeLists.txt ends here

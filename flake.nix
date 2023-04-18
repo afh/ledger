@@ -3,18 +3,37 @@
 
   nixConfig.bash-prompt = "ledger$ ";
 
-  outputs = { self, nixpkgs }: let
+  inputs.nixpkgsUnstable.url = "/Users/afh/Developer/nixpkgs";
+
+  outputs = { self, nixpkgs, nixpkgsUnstable, ... }: let
     usePython = true;
     gpgmeSupport = true;
     forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
     nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+    #nixpkgsUnstableFor = forAllSystems (system: import nixpkgsUnstable { inherit system; });
     systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
   in {
 
     packages = forAllSystems (system: let
         pkgs = nixpkgsFor.${system};
-      in with pkgs; {
-      ledger = stdenv.mkDerivation {
+        python3 = pkgs.python311;
+        #boost = nixpkgsUnstableFor.${system}.boost182;
+      in rec {
+      delocate = with python3.pkgs; buildPythonPackage rec {
+        pname = "delocate";
+        version = "0.10.4";
+        doCheck = false;
+        propagatedBuildInputs = [
+          typing-extensions
+          packaging
+        ];
+        src = fetchPypi {
+          inherit pname version;
+          hash = "sha256-6ucS9G8jSBrIIlC53DVygLjNF6wOV9zghlTV9yJ5PJM=";
+        };
+      };
+
+      ledger = with pkgs; stdenv.mkDerivation rec {
         pname = "ledger";
         version = "3.3.2-${self.shortRev or "dirty"}";
 
@@ -30,7 +49,10 @@
               then [ python3 (boost.override { enablePython = true; python = python3; }) ]
               else [ boost ]);
 
-        nativeBuildInputs = [ cmake texinfo tzdata pipx ];
+        nativeBuildInputs = [
+          cmake texinfo tzdata
+          python3.pkgs.pipx delocate
+        ];
 
         enableParallelBuilding = true;
 

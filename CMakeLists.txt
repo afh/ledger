@@ -9,6 +9,10 @@ set(Required_Gpgmepp_Version 1.13.1)
 cmake_minimum_required(
   VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
 
+set(Ledger_VERSION            3.3.2)
+set(Ledger_VERSION_PRERELEASE "")
+set(Ledger_VERSION_DATE       20230330)
+
 project(
   ledger
   VERSION 3.3.2
@@ -42,6 +46,7 @@ option(BUILD_WEB_DOCS "Build version of documentation suitable for viewing onlin
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(python)
 add_subdirectory(doc)
 
 ########################################################################

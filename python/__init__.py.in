@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# SPDX-FileCopyrightText: 2023 John Wiegley
+
+# This Ledger Python Package intentionally breaks backwards compatibilty
+# with the Ledger Python Module to offer a cleaner API and allow for
+# better code organization and extensibility.
+#
+# For convenience Ledger provides the Ledger compatibility Python Module
+# with which existing script continue to work.
+#
+# To migrate script from the Ledger Python Module to the Ledger Python Package
+# please see https://github.com/ledger/ledger/blob/master/PythonPackageMigration.md
+# for details.
+
+from . import core
+__all__        = [ 'core' ]
+
+__version__    = '@Ledger_VERSION@'
+__author__     = "John Wiegley"
+__copyright__  = "Copyright (c) 2003-2023, John Wiegley.  All rights reserved."
+__license__    = "BSD-3-Clause"
+__status__     = "Production"
+__doc__        = "Access to Ledger data, types, and utility functions"
+
+def license():
+    return '''@Ledger_LICENSE@'''

@@ -192,19 +192,6 @@
 #include <boost/regex.hpp>
 #endif // HAVE_BOOST_REGEX_UNICODE
 
-<<<<<<< HEAD
-#include <boost/tokenizer.hpp>
-
-#include <boost/tuple/tuple.hpp>
-#include <boost/tuple/tuple_comparison.hpp>
-
-#include <boost/variant.hpp>
-#include <boost/version.hpp>
-
-#include <boost/ptr_container/ptr_deque.hpp>
-
-=======
->>>>>>> 2f2b863f (WIP: cmake: Refactor)
 #if HAVE_BOOST_PYTHON
 #include <boost/python.hpp>
 #include <boost/python/detail/wrap_python.hpp>

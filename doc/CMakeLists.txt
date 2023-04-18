@@ -166,10 +166,10 @@ add_custom_target(doc DEPENDS ${ledger_doc_files} doc.doxygen)
 
 include(GNUInstallDirs)
 
-if (CMAKE_INSTALL_MANDIR)
+if (CMAKE_INSTALL_MANDIR AND NOT SKBUILD)
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/ledger.1
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 COMPONENT doc)
-endif(CMAKE_INSTALL_MANDIR)
+endif(CMAKE_INSTALL_MANDIR AND NOT SKBUILD)
 
 foreach(file ${ledger_doc_files})
   get_filename_component(file_ext ${file} EXT)
