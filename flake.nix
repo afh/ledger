@@ -30,7 +30,7 @@
               then [ python3 (boost.override { enablePython = true; python = python3; }) ]
               else [ boost ]);
 
-        nativeBuildInputs = [ cmake texinfo tzdata ];
+        nativeBuildInputs = [ cmake texinfo tzdata pipx ];
 
         enableParallelBuilding = true;
 
@@ -45,7 +45,9 @@
         # however, that would write to a different nixstore path, pass our own sitePackages location
         prePatch = lib.optionalString usePython ''
           substituteInPlace src/CMakeLists.txt \
-            --replace 'DESTINATION ''${Python_SITEARCH}' 'DESTINATION "${placeholder "py"}/${python3.sitePackages}"'
+            --replace ' ''${Python3_SITEARCH}' ' ${placeholder "py"}/${python3.sitePackages}'
+          substituteInPlace src/CMakeLists.txt \
+            --replace ' ''${Python3_SITEARCH}' ' ${placeholder "py"}/${python3.sitePackages}'
         '';
 
         installTargets = [ "doc" "install" ];

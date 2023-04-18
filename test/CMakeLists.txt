@@ -1,3 +1,16 @@
+find_package(Python3 COMPONENTS Interpreter) # Used for running tests
+
+set(Ledger_TEST_TIMEZONE "America/Chicago")
+
+include(FindUtfcpp)
+if (UTFCPP_FOUND)
+  include_directories(${UTFCPP_INCLUDE_DIR})
+else()
+  message(FATAL_ERROR "Missing required header file: utf8.h\n"
+    "Define UTFCPP_PATH or install utfcpp locally into the source tree below lib/utfcpp/."
+    )
+endif()
+
 include(ProcessorCount)
 ProcessorCount(PROCESSORS)
 
@@ -15,7 +28,7 @@ if (HAVE_BOOST_PYTHON)
 endif()
 
 macro(add_ledger_harness_tests _class)
-  if (Python_EXECUTABLE)
+  if (Python3_EXECUTABLE)
     file(GLOB ${_class}_TESTS *.test)
     foreach(TestFile ${${_class}_TESTS})
       get_filename_component(TestFile_Name ${TestFile} NAME_WE)
@@ -23,14 +36,14 @@ macro(add_ledger_harness_tests _class)
       if ((TestFile_IsPythonTest GREATER -1))
         get_filename_component(TestFile_FullName ${TestFile} NAME)
         string(FIND ${TestFile_FullName} "_py.test" TestFile_IsAnyPythonTest)
-        string(FIND ${TestFile_FullName} "_py${Python_VERSION_MAJOR}.test" TestFile_IsThisPythonTest)
+        string(FIND ${TestFile_FullName} "_py${Python3_VERSION_MAJOR}.test" TestFile_IsThisPythonTest)
         if ((TestFile_IsAnyPythonTest EQUAL -1) AND (TestFile_IsThisPythonTest EQUAL -1))
           continue()
         endif()
       endif()
       if ((TestFile_IsPythonTest EQUAL -1) OR HAVE_BOOST_PYTHON)
         add_test(NAME ${_class}Test_${TestFile_Name}
-          COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/RegressTests.py
+          COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/RegressTests.py
           $<TARGET_FILE:ledger> ${PROJECT_SOURCE_DIR}
           ${TestFile} ${TEST_PYTHON_FLAGS})
         set_tests_properties(${_class}Test_${TestFile_Name}
@@ -44,13 +57,13 @@ add_subdirectory(manual)
 add_subdirectory(baseline)
 add_subdirectory(regress)
 
-if (Python_EXECUTABLE)
+if (Python3_EXECUTABLE)
   set(_class DocTests)
   file(GLOB ${_class}_TESTS ${PROJECT_SOURCE_DIR}/doc/*.texi)
   foreach(TestFile ${${_class}_TESTS})
     get_filename_component(TestFile_Name ${TestFile} NAME_WE)
     add_test(NAME ${_class}Test_${TestFile_Name}
-      COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
+      COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
       --ledger $<TARGET_FILE:ledger> --file ${TestFile})
     set_tests_properties(${_class}Test_${TestFile_Name}
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE}")
@@ -61,7 +74,7 @@ if (Python_EXECUTABLE)
   list(APPEND CheckOptions CheckBaselineTests) #CheckManpage CheckTexinfo
   foreach(_class ${CheckOptions})
     add_test(NAME ${_class}
-      COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
+      COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
       --ledger $<TARGET_FILE:ledger> --source ${PROJECT_SOURCE_DIR})
     set_tests_properties(${_class}
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE}")
@@ -69,7 +82,7 @@ if (Python_EXECUTABLE)
 
   if (HAVE_BOOST_PYTHON)
     add_test(NAME demo
-      COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/python/demo.py
+      COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/python/demo.py
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
     set_tests_properties(demo
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE};PYTHONPATH=.")

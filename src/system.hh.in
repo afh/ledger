@@ -173,15 +173,6 @@
 #include <boost/random/uniform_real.hpp>
 #include <boost/random/variate_generator.hpp>
 
-// jww (2012-05-20): This must be included before Boost.Regex
-#include <boost/xpressive/xpressive_static.hpp>
-
-#if HAVE_BOOST_REGEX_UNICODE
-#include <boost/regex/icu.hpp>
-#else
-#include <boost/regex.hpp>
-#endif // HAVE_BOOST_REGEX_UNICODE
-
 #include <boost/tokenizer.hpp>
 
 #include <boost/tuple/tuple.hpp>
@@ -192,6 +183,28 @@
 
 #include <boost/ptr_container/ptr_deque.hpp>
 
+// jww (2012-05-20): This must be included before Boost.Regex
+#include <boost/xpressive/xpressive_static.hpp>
+
+#if HAVE_BOOST_REGEX_UNICODE
+#include <boost/regex/icu.hpp>
+#else
+#include <boost/regex.hpp>
+#endif // HAVE_BOOST_REGEX_UNICODE
+
+<<<<<<< HEAD
+#include <boost/tokenizer.hpp>
+
+#include <boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple_comparison.hpp>
+
+#include <boost/variant.hpp>
+#include <boost/version.hpp>
+
+#include <boost/ptr_container/ptr_deque.hpp>
+
+=======
+>>>>>>> 2f2b863f (WIP: cmake: Refactor)
 #if HAVE_BOOST_PYTHON
 #include <boost/python.hpp>
 #include <boost/python/detail/wrap_python.hpp>
