@@ -1,5 +1,5 @@
 /**
-\mainpage API Documentation
+\mainpage C++ API Documentation
 
 \section intro_sec Introduction
 
