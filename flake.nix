@@ -3,9 +3,9 @@
 
   nixConfig.bash-prompt = "ledger$ ";
 
-  inputs.nixpkgsUnstable.url = "/Users/afh/Developer/nixpkgs";
+  # inputs.nixpkgsUnstable.url = "/Users/afh/Developer/nixpkgs";
 
-  outputs = { self, nixpkgs, nixpkgsUnstable, ... }: let
+  outputs = { self, nixpkgs, /*nixpkgsUnstable,*/ ... }: let
     usePython = true;
     gpgmeSupport = true;
     forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
@@ -16,20 +16,20 @@
 
     packages = forAllSystems (system: let
         pkgs = nixpkgsFor.${system};
-        python3 = pkgs.python311;
-        #boost = nixpkgsUnstableFor.${system}.boost182;
+        python3 = pkgs.python313;
+        boost = pkgs.boost186;
       in rec {
       delocate = with python3.pkgs; buildPythonPackage rec {
         pname = "delocate";
-        version = "0.10.4";
-        doCheck = false;
+        version = "0.13.0";
+        #doCheck = false;
         propagatedBuildInputs = [
           typing-extensions
           packaging
         ];
         src = fetchPypi {
           inherit pname version;
-          hash = "sha256-6ucS9G8jSBrIIlC53DVygLjNF6wOV9zghlTV9yJ5PJM=";
+          hash = "sha256-qT5nqfVu4Bo/cJagQiMdSsN/7KyHPNXqNOorT0Oo+hM=";
         };
       };
 
@@ -67,9 +67,7 @@
         # however, that would write to a different nixstore path, pass our own sitePackages location
         prePatch = lib.optionalString usePython ''
           substituteInPlace src/CMakeLists.txt \
-            --replace ' ''${Python3_SITEARCH}' ' ${placeholder "py"}/${python3.sitePackages}'
-          substituteInPlace src/CMakeLists.txt \
-            --replace ' ''${Python3_SITEARCH}' ' ${placeholder "py"}/${python3.sitePackages}'
+            --replace-fail ' ''${Python3_SITEARCH}' ' ${placeholder "py"}/${python3.sitePackages}'
         '';
 
         installTargets = [ "doc" "install" ];

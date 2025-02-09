@@ -1,27 +1,72 @@
-set(Required_CMake_Version 3.16.2)
-set(Required_CMake_Policy 3.22)
-set(Required_Boost_Version 1.72)
-set(Required_Gmp_Version 6.1.2)
-set(Required_Mpfr_Version 4.0.2)
-set(Required_Python_Version 3.9)
+set(Required_CMake_Version   3.16.2)
+set(Required_CMake_Policy    3.22)
+set(Required_Boost_Version   1.72)
+set(Required_Gmp_Version     6.1.2)
+set(Required_Mpfr_Version    4.0.2)
+set(Required_Python_Version  3.9)
 set(Required_Gpgmepp_Version 1.13.1)
-
-cmake_minimum_required(
-  VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
 
 set(Ledger_VERSION            3.3.2)
 set(Ledger_VERSION_PRERELEASE "")
 set(Ledger_VERSION_DATE       20230330)
 
+cmake_minimum_required(
+  VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
+
+if (NOT SKBUILD)
+  set(SKBUILD_PROJECT_NAME ledger)
+  set(SKBUILD_PROJECT_VERSION ${Ledger_VERSION})
+endif()
+
 project(
-  ledger
-  VERSION 3.3.2
+  ${SKBUILD_PROJECT_NAME}
+  VERSION ${SKBUILD_PROJECT_VERSION}
   LANGUAGES CXX C
   HOMEPAGE_URL "https://ledger-cli.org"
   )
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/doc")
-include(LedgerVersion)
+#[[
+# Targets
+option(BUILD_BINARY "" ON) # Build ledger and depending on ENABLE_LIBRARY linked libledger
+option(BUILD_LIBRARY "" OFF) # Only Build libledger, sets ENABLE_LIBRARY
+option(BUILD_PACKAGE "" OFF) # Builds libledger as Python module
+
+# Features
+option(ENABLE_PYTHON "" OFF)
+option(ENABLE_GPGME "" OFF)
+# Misc
+option(ENABLE_LIBRARY "" ON)
+option(ENABLE_ASSERTS "" ON)
+option(ENABLE_DEBUG "" OFF)
+#
+option(ENABLE_INFO "" OFF)
+option(ENABLE_WEB_DOCS "" OFF)
+option(ENABLE_API_DOCS "" OFF)
+
+#list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/doc")
+#include(LedgerVersion)
+]]
+
+#[[
+ENABLE_PYTHON OFF [USE_PYTHON]
+ENABLE_GPGME OFF  [USE_GPGME]
+ENABLE_LIBRARY ON [✗ BUILD_LIBRARY]
+ENABLE_DEBUG OFF  [BUILD_DEBUG]
+ENABLE_ASSERTS ON [DISABLE_ASSERTS]
+
+BUILD_BINARY✗ (ledger + opt libledger)
+BUILD_LIBRARY (libledger)
+BUILD_PACKAGE (lpy)
+
+BUILD_MANUAL   (info + opt html + pdf) [ BUILD_DOCS + BUILD_WEB_DOCS ]
+BUILD_API_DOCS (doxygen html + opt pdf) [USE_DOXYGEN]
+
+docs:
+  - manpage
+  - manual: info, html, pdf
+  - apidocs: html (pdf)
+]]
+
 
 # Point CMake at any custom modules we may ship
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")

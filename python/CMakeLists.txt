@@ -15,6 +15,8 @@ install(
   DESTINATION ${PYPKG_DEST})
 
 if (NOT SKBUILD)
+  set(_ledger_python_module_dir ${CMAKE_CURRENT_BINARY_DIR})
+
   install(
     DIRECTORY "${_ledger_python_module_dir}"
     DESTINATION ${PYPKG_DEST})
@@ -25,10 +27,10 @@ if (NOT SKBUILD)
 
   install(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/ledger.py
-    DESTINATION ${Python3_SITEARCH})
+    DESTINATION ${PYPKG_DEST})
 
   file(COPY
-    ${CMAKE_CURRENT_SOURCE_DIR}/core
-    ${CMAKE_CURRENT_SOURCE_DIR}/demo
+    ${CMAKE_CURRENT_SOURCE_DIR}/lpy/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/lpy/demo
     DESTINATION "${_ledger_python_module_dir}")
 endif()
