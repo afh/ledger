@@ -8,6 +8,8 @@
   outputs = { self, nixpkgs, /*nixpkgsUnstable,*/ ... }: let
     usePython = true;
     gpgmeSupport = true;
+    useLibedit = true;
+    useReadline = false;
     forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
     nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     #nixpkgsUnstableFor = forAllSystems (system: import nixpkgsUnstable { inherit system; });
@@ -42,7 +44,11 @@
         outputs = [ "out" "dev" ] ++ lib.optionals usePython [ "py" ];
 
         buildInputs = [
-          gmp mpfr libedit gnused
+          gmp mpfr gnused icu
+        ] ++ lib.optionals useLibedit [
+          libedit
+        ] ++ lib.optionals useReadline [
+          readline
         ] ++ lib.optionals gpgmeSupport [
           gpgme
         ] ++ (if usePython
@@ -52,6 +58,10 @@
         nativeBuildInputs = [
           cmake texinfo tzdata
           python3.pkgs.pipx delocate
+        ] ++ lib.optionals useLibedit [
+          libedit.dev
+        ] ++ lib.optionals useReadline [
+          readline.dev
         ];
 
         enableParallelBuilding = true;

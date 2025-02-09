@@ -1,36 +1,43 @@
 ########################################################################
 
 macro(add_ledger_library_dependencies _target)
-  target_link_libraries(${_target} ${MPFR_LIB})
-  target_link_libraries(${_target} ${GMP_LIB})
+  target_link_libraries(${_target} PUBLIC ${Boost_LIBRARIES})
+  target_link_libraries(${_target} PRIVATE ${GMP_LIB})
+  target_link_libraries(${_target} PRIVATE ${MPFR_LIB})
+  target_link_libraries(${_target} PRIVATE ${PROFILE_LIBS})
   if (HAVE_EDIT)
-    target_link_libraries(${_target} ${EDIT_LIB})
+    target_link_libraries(${_target} PUBLIC ${EDIT_LIB})
+  endif()
+  if (HAVE_READLINE)
+    target_link_libraries(${_target} PRIVATE ${READLINE_LIB})
   endif()
   if (HAVE_GETTEXT)
-    target_link_libraries(${_target} ${INTL_LIB})
+    target_link_libraries(${_target} PRIVATE ${INTL_LIB})
   endif()
   if (HAVE_GPGME)
-    target_link_libraries(${_target} Gpgmepp)
+    target_link_libraries(${_target} PRIVATE Gpgmepp)
+  endif()
+  if (HAVE_BOOST_REGEX_UNICODE)
+    target_link_libraries(${_target} PUBLIC ${ICU_LIBRARIES})
   endif()
   if (HAVE_BOOST_PYTHON)
     if (CMAKE_SYSTEM_NAME STREQUAL Darwin)
       # Don't link directly to a Python framework on macOS, to avoid segfaults
       # when the module is imported from a different interpreter
-      target_link_libraries(${_target} ${Boost_LIBRARIES})
       set_target_properties(${_target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
     else()
-      target_link_libraries(${_target} ${Boost_LIBRARIES} ${Python3_LIBRARIES})
+      target_link_libraries(${_target} PUBLIC ${Python_LIBRARIES})
     endif()
-  else()
-    target_link_libraries(${_target} ${Boost_LIBRARIES})
   endif()
-  if (HAVE_BOOST_REGEX_UNICODE)
-    target_link_libraries(${_target} icuuc)
-  endif()
-  target_link_libraries(${_target} ${PROFILE_LIBS})
 endmacro(add_ledger_library_dependencies _target)
 
 ########################################################################
+
+add_compile_definitions(BOOST_FILESYSTEM_NO_DEPRECATED)
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard")
+if (CYGWIN)
+  add_compile_options(-U__STRICT_ANSI__)
+endif()
 
 find_package(Python COMPONENTS Interpreter) # Used for running tests
 
@@ -78,6 +85,9 @@ else()
 endif()
 
 ########################################################################
+
+include(FindICU)
+find_package(ICU ${Required_Icu_Version} OPTIONAL_COMPONENTS uc i18n)
 
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
@@ -131,8 +141,8 @@ endif()
 
 cmake_push_check_state()
 
-set(CMAKE_REQUIRED_INCLUDES ${CMAKE_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
-set(CMAKE_REQUIRED_LIBRARIES ${Boost_LIBRARIES} icuuc ${PROFILE_LIBS})
+set(CMAKE_REQUIRED_INCLUDES ${CMAKE_INCLUDE_PATH} ${Boost_INCLUDE_DIRS} ${ICUE_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES Boost::regex ${ICU_LIBRARIES} ${PROFILE_LIBS})
 
 check_cxx_source_runs("
 #include <boost/regex/icu.hpp>
@@ -218,6 +228,10 @@ endif()
 
 check_library_exists(edit readline "" HAVE_EDIT)
 find_opt_library_and_header(EDIT_PATH histedit.h EDIT_LIB edit HAVE_EDIT)
+if (NOT HAVE_EDIT)
+check_library_exists(readline add_history "" HAVE_READLINE)
+find_opt_library_and_header(READLINE_PATH readline/history.h READLINE_LIB readline HAVE_READLINE)
+endif (NOT HAVE_EDIT)
 
 #find_package(Gettext)           # Used for running tests
 
@@ -283,7 +297,8 @@ set(LEDGER_SOURCES
   times.cc
   error.cc
   utils.cc
-  wcwidth.cc)
+  wcwidth.cc
+  sha512.cc)
 
 if (HAVE_GPGME)
   list(APPEND LEDGER_SOURCES
@@ -368,6 +383,7 @@ set(LEDGER_INCLUDES
   value.h
   views.h
   xact.h
+  ${PROJECT_BINARY_DIR}/ledger.hh
   ${PROJECT_BINARY_DIR}/system.hh)
 
 include(FindUtfcpp)
@@ -392,10 +408,13 @@ if (CYGWIN)
 endif()
 
 if (BUILD_DEBUG)
-  set(CMAKE_BUILD_TYPE Debug)
+  message(DEPRECATION "BUILD_DEBUG is deprecated! Set CMAKE_BUILD_TYPE to Debug instead!")
+  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "CMake Build type" FORCE)
+  unset(BUILD_DEBUG CACHE)
+endif()
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
   set(DEBUG_MODE 1)
 else()
-  set(CMAKE_BUILD_TYPE Release)
   set(DEBUG_MODE 0)
 endif()
 
@@ -436,7 +455,7 @@ endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_definitions(
+    add_compile_options(
       # -Weverything
       # -Wno-disabled-macro-expansion
       # -Wno-padded
@@ -453,43 +472,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       -Wno-unused-local-typedef
       --system-header-prefix=include/boost/
       --system-header-prefix=boost/)
-
-    macro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-      set(_pch_filename "${_header_filename}.pch")
-
-      set_source_files_properties(
-        ${${_src_list}} PROPERTIES COMPILE_FLAGS "-include ${_header_filename}")
-      if (_other_srcs)
-        set_source_files_properties(
-          ${_other_srcs} PROPERTIES COMPILE_FLAGS "-include ${_header_filename}")
-      endif()
-      list(APPEND ${_src_list} ${_pch_filename})
-
-      set(_args ${CMAKE_CXX_FLAGS})
-      list(APPEND _args ${CMAKE_CXX_FLAGS_DEBUG})
-      if (BUILD_LIBRARY)
-        list(APPEND _args ${CMAKE_SHARED_LIBRARY_CXX_FLAGS})
-      endif()
-      list(APPEND _args "-std=c++11 ")
-      if (CYGWIN)
-        list(APPEND _args "-U__STRICT_ANSI__")
-      endif()
-      list(APPEND _args "-x c++-header " ${_inc})
-      list(APPEND _args -c ${_header_filename} -o ${_pch_filename})
-
-      get_directory_property(DIRINC INCLUDE_DIRECTORIES)
-      foreach(_inc ${DIRINC})
-        list(APPEND _args "-isystem " ${_inc})
-      endforeach(_inc ${DIRINC})
-
-      separate_arguments(_args)
-
-      add_custom_command(OUTPUT ${_pch_filename}
-        COMMAND rm -f ${_pch_filename}
-        COMMAND ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1} ${_args}
-        DEPENDS ${_header_filename})
-    endmacro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(GXX_WARNING_FLAGS
       -pedantic
@@ -510,57 +492,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       -Wno-deprecated
       -Wno-strict-aliasing)
 
-    add_definitions(${GXX_WARNING_FLAGS})
-
-    macro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-      set(_gch_filename "${_header_filename}.gch")
-
-      set_source_files_properties(
-        ${${_src_list}} PROPERTIES COMPILE_FLAGS "-Winvalid-pch")
-      if (_other_srcs)
-        set_source_files_properties(
-          ${_other_srcs} PROPERTIES COMPILE_FLAGS "-Winvalid-pch")
-      endif()
-      list(APPEND ${_src_list} ${_gch_filename})
-
-      set(_args ${CMAKE_CXX_FLAGS})
-      list(APPEND _args ${CMAKE_CXX_FLAGS_DEBUG})
-      if (BUILD_LIBRARY)
-        list(APPEND _args ${CMAKE_SHARED_LIBRARY_CXX_FLAGS})
-      endif()
-      list(APPEND _args ${GXX_WARNING_FLAGS})
-      list(APPEND _args "-std=c++11 ")
-      if (CYGWIN)
-        list(APPEND _args "-U__STRICT_ANSI__")
-      endif()
-      list(APPEND _args "-x c++-header " ${_inc})
-      list(APPEND _args -c ${_header_filename} -o ${_gch_filename})
-
-      get_directory_property(DIRINC INCLUDE_DIRECTORIES)
-      foreach(_inc ${DIRINC})
-        list(APPEND _args "-I" ${_inc})
-      endforeach(_inc ${DIRINC})
-
-      separate_arguments(_args)
-
-      add_custom_command(OUTPUT ${_gch_filename}
-        COMMAND rm -f ${_gch_filename}
-        COMMAND ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1} ${_args}
-        DEPENDS ${_header_filename})
-    endmacro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-
-  else()
-    macro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-    endmacro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
+    add_compile_options(${GXX_WARNING_FLAGS})
   endif()
-else()
-  macro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-  endmacro(ADD_PCH_RULE _header_filename _src_list _other_srcs)
-endif()
-
-if(PRECOMPILE_SYSTEM_HH AND NOT (COMMAND target_precompile_headers))
-  # enable fallback for CMake versions older than 3.16 without target_precompile_headers
-  add_pch_rule(${PROJECT_BINARY_DIR}/system.hh LEDGER_SOURCES LEDGER_CLI_SOURCES)
 endif()
 
 include(GNUInstallDirs)
@@ -574,8 +507,10 @@ if (BUILD_LIBRARY)
     INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
     VERSION ${Ledger_VERSION_MAJOR}
     SOVERSION ${Ledger_VERSION_MAJOR})
+  set_source_files_properties(
+    ${LEDGER_CLI_SOURCES} PROPERTIES COMPILE_FLAGS "-fPIC")
 
-  add_executable(ledger main.cc global.cc)
+  add_executable(ledger ${LEDGER_CLI_SOURCES})
   target_link_libraries(ledger libledger)
   if (HAVE_GPGME)
     target_link_libraries(ledger Gpgmepp)
@@ -595,7 +530,7 @@ else()
   add_ledger_library_dependencies(ledger)
 endif()
 
-if (PRECOMPILE_SYSTEM_HH AND (COMMAND target_precompile_headers) AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
+if (PRECOMPILE_SYSTEM_HH)
   if (BUILD_LIBRARY)
     target_precompile_headers(libledger PRIVATE ${PROJECT_BINARY_DIR}/system.hh)
     target_precompile_headers(ledger REUSE_FROM libledger)

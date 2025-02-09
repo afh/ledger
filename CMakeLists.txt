@@ -1,6 +1,7 @@
 set(Required_CMake_Version   3.16.2)
 set(Required_CMake_Policy    3.22)
 set(Required_Boost_Version   1.72)
+set(Required_Icu_Version     63)
 set(Required_Gmp_Version     6.1.2)
 set(Required_Mpfr_Version    4.0.2)
 set(Required_Python_Version  3.9)
@@ -67,7 +68,6 @@ docs:
   - apidocs: html (pdf)
 ]]
 
-
 # Point CMake at any custom modules we may ship
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -79,13 +79,13 @@ option(USE_PYTHON "Build support for the Python scripting bridge" OFF)
 option(USE_DOXYGEN "Build reference documentation using Doxygen" OFF)
 
 option(DISABLE_ASSERTS "Build without any internal consistency checks" OFF)
-option(BUILD_DEBUG "Build support for runtime debugging" OFF)
 option(PRECOMPILE_SYSTEM_HH "Precompile system.hh" ON)
 
 option(USE_GPGME "Build with support for encrypted journals" OFF)
 option(BUILD_LIBRARY "Build and install Ledger as a library" ON)
 option(BUILD_DOCS "Build and install documentation" OFF)
 option(BUILD_WEB_DOCS "Build version of documentation suitable for viewing online" OFF)
+option(BUILD_DEBUG "Build support for runtime debugging" OFF) # Deprecated in favor of CMAKE_BUILD_TYPE Debug
 
 ########################################################################
 
