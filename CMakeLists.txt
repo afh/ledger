@@ -13,6 +13,7 @@ set(Ledger_VERSION_DATE       20230330)
 
 cmake_minimum_required(
   VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
+cmake_policy(SET CMP0167 NEW)
 
 if (NOT SKBUILD)
   set(SKBUILD_PROJECT_NAME ledger)
@@ -88,6 +89,25 @@ option(BUILD_WEB_DOCS "Build version of documentation suitable for viewing onlin
 option(BUILD_DEBUG "Build support for runtime debugging" OFF) # Deprecated in favor of CMAKE_BUILD_TYPE Debug
 
 ########################################################################
+
+find_package(Python COMPONENTS Interpreter) # Used for running tests
+if (USE_PYTHON)
+  if (NOT BUILD_LIBRARY)
+    message(ERROR "Building the python module requires BUILD_LIBRARY=ON.")
+  endif()
+  find_package(Python3
+    COMPONENTS Interpreter Development)
+  if (PYTHON_FOUND AND ${Python3_VERSION} VERSION_GREATER_EQUAL ${Required_Python_Version})
+    set(BOOST_PYTHON "python${Python3_VERSION_MAJOR}${Python3_VERSION_MINOR}")
+    set(HAVE_BOOST_PYTHON 1)
+    include_directories(SYSTEM ${Python3_INCLUDE_DIRS})
+  else()
+    set(HAVE_BOOST_PYTHON 0)
+    message("Could not find a Python library to use with Boost.Python")
+  endif()
+else()
+  set(HAVE_BOOST_PYTHON 0)
+endif()
 
 add_subdirectory(src)
 add_subdirectory(test)

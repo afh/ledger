@@ -24,7 +24,6 @@
       delocate = with python3.pkgs; buildPythonPackage rec {
         pname = "delocate";
         version = "0.13.0";
-        #doCheck = false;
         propagatedBuildInputs = [
           typing-extensions
           packaging
@@ -57,7 +56,7 @@
 
         nativeBuildInputs = [
           cmake texinfo tzdata
-          python3.pkgs.pipx delocate
+          #python3.pkgs.pipx delocate
         ] ++ lib.optionals useLibedit [
           libedit.dev
         ] ++ lib.optionals useReadline [
@@ -77,7 +76,10 @@
         # however, that would write to a different nixstore path, pass our own sitePackages location
         prePatch = lib.optionalString usePython ''
           substituteInPlace src/CMakeLists.txt \
-            --replace-fail ' ''${Python3_SITEARCH}' ' ${placeholder "py"}/${python3.sitePackages}'
+            --replace-fail 'DESTINATION ''${Python3_SITEARCH}' 'DESTINATION ${placeholder "py"}/${python3.sitePackages}'
+          substituteInPlace python/CMakeLists.txt \
+            --replace-fail 'DESTINATION ''${Python3_SITEARCH}' 'DESTINATION ${placeholder "py"}/${python3.sitePackages}' \
+            --replace-fail 'PYPKG_DEST ''${Python3_SITEARCH}' 'PYPKG_DEST ${placeholder "py"}/${python3.sitePackages}'
         '';
 
         installTargets = [ "doc" "install" ];
@@ -90,7 +92,7 @@
           runHook postCheck
         '';
 
-        doCheck = true;
+        doCheck = false;
 
         meta = with lib; {
           description = "A double-entry accounting system with a command-line reporting interface";

@@ -21,43 +21,23 @@ macro(add_ledger_library_dependencies _target)
     target_link_libraries(${_target} PUBLIC ${ICU_LIBRARIES})
   endif()
   if (HAVE_BOOST_PYTHON)
+    target_link_libraries(${_target} PUBLIC ${Python3_LIBRARIES})
     if (CMAKE_SYSTEM_NAME STREQUAL Darwin)
       # Don't link directly to a Python framework on macOS, to avoid segfaults
       # when the module is imported from a different interpreter
       set_target_properties(${_target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    else()
-      target_link_libraries(${_target} PUBLIC ${Python_LIBRARIES})
     endif()
   endif()
 endmacro(add_ledger_library_dependencies _target)
 
 ########################################################################
 
-add_compile_definitions(BOOST_FILESYSTEM_NO_DEPRECATED)
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard")
+
+add_compile_definitions(BOOST_FILESYSTEM_NO_DEPRECATED)
+
 if (CYGWIN)
   add_compile_options(-U__STRICT_ANSI__)
-endif()
-
-find_package(Python COMPONENTS Interpreter) # Used for running tests
-
-if (USE_PYTHON)
-  if (NOT BUILD_LIBRARY)
-    message(ERROR "Building the python module requires BUILD_LIBRARY=ON.")
-  endif()
-
-  find_package(Python3
-    COMPONENTS Interpreter Development)
-  if (PYTHON_FOUND AND ${Python3_VERSION} VERSION_GREATER_EQUAL ${Required_Python_Version})
-    set(BOOST_PYTHON "python${Python3_VERSION_MAJOR}${Python3_VERSION_MINOR}")
-    set(HAVE_BOOST_PYTHON 1)
-    include_directories(SYSTEM ${Python3_INCLUDE_DIRS})
-  else()
-    set(HAVE_BOOST_PYTHON 0)
-    message("Could not find a Python library to use with Boost.Python")
-  endif()
-else()
-  set(HAVE_BOOST_PYTHON 0)
 endif()
 
 # Set BOOST_ROOT to help CMake to find the right Boost version
@@ -85,6 +65,8 @@ else()
 endif()
 
 ########################################################################
+
+include(${PROJECT_SOURCE_DIR}/doc/LedgerVersion.cmake)
 
 include(FindICU)
 find_package(ICU ${Required_Icu_Version} OPTIONAL_COMPONENTS uc i18n)
@@ -300,31 +282,6 @@ set(LEDGER_SOURCES
   wcwidth.cc
   sha512.cc)
 
-if (HAVE_GPGME)
-  list(APPEND LEDGER_SOURCES
-    gpgme.cc)
-endif()
-
-if (HAVE_BOOST_PYTHON)
-  list(APPEND LEDGER_SOURCES
-    py_account.cc
-    py_amount.cc
-    py_balance.cc
-    py_commodity.cc
-    py_expr.cc
-    py_format.cc
-    py_item.cc
-    py_journal.cc
-    py_post.cc
-    py_session.cc
-    py_times.cc
-    py_utils.cc
-    py_value.cc
-    py_xact.cc
-    pyinterp.cc
-    pyledger.cc)
-endif()
-
 set(LEDGER_INCLUDES
   account.h
   amount.h
@@ -346,7 +303,6 @@ set(LEDGER_INCLUDES
   format.h
   generate.h
   global.h
-  gpgme.h
   history.h
   item.h
   iterators.h
@@ -386,6 +342,33 @@ set(LEDGER_INCLUDES
   ${PROJECT_BINARY_DIR}/ledger.hh
   ${PROJECT_BINARY_DIR}/system.hh)
 
+if (HAVE_BOOST_PYTHON)
+  list(APPEND LEDGER_SOURCES
+    py_account.cc
+    py_amount.cc
+    py_balance.cc
+    py_commodity.cc
+    py_expr.cc
+    py_format.cc
+    py_item.cc
+    py_journal.cc
+    py_post.cc
+    py_session.cc
+    py_times.cc
+    py_utils.cc
+    py_value.cc
+    py_xact.cc
+    pyinterp.cc
+    pyledger.cc)
+endif()
+
+if (HAVE_GPGME)
+  list(APPEND LEDGER_SOURCES
+    gpgme.cc)
+  list(APPEND LEDGER_INCLUDES
+    gpgme.h)
+endif()
+
 include(FindUtfcpp)
 if (UTFCPP_FOUND)
   include_directories(${UTFCPP_INCLUDE_DIR})
@@ -398,20 +381,12 @@ endif()
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
-add_definitions(
-  -std=c++11
-  -DBOOST_FILESYSTEM_NO_DEPRECATED
-)
-
-if (CYGWIN)
-  add_definitions(-U__STRICT_ANSI__)
-endif()
-
 if (BUILD_DEBUG)
   message(DEPRECATION "BUILD_DEBUG is deprecated! Set CMAKE_BUILD_TYPE to Debug instead!")
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "CMake Build type" FORCE)
   unset(BUILD_DEBUG CACHE)
 endif()
+
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
   set(DEBUG_MODE 1)
 else()
@@ -430,7 +405,7 @@ if (CLANG_GCOV)
 endif()
 
 configure_file(
-  system.hh.in
+  ${PROJECT_SOURCE_DIR}/src/system.hh.in
   ${PROJECT_BINARY_DIR}/system.hh)
 
 configure_file(
@@ -526,7 +501,7 @@ if (BUILD_LIBRARY)
       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
   endif()
 else()
-  add_executable(ledger ${LEDGER_SOURCES} main.cc global.cc)
+  add_executable(ledger ${LEDGER_SOURCES} ${LEDGER_CLI_SOURCES})
   add_ledger_library_dependencies(ledger)
 endif()
 
@@ -542,11 +517,11 @@ endif()
 if (USE_PYTHON)
   if (Python3_SITEARCH)
     if (WIN32 AND NOT CYGWIN)
-      set(_ledger_python_module_name "ledger.pyd")
+      set(_ledger_python_module_name "_core.pyd")
     elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
-      set(_ledger_python_module_name "ledger.so")
+      set(_ledger_python_module_name "_core.so")
     else()
-      set(_ledger_python_module_name "ledger${CMAKE_SHARED_LIBRARY_SUFFIX}")
+      set(_ledger_python_module_name "_core${CMAKE_SHARED_LIBRARY_SUFFIX}")
     endif()
 
     # FIXME: symlink would be sufficient:
@@ -560,11 +535,11 @@ if (USE_PYTHON)
     if (SKBUILD)
       install(
         FILES ${CMAKE_BINARY_DIR}/${_ledger_python_module_name}
-        DESTINATION lpy/core)
+        DESTINATION ${CMAKE_BINARY_DIR}/lpy/core)
     else()
       install(
         FILES ${CMAKE_BINARY_DIR}/${_ledger_python_module_name}
-        DESTINATION ${Python3_SITEARCH})
+        DESTINATION ${Python3_SITEARCH}/lpy/core)
     endif()
   else()
     message(WARNING "Python3_SITEARCH not set. Will not install python module.")

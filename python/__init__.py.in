@@ -13,6 +13,7 @@
 # for details.
 
 from . import core
+
 __all__        = [ 'core' ]
 
 __version__    = '@Ledger_VERSION@'

@@ -57,7 +57,7 @@ macro(add_ledger_harness_tests _class)
       string(FIND ${TestFile} "_py.test" TestFile_IsPythonTest)
       if ((TestFile_IsPythonTest EQUAL -1) OR HAVE_BOOST_PYTHON)
         add_test(NAME ${_class}Test_${TestFile_Name}
-          COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/RegressTests.py
+          COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/RegressTests.py
           --ledger $<TARGET_FILE:ledger> --sourcepath ${PROJECT_SOURCE_DIR}
           #>>>>>>> master
           ${TestFile} ${TEST_PYTHON_FLAGS})
