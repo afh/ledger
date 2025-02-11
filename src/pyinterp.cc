@@ -207,7 +207,8 @@ void python_interpreter_t::hack_system_paths()
     path pathname(str());
     DEBUG("python.interp", "sys.path = " << pathname);
 
-    if (exists(pathname / "ledger" / "__init__.py")) {
+    //if (exists(pathname / "ledger" / "__init__.py")) {
+    if (exists(pathname / "ledger.py")) {
       if (object module_ledger = import("ledger")) {
         DEBUG("python.interp",
               "Setting ledger.__path__ = " << (pathname / "ledger"));
