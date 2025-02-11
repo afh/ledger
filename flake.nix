@@ -20,7 +20,7 @@
         pkgs = nixpkgsFor.${system};
         python3 = pkgs.python313;
         boost = pkgs.boost186;
-      in rec {
+      in {
       delocate = with python3.pkgs; buildPythonPackage rec {
         pname = "delocate";
         version = "0.13.0";
@@ -56,7 +56,7 @@
 
         nativeBuildInputs = [
           cmake texinfo tzdata
-          #python3.pkgs.pipx delocate
+          python3.pkgs.pipx # delocate
         ] ++ lib.optionals useLibedit [
           libedit.dev
         ] ++ lib.optionals useReadline [
@@ -66,6 +66,7 @@
         enableParallelBuilding = true;
 
         cmakeFlags = [
+          "-DCMAKE_BUILD_TYPE=Debug"
           "-DCMAKE_INSTALL_LIBDIR=lib"
           "-DBUILD_DOCS:BOOL=ON"
           "-DUSE_PYTHON:BOOL=${if usePython then "ON" else "OFF"}"

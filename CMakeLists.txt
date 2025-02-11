@@ -15,8 +15,17 @@ cmake_minimum_required(
   VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
 cmake_policy(SET CMP0167 NEW)
 
-if (NOT SKBUILD)
-  set(SKBUILD_PROJECT_NAME ledger)
+set(Ledger_CLI ledger)
+set(Ledger_LIB lib${Ledger_CLI})
+set(Ledger_MODULE lpy)
+set(Ledger_MODULE_EXT core)
+
+set(PYPKG ${Ledger_MODULE})
+if (SKBUILD)
+  set(PYPKG_DEST ${CMAKE_CURRENT_SOURCE_DIR}/${PYPKG})
+else()
+  set(PYPKG_DEST ${Python3_SITEARCH}/${PYPKG})
+  set(SKBUILD_PROJECT_NAME ${Ledger_MODULE})
   set(SKBUILD_PROJECT_VERSION ${Ledger_VERSION})
 endif()
 
@@ -95,8 +104,11 @@ if (USE_PYTHON)
   if (NOT BUILD_LIBRARY)
     message(ERROR "Building the python module requires BUILD_LIBRARY=ON.")
   endif()
-  find_package(Python3
-    COMPONENTS Interpreter Development)
+  if (SKBUILD)
+    find_package(Python3 COMPONENTS Interpreter Development.Module)
+  else()
+    find_package(Python3 COMPONENTS Interpreter Development)
+  endif()
   if (PYTHON_FOUND AND ${Python3_VERSION} VERSION_GREATER_EQUAL ${Required_Python_Version})
     set(BOOST_PYTHON "python${Python3_VERSION_MAJOR}${Python3_VERSION_MINOR}")
     set(HAVE_BOOST_PYTHON 1)
@@ -110,9 +122,11 @@ else()
 endif()
 
 add_subdirectory(src)
+add_subdirectory(lpy)
+if (NOT SKBUILD)
 add_subdirectory(test)
-add_subdirectory(python)
 add_subdirectory(doc)
+endif()
 
 ########################################################################
 
