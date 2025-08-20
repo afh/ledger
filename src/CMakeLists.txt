@@ -42,8 +42,9 @@ endif()
 
 # Set BOOST_ROOT to help CMake to find the right Boost version
 find_package(Boost ${Required_Boost_Version}
-  REQUIRED date_time filesystem system iostreams regex unit_test_framework
-  ${BOOST_PYTHON} OPTIONAL_COMPONENTS nowide)
+  REQUIRED date_time filesystem iostreams regex unit_test_framework
+  ${BOOST_PYTHON} OPTIONAL_COMPONENTS nowide
+  CONFIG)
 
 # enable Boost::nowide library (for UTF8 command line args on Windows)
 set(HAVE_BOOST_NOWIDE 0)
@@ -244,7 +245,6 @@ set(LEDGER_SOURCES
   chain.cc
   filters.cc
   report.cc
-  views.cc
   select.cc
   session.cc
   option.cc
@@ -337,7 +337,6 @@ set(LEDGER_INCLUDES
   unistring.h
   utils.h
   value.h
-  views.h
   xact.h
   ${PROJECT_BINARY_DIR}/ledger.hh
   ${PROJECT_BINARY_DIR}/system.hh)

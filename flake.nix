@@ -3,9 +3,11 @@
 
   nixConfig.bash-prompt = "ledger$ ";
 
-  # inputs.nixpkgsUnstable.url = "/Users/afh/Developer/nixpkgs";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  };
 
-  outputs = { self, nixpkgs, /*nixpkgsUnstable,*/ ... }: let
+  outputs = { self, nixpkgs }: let
     usePython = true;
     gpgmeSupport = true;
     useLibedit = true;

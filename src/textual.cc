@@ -255,7 +255,7 @@ void instance_t::parse()
   bool error_flag = false;
   xact_t * previous_xact = NULL;
 
-  while (in.good() && ! in.eof()) {
+  while (in.good() && ! in.eof() && in.peek() != '^' && in.good()) {
     try {
       if (xact_t * xact = read_next_directive(error_flag, previous_xact)) {
         previous_xact = xact;
@@ -793,6 +793,11 @@ void instance_t::include_directive(char * line)
       if (is_regular_file(*iter))
         {
         string base = (*iter).filename().string();
+        // Skip files with invalid UTF-8 in their names to avoid encoding errors
+        if (!utf8::is_valid(base.begin(), base.end())) {
+          DEBUG("textual.include", "Skipping file with invalid UTF-8 name: " << base);
+          continue;
+        }
         if (glob.match(base)) {
           journal_t *  journal  = context.journal;
           account_t *  master   = top_account();
@@ -862,10 +867,8 @@ void instance_t::apply_account_directive(char * line)
 {
   if (account_t * acct = top_account()->find_account(line))
     apply_stack.push_front(application_t("account", acct));
-#if !NO_ASSERTS
   else
     assert("Failed to create account" == NULL);
-#endif
 }
 
 void instance_t::apply_tag_directive(char * line)
@@ -1676,7 +1679,7 @@ post_t * instance_t::parse_post(char *          line,
 
       const amount_t& amt(*post->assigned_amount);
       value_t account_total
-        (post->account->amount(!post->has_flags(POST_VIRTUAL)).strip_annotations(keep_details_t()));
+        (post->account->amount(!(post->has_flags(POST_VIRTUAL) || post->has_flags(POST_IS_TIMELOG))).strip_annotations(keep_details_t()));
 
       DEBUG("post.assign", "line " << context.linenum << ": "
             << "account balance = " << account_total);
@@ -1711,7 +1714,9 @@ post_t * instance_t::parse_post(char *          line,
 
       // Subtract amounts from previous posts to this account in the xact.
       for (post_t* p : xact->posts) {
-        if (p->account == post->account && p->has_flags(POST_VIRTUAL) == post->has_flags(POST_VIRTUAL)) {
+        if (p->account == post->account && 
+            ((p->has_flags(POST_VIRTUAL) || p->has_flags(POST_IS_TIMELOG)) == 
+             (post->has_flags(POST_VIRTUAL) || post->has_flags(POST_IS_TIMELOG)))) {
           amount_t amt(p->amount.strip_annotations(keep_details_t()));
           diff -= amt;
           DEBUG("textual.parse", "line " << context.linenum << ": "
