@@ -53,11 +53,6 @@ set(LEDGER_SOURCES
   wcwidth.cc
   sha512.cc)
 
-if (HAVE_GPGME)
-  list(APPEND LEDGER_SOURCES
-    gpgme.cc)
-endif()
-
 if (HAVE_BOOST_PYTHON)
   list(APPEND LEDGER_SOURCES
     py_account.cc
@@ -99,7 +94,6 @@ set(LEDGER_INCLUDES
   format.h
   generate.h
   global.h
-  gpgme.h
   history.h
   item.h
   iterators.h
@@ -137,6 +131,13 @@ set(LEDGER_INCLUDES
   xact.h
   ${PROJECT_BINARY_DIR}/ledger.hh
   ${PROJECT_BINARY_DIR}/system.hh)
+
+if (HAVE_GPGME)
+  list(APPEND LEDGER_INCLUDES
+    gpgme.h)
+  list(APPEND LEDGER_SOURCES
+    gpgme.cc)
+endif()
 
 # Windows provides no strptime(), so supply our own.
 if (WIN32 OR CYGWIN)
