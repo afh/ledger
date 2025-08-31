@@ -56,7 +56,7 @@ if (Python3_EXECUTABLE)
   # CheckManpage and CheckTexinfo are disabled, since they do not work
   # reliably yet
   list(APPEND CheckOptions CheckBaselineTests)
-  if (BUILD_DEBUG)
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     # CheckManpage and CheckTexinfo require ledger to have been
     # built with debug support
     list(APPEND CheckOptions CheckManpage CheckTexinfo)
