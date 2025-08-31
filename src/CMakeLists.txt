@@ -218,7 +218,7 @@ if (BUILD_LIBRARY)
   install(FILES ${LEDGER_INCLUDES}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
 else()
-  add_executable(ledger ${LEDGER_SOURCES} main.cc global.cc)
+  add_executable(ledger ${LEDGER_SOURCES} ${LEDGER_CLI_SOURCES})
   add_ledger_library_dependencies(ledger)
 endif()
 
