@@ -174,11 +174,11 @@ if (BUILD_WEB_DOCS)
     message(WARNING "Could not find man2html or groff. HTML version of man page will not be built.")
   endif()
 
-  if (USE_PYTHON AND Python_EXECUTABLE)
+  if (USE_PYTHON AND Python3_EXECUTABLE)
     add_custom_command(OUTPUT ledger.html
       COMMAND ${CMAKE_COMMAND} -E env
         PYTHONPATH=${CMAKE_BINARY_DIR}
-        ${Python_EXECUTABLE} -m pydoc -w ledger
+        ${Python3_EXECUTABLE} -m pydoc -w ledger
       DEPENDS ${CMAKE_BINARY_DIR}/${_ledger_python_module_name}
       VERBATIM)
     list(APPEND ledger_doc_files ledger.html)

@@ -1,9 +1,9 @@
 include(ProcessorCount)
 ProcessorCount(PROCESSORS)
 
-find_package(Python COMPONENTS Interpreter) # Used for running tests
-if (NOT Python_FOUND)
-  message(WARNING "Could not find Python. Tests will not be run.")
+find_package(Python3 COMPONENTS Interpreter) # Used for running tests
+if (NOT Python3_FOUND)
+  message(WARNING "Could not find Python3. Tests will not be run.")
 endif()
 
 if (NOT PROCESSORS EQUAL 0)
@@ -20,14 +20,14 @@ if (HAVE_BOOST_PYTHON)
 endif()
 
 macro(add_ledger_harness_tests _class)
-  if (Python_EXECUTABLE)
+  if (Python3_EXECUTABLE)
     file(GLOB ${_class}_TESTS *.test)
     foreach(TestFile ${${_class}_TESTS})
       get_filename_component(TestFile_Name ${TestFile} NAME_WE)
       string(FIND ${TestFile} "_py.test" TestFile_IsPythonTest)
       if ((TestFile_IsPythonTest EQUAL -1) OR HAVE_BOOST_PYTHON)
         add_test(NAME ${_class}Test_${TestFile_Name}
-          COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/RegressTests.py
+          COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/RegressTests.py
           --ledger $<TARGET_FILE:ledger> --sourcepath ${PROJECT_SOURCE_DIR}
           ${TestFile} ${TEST_PYTHON_FLAGS})
         set_tests_properties(${_class}Test_${TestFile_Name}
@@ -41,13 +41,13 @@ add_subdirectory(manual)
 add_subdirectory(baseline)
 add_subdirectory(regress)
 
-if (Python_EXECUTABLE)
+if (Python3_EXECUTABLE)
   set(_class DocTests)
   file(GLOB ${_class}_TESTS ${PROJECT_SOURCE_DIR}/doc/*.texi)
   foreach(TestFile ${${_class}_TESTS})
     get_filename_component(TestFile_Name ${TestFile} NAME_WE)
     add_test(NAME ${_class}Test_${TestFile_Name}
-      COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
+      COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
       --ledger $<TARGET_FILE:ledger> --file ${TestFile})
     set_tests_properties(${_class}Test_${TestFile_Name}
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE}")
@@ -63,7 +63,7 @@ if (Python_EXECUTABLE)
   endif()
   foreach(_class ${CheckOptions})
     add_test(NAME ${_class}
-      COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
+      COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
       --ledger $<TARGET_FILE:ledger> --source ${PROJECT_SOURCE_DIR})
     set_tests_properties(${_class}
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE}")
@@ -71,7 +71,7 @@ if (Python_EXECUTABLE)
 
   if (HAVE_BOOST_PYTHON)
     add_test(NAME demo
-      COMMAND ${Python_EXECUTABLE} ${PROJECT_SOURCE_DIR}/python/demo.py
+      COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/python/demo.py
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
     set_tests_properties(demo
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE};PYTHONPATH=.")

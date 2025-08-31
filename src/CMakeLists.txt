@@ -211,7 +211,7 @@ if (BUILD_LIBRARY)
   endif()
 
   if (HAVE_BOOST_PYTHON)
-    target_link_libraries(ledger ${Python_LIBRARIES})
+    target_link_libraries(ledger ${Python3_LIBRARIES})
   endif()
 
   install(TARGETS libledger DESTINATION ${CMAKE_INSTALL_LIBDIR})
@@ -232,7 +232,7 @@ if (PRECOMPILE_SYSTEM_HH)
 endif()
 
 if (USE_PYTHON)
-  if (Python_SITEARCH)
+  if (Python3_SITEARCH)
     if (WIN32 AND NOT CYGWIN)
       set(_ledger_python_module_name "ledger.pyd")
     elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
@@ -251,9 +251,9 @@ if (USE_PYTHON)
       $<TARGET_FILE:libledger> "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}")
     install(
       FILES "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}"
-      DESTINATION ${Python_SITEARCH})
+      DESTINATION ${Python3_SITEARCH})
   else()
-    message(WARNING "Python_SITEARCH not set. Will not install python module.")
+    message(WARNING "Python3_SITEARCH not set. Will not install python module.")
   endif()
 endif()
 
