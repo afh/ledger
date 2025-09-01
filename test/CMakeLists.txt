@@ -1,6 +1,21 @@
 include(ProcessorCount)
 ProcessorCount(PROCESSORS)
 
+set(Ledger_TEST_TIMEZONE "America/Chicago")
+
+# add the binary tree to the search path for include files
+# so that we will find system.hh and ledger.hh
+include_directories(SYSTEM ${PROJECT_BINARY_DIR})
+
+include(FindUtfcpp)
+if (UTFCPP_FOUND)
+  include_directories("${UTFCPP_INCLUDE_DIR}")
+else()
+  message(FATAL_ERROR "Missing required header file: utf8.h\n"
+    "Define UTFCPP_PATH or install utfcpp locally into the source tree below lib/utfcpp/."
+    )
+endif()
+
 find_package(Python3 COMPONENTS Interpreter) # Used for running tests
 if (NOT Python3_FOUND)
   message(WARNING "Could not find Python3. Tests will not be run.")

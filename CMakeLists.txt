@@ -11,19 +11,16 @@ cmake_minimum_required(
   VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
 cmake_policy(SET CMP0167 NEW)
 
+# Point CMake at any custom modules we may ship
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
 PROJECT(ledger)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/doc")
 include(LedgerVersion)
 
-# Point CMake at any custom modules we may ship
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-set(Ledger_TEST_TIMEZONE "America/Chicago")
-
 enable_testing()
 
-add_compile_definitions(BOOST_FILESYSTEM_NO_DEPRECATED)
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard")
 if (CYGWIN)
   add_compile_options(-U__STRICT_ANSI__)
@@ -50,23 +47,6 @@ if (BUILD_DEBUG)
   unset(BUILD_DEBUG CACHE)
 endif()
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-  set(DEBUG_MODE 1)
-else()
-  set(DEBUG_MODE 0)
-endif()
-
-if (DISABLE_ASSERTS)
-  set(NO_ASSERTS 1)
-else()
-  set(NO_ASSERTS 0)
-endif()
-
-if (CLANG_GCOV)
-  set(PROFILE_LIBS profile_rt)
-  set(CMAKE_REQUIRED_LIBRARIES ${PROFILE_LIBS})
-endif()
-
 ########################################################################
 
 if (USE_PYTHON)
@@ -86,225 +66,6 @@ if (USE_PYTHON)
   endif()
 else()
   set(HAVE_BOOST_PYTHON 0)
-endif()
-
-# Set BOOST_ROOT to help CMake to find the right Boost version
-find_package(Boost ${Required_Boost_Version}
-  REQUIRED date_time filesystem iostreams regex unit_test_framework
-  ${BOOST_PYTHON} OPTIONAL_COMPONENTS nowide
-  CONFIG)
-
-# enable Boost::nowide library (for UTF8 command line args on Windows)
-set(HAVE_BOOST_NOWIDE 0)
-if (Boost_NOWIDE_FOUND)
-  set(HAVE_BOOST_NOWIDE 1)
-endif()
-
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-
-# Crypto
-if (USE_GPGME)
-  find_package(Gpgmepp ${Required_Gpgmepp_Version} REQUIRED)
-  set(HAVE_GPGME 1)
-  include_directories(SYSTEM ${Gpgmepp_INCLUDE_DIRS})
-  link_directories(${Gpgmepp_LIBRARY_DIRS})
-else()
-  set(HAVE_GPGME 0)
-endif()
-
-########################################################################
-
-include(FindGMP)
-find_package(GMP ${Required_Gmp_Version} REQUIRED)
-include(FindMPFR)
-find_package(MPFR ${Required_Mpfr_Version} REQUIRED)
-include(FindICU)
-find_package(ICU ${Required_Icu_Version} OPTIONAL_COMPONENTS uc i18n)
-
-include(CheckIncludeFiles)
-include(CheckLibraryExists)
-include(CheckFunctionExists)
-include(CheckCSourceCompiles)
-include(CheckCXXSourceCompiles)
-include(CheckCXXSourceRuns)
-include(CMakePushCheckState)
-
-check_function_exists(getpwuid HAVE_GETPWUID)
-check_function_exists(getpwnam HAVE_GETPWNAM)
-check_function_exists(ioctl HAVE_IOCTL)
-check_function_exists(isatty HAVE_ISATTY)
-
-check_c_source_compiles("
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-int main() {
-  int status, pfd[2];
-  status = pipe(pfd);
-  status = fork();
-  if (status < 0) {
-    ;
-  } else if (status == 0) {
-    char *arg0 = NULL;
-
-    status = dup2(pfd[0], STDIN_FILENO);
-
-    close(pfd[1]);
-    close(pfd[0]);
-
-    execlp(\"\", arg0, (char *)0);
-    perror(\"execl\");
-    exit(1);
-  } else {
-    close(pfd[0]);
-  }
-  return 0;
-}" UNIX_PIPES_COMPILES)
-
-if (UNIX_PIPES_COMPILES)
-  set(HAVE_UNIX_PIPES 1)
-else()
-  set(HAVE_UNIX_PIPES 0)
-endif()
-
-cmake_push_check_state()
-
-set(CMAKE_REQUIRED_INCLUDES ${CMAKE_INCLUDE_PATH} ${Boost_INCLUDE_DIRS} ${ICU_INCLUDE_DIRS})
-set(CMAKE_REQUIRED_LIBRARIES Boost::regex ${ICU_LIBRARIES} ${PROFILE_LIBS})
-
-check_cxx_source_runs("
-#include <boost/regex/icu.hpp>
-
-using namespace boost;
-
-int main() {
-  std::string text = \"Активы\";
-  std::basic_string<boost::uint32_t> expr_str = \"Активы\";
-  u32regex r = make_u32regex(\"активы\", regex::perl | regex::icase);
-  return u32regex_search(text, r) ? 0 : 1;
-}" BOOST_REGEX_UNICODE_RUNS)
-
-if (BOOST_REGEX_UNICODE_RUNS)
-  set(HAVE_BOOST_REGEX_UNICODE 1)
-else()
-  set(HAVE_BOOST_REGEX_UNICODE 0)
-endif()
-
-cmake_pop_check_state()
-
-########################################################################
-
-include_directories(${CMAKE_INCLUDE_PATH})
-
-macro(find_opt_library_and_header _header_var _header _lib_var _lib _have_var)
-  if (${_have_var})
-    message("-- Looking for ${_header} in ${_lib}")
-    find_path(${_header_var} ${_header})
-    if (NOT ${_header_var})
-      message("-- Looking for ${_header} in ${_lib} - not found")
-      set(${_have_var} 0)
-    else()
-      find_library(${_lib_var} ${_lib})
-      if (NOT ${_lib_var})
-        message("-- Looking for ${_header} in ${_lib} - not found")
-        set(${_have_var} 0)
-      else()
-        message("-- Looking for ${_header} in ${_lib} - found")
-        include_directories(SYSTEM "${${_header_var}}")
-        set(${_have_var} 1)
-      endif()
-    endif()
-  else()
-    set(${_have_var} 0)
-  endif()
-endmacro(find_opt_library_and_header _header_var _header _lib_var _lib _have_var)
-
-check_library_exists(edit add_history "" HAVE_EDIT)
-find_opt_library_and_header(EDIT_PATH editline/readline.h EDIT_LIB edit HAVE_EDIT)
-if (NOT HAVE_EDIT)
-check_library_exists(readline add_history "" HAVE_READLINE)
-find_opt_library_and_header(READLINE_PATH readline/history.h READLINE_LIB readline HAVE_READLINE)
-endif (NOT HAVE_EDIT)
-
-
-#find_package(Gettext)           # Used for running tests
-
-#if (GETTEXT_FOUND)
-#  set(HAVE_GETTEXT 1)
-#else()
-  set(HAVE_GETTEXT 0)
-#endif()
-
-#find_path(INTL_PATH libintl.h)
-#find_library(INTL_LIB intl)
-#include_directories(SYSTEM "${INTL_PATH}")
-
-########################################################################
-
-macro(add_ledger_library_dependencies _target)
-  target_link_libraries(${_target} ${Boost_LIBRARIES})
-  target_link_libraries(${_target} ${GMP_LIBRARY})
-  target_link_libraries(${_target} ${MPFR_LIBRARY})
-  target_link_libraries(${_target} ${PROFILE_LIBS})
-  if (HAVE_EDIT)
-    target_link_libraries(${_target} ${EDIT_LIB})
-  endif()
-  if (HAVE_READLINE)
-    target_link_libraries(${_target} ${READLINE_LIB})
-  endif()
-  if (HAVE_GETTEXT)
-    target_link_libraries(${_target} ${INTL_LIB})
-  endif()
-  if (HAVE_GPGME)
-    target_link_libraries(${_target} Gpgmepp)
-  endif()
-  if (HAVE_BOOST_REGEX_UNICODE AND ICU_FOUND)
-    target_link_libraries(${_target} ${ICU_LIBRARIES})
-  endif()
-  if (HAVE_BOOST_PYTHON)
-    if (CMAKE_SYSTEM_NAME STREQUAL Darwin)
-      # Don't link directly to a Python framework on macOS, to avoid segfaults
-      # when the module is imported from a different interpreter
-      set_target_properties(${_target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    else()
-      target_link_libraries(${_target} ${Python3_LIBRARIES})
-    endif()
-  endif()
-endmacro(add_ledger_library_dependencies _target)
-
-########################################################################
-
-include(FindUtfcpp)
-if (UTFCPP_FOUND)
-  include_directories("${UTFCPP_INCLUDE_DIR}")
-else()
-  message(FATAL_ERROR "Missing required header file: utf8.h\n"
-    "Define UTFCPP_PATH or install utfcpp locally into the source tree below lib/utfcpp/."
-    )
-endif()
-
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-
-# add the binary tree to the search path for include files so that we will
-# find system.hh
-include_directories("${PROJECT_BINARY_DIR}")
-
-configure_file(
-  ${PROJECT_SOURCE_DIR}/src/system.hh.in
-  ${PROJECT_BINARY_DIR}/system.hh)
-
-configure_file(
-  ${PROJECT_SOURCE_DIR}/src/ledger.hh.in
-  ${PROJECT_BINARY_DIR}/ledger.hh)
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")
 endif()
 
 add_subdirectory(src)
