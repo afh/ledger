@@ -115,6 +115,8 @@ endif()
 
 ########################################################################
 
+include(FindGMP)
+find_package(GMP ${Required_Gmp_Version} REQUIRED)
 include(FindICU)
 find_package(ICU ${Required_Icu_Version} OPTIONAL_COMPONENTS uc i18n)
 
@@ -232,20 +234,6 @@ macro(find_req_library_and_header _header_var _header _lib_var _lib)
     endif()
   endif()
 endmacro(find_req_library_and_header _header_var _header _lib_var _lib)
-
-find_req_library_and_header(GMP_PATH gmp.h GMP_LIB gmp)
-if (GMP_PATH AND EXISTS "${GMP_PATH}/gmp.h")
-  file(STRINGS "${GMP_PATH}/gmp.h" gmp_header_str REGEX "^#define[\t ]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[\t ]+[0-9]+")
-  string(REGEX REPLACE ".*#define __GNU_MP_VERSION[\t ]+([0-9]+).*" "\\1" GMP_VERSION_MAJOR "${gmp_header_str}")
-  string(REGEX REPLACE ".*#define __GNU_MP_VERSION_MINOR[\t ]+([0-9]+).*" "\\1" GMP_VERSION_MINOR "${gmp_header_str}")
-  string(REGEX REPLACE ".*#define __GNU_MP_VERSION_PATCHLEVEL[\t ]+([0-9]+).*" "\\1" GMP_VERSION_PATCH "${gmp_header_str}")
-  unset(gmp_header_str)
-  set(GMP_VERSION_STRING "${GMP_VERSION_MAJOR}.${GMP_VERSION_MINOR}.${GMP_VERSION_PATCH}")
-  if ("${GMP_VERSION_STRING}" VERSION_LESS ${Required_Gmp_Version})
-    message(FATAL_ERROR "Ledger requires GMP version ${Expected_Gmp_Version} or greater, but only GMP version ${GMP_VERSION_STRING} was found")
-  endif()
-endif()
-
 find_req_library_and_header(MPFR_PATH mpfr.h MPFR_LIB mpfr)
 if (MPFR_PATH AND EXISTS "${MPFR_PATH}/mpfr.h")
   file(STRINGS "${MPFR_PATH}/mpfr.h" mpfr_header_str REGEX "^#define[\t ]+MPFR_VERSION_(MAJOR|MINOR|PATCHLEVEL)[\t ]+[0-9]+")
@@ -284,7 +272,7 @@ endif (NOT HAVE_EDIT)
 
 macro(add_ledger_library_dependencies _target)
   target_link_libraries(${_target} ${Boost_LIBRARIES})
-  target_link_libraries(${_target} ${GMP_LIB})
+  target_link_libraries(${_target} ${GMP_LIBRARY})
   target_link_libraries(${_target} ${MPFR_LIB})
   target_link_libraries(${_target} ${PROFILE_LIBS})
   if (HAVE_EDIT)
