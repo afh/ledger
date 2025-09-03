@@ -292,26 +292,6 @@ set(LEDGER_SOURCES
   wcwidth.cc
   sha512.cc)
 
-if (HAVE_BOOST_PYTHON)
-  list(APPEND LEDGER_SOURCES
-    py_account.cc
-    py_amount.cc
-    py_balance.cc
-    py_commodity.cc
-    py_expr.cc
-    py_format.cc
-    py_item.cc
-    py_journal.cc
-    py_post.cc
-    py_session.cc
-    py_times.cc
-    py_utils.cc
-    py_value.cc
-    py_xact.cc
-    pyinterp.cc
-    pyledger.cc)
-endif()
-
 set(LEDGER_INCLUDES
   account.h
   amount.h
@@ -350,8 +330,6 @@ set(LEDGER_INCLUDES
   print.h
   pstream.h
   ptree.h
-  pyinterp.h
-  pyutils.h
   query.h
   quotes.h
   report.h
@@ -370,6 +348,29 @@ set(LEDGER_INCLUDES
   xact.h
   ${PROJECT_BINARY_DIR}/ledger.hh
   ${PROJECT_BINARY_DIR}/system.hh)
+
+if (HAVE_BOOST_PYTHON)
+  list(APPEND LEDGER_INCLUDES
+    pyinterp.h
+    pyutils.h)
+  list(APPEND LEDGER_SOURCES
+    py_account.cc
+    py_amount.cc
+    py_balance.cc
+    py_commodity.cc
+    py_expr.cc
+    py_format.cc
+    py_item.cc
+    py_journal.cc
+    py_post.cc
+    py_session.cc
+    py_times.cc
+    py_utils.cc
+    py_value.cc
+    py_xact.cc
+    pyinterp.cc
+    pyledger.cc)
+endif()
 
 if (HAVE_GPGME)
   list(APPEND LEDGER_INCLUDES

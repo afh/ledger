@@ -45,8 +45,6 @@
 
 #include "session.h"
 
-#if HAVE_BOOST_PYTHON
-
 namespace ledger {
 
 class python_module_t : public scope_t, public noncopyable
@@ -154,5 +152,3 @@ public:
 extern shared_ptr<python_interpreter_t> python_session;
 
 } // namespace ledger
-
-#endif // HAVE_BOOST_PYTHON
