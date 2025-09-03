@@ -76,10 +76,13 @@ if (Python3_EXECUTABLE)
     # built with debug support
     list(APPEND CheckOptions CheckManpage CheckTexinfo)
   endif()
+  if (USE_PYTHON)
+    set(CheckOptionsArgs --python)
+  endif()
   foreach(_class ${CheckOptions})
     add_test(NAME ${_class}
       COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/test/${_class}.py
-      --ledger $<TARGET_FILE:ledger> --source ${PROJECT_SOURCE_DIR})
+      --ledger $<TARGET_FILE:ledger> --source ${PROJECT_SOURCE_DIR} ${CheckOptionsArgs})
     set_tests_properties(${_class}
       PROPERTIES ENVIRONMENT "TZ=${Ledger_TEST_TIMEZONE}")
   endforeach()

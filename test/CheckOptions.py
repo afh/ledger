@@ -19,6 +19,8 @@ class CheckOptions (object):
         help='the path to the ledger executable to test with')
     parser.add_argument('-s', '--source', type=pathlib.Path, required=True,
         help='the path to the top level ledger source directory')
+    parser.add_argument('-p', '--python', dest='with_python', action='store_true',
+        help='indicates that ledger was built with python support')
     return parser
 
   def __init__(self, args):
@@ -29,6 +31,7 @@ class CheckOptions (object):
 
     self.ledger     = os.path.realpath(args.ledger)
     self.source     = os.path.realpath(args.source)
+    self.with_python = args.with_python
 
     self.missing_options = set()
     self.unknown_options = set()
@@ -95,6 +98,11 @@ class CheckOptions (object):
           options.remove(option)
     known_alternates = self.find_alternates()
     self.unknown_options = options - known_alternates
+    if not self.with_python:
+      # Ignore import option in unknown options when ledger was built without
+      # python support as ledger cannot include it when listing all options with
+      # --debug option.names parse true
+      self.unknown_options.remove('import')
     self.missing_options -= {
         # The option --explicit is a no-op as of March 2020 and is
         # therefore intentionally undocumented.
