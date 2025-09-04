@@ -37,6 +37,7 @@ option(PRECOMPILE_SYSTEM_HH "Precompile system.hh" ON)
 option(USE_GPGME "Build with support for encrypted journals" OFF)
 option(BUILD_LIBRARY "Build and install Ledger as a library" ON)
 option(BUILD_DOCS "Build and install documentation" OFF)
+option(BUILD_A4_PDF "Build PDF documentation in A4 paper format" OFF)
 option(BUILD_WEB_DOCS "Build version of documentation suitable for viewing online" OFF)
 
 option(CMAKE_BUILD_TYPE "CMake Build type" "Release")
