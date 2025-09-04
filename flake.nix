@@ -19,7 +19,46 @@
 
     packages = forAllSystems (system: let
         pkgs = nixpkgsFor.${system};
-      in with pkgs; {
+      in with pkgs; rec {
+      lpy = ledger.overrideAttrs({nativeBuildInputs ? [], ...}: {
+        pname = "lpy";
+        nativeBuildInputs = ledger.nativeBuildInputs ++ (with python3.pkgs; [
+          pipx
+          uv
+          build
+          scikit-build-core
+          pkgs.ninja
+          pkgs.writableTmpDirAsHomeHook
+        ]);
+
+        outputs = [ "out" ];
+
+        dontConfigure = true;
+        dontFixup = true;
+        doCheck = false;
+
+        buildPhase = ''
+          runHook preBuild
+
+          # Build Python wheel using scikit-build-core
+          export CMAKE_BUILD_PARALLEL_LEVEL=$NIX_BUILD_CORES
+          ${python3.interpreter} -m build --wheel --outdir dist/pip
+          ${lib.getExe python3.pkgs.pipx} run build --wheel --outdir dist/pipx
+          ${lib.getExe python3.pkgs.uv} build --wheel --out-dir dist/uv
+
+          runHook postBuild
+        '';
+
+        installPhase = ''
+          runHook preInstall
+
+          mkdir -p $out
+          mv dist/* $out
+
+          runHook postInstall
+        '';
+      });
+
       ledger = stdenv.mkDerivation {
         pname = "ledger";
         version = "3.3.2-${self.shortRev or "dirty"}";
