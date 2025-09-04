@@ -7,6 +7,11 @@ set(Required_Icu_Version 63)
 set(Required_Python_Version 3.10)
 set(Required_Gpgmepp_Version 1.13.1)
 
+set(Ledger_CLI ledger)
+set(Ledger_LIB lib${Ledger_CLI})
+set(Ledger_MODULE ${Ledger_CLI})
+set(Ledger_MODULE_EXT ${Ledger_MODULE}) #core)
+
 cmake_minimum_required(
   VERSION ${Required_CMake_Version}..${Required_CMake_Policy})
 cmake_policy(SET CMP0167 NEW)
@@ -14,10 +19,21 @@ cmake_policy(SET CMP0167 NEW)
 # Point CMake at any custom modules we may ship
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-PROJECT(ledger)
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/doc")
 include(LedgerVersion)
+
+set(PYPKG ${Ledger_MODULE})
+if (NOT SKBUILD)
+  set(SKBUILD_PROJECT_NAME ${Ledger_CLI})
+  set(SKBUILD_PROJECT_VERSION ${Ledger_VERSION})
+endif()
+
+project(
+  ${SKBUILD_PROJECT_NAME}
+  VERSION ${SKBUILD_PROJECT_VERSION}
+  LANGUAGES CXX C
+  HOMEPAGE_URL "https://ledger-cli.org"
+  )
 
 enable_testing()
 
@@ -55,8 +71,13 @@ if (USE_PYTHON)
     message(ERROR "Building the python module requires BUILD_LIBRARY=ON.")
   endif()
 
-  find_package(Python3
-    COMPONENTS Interpreter Development)
+  if (SKBUILD)
+    find_package(Python3
+      COMPONENTS Interpreter Development.Module REQUIRED)
+  else()
+    find_package(Python3
+      COMPONENTS Interpreter Development.Embed REQUIRED)
+  endif()
   if (Python3_FOUND AND ${Python3_VERSION} VERSION_GREATER_EQUAL ${Required_Python_Version})
     set(BOOST_PYTHON "python${Python3_VERSION_MAJOR}${Python3_VERSION_MINOR}")
     set(HAVE_BOOST_PYTHON 1)
@@ -65,14 +86,24 @@ if (USE_PYTHON)
     set(HAVE_BOOST_PYTHON 0)
     message("Could not find a Python3 library to use with Boost.Python")
   endif()
+  if (SKBUILD)
+    set(PYPKG_DEST "${SKBUILD_PLATLIB_DIR}") #/${PYPKG}")
+  else()
+    set(PYPKG_DEST "${Python3_SITEARCH}/${PYPKG}")
+  endif()
 else()
   set(HAVE_BOOST_PYTHON 0)
 endif()
 
 add_subdirectory(src)
-add_subdirectory(doc)
-add_subdirectory(contrib)
-add_subdirectory(test)
+if (NOT SKBUILD)
+  add_subdirectory(doc)
+  add_subdirectory(contrib)
+  add_subdirectory(test)
+endif()
+if (USE_PYTHON)
+  add_subdirectory(python)
+endif()
 
 ########################################################################
 

@@ -60,8 +60,8 @@
         # by default, it will query the python interpreter for its sitepackages location
         # however, that would write to a different nixstore path, pass our own sitePackages location
         prePatch = lib.optionalString usePython ''
-          substituteInPlace src/CMakeLists.txt \
-            --replace-fail 'DESTINATION ''${Python3_SITEARCH}' 'DESTINATION "${placeholder "py"}/${python3.sitePackages}"'
+          substituteInPlace CMakeLists.txt \
+            --replace-fail 'PYPKG_DEST "''${Python3_SITEARCH}' 'PYPKG_DEST "${placeholder "py"}/${python3.sitePackages}'
         '';
 
         installTargets = [ "doc" "install" ];

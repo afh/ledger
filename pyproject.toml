@@ -1,0 +1,27 @@
+[project]
+name = "lpy"
+version = "3.3.2"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+sdist.reproducible = true
+build.verbose = false
+#logging.level = "DEBUG"
+ninja.make-fallback = true
+wheel.py-api = "cp310"
+wheel.expand-macos-universal-tags = true
+wheel.packages = { "lpy/core" = "lpy/core", "lpy/demo" = "lpy/demo" }
+strict-config = true
+#build-dir = "/tmp/__skbuild"
+#sdist.include = [ "src/some_generated_file.txt" ]
+sdist.exclude = [ "*.nix", "*.lock", "contrib", "tools", "build*", "dist" ]
+
+[tool.scikit-build.cmake]
+version = ">=3.16.2"
+build-type = "Debug"
+define = { USE_PYTHON = "ON", USE_GPGME = "ON" }
+#args = []

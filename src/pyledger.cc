@@ -39,7 +39,7 @@ namespace ledger {
   extern void initialize_for_python();
 }
 
-BOOST_PYTHON_MODULE(ledger)
+BOOST_PYTHON_MODULE(LEDGER_PYTHON_MODULE)
 {
   using namespace ledger;
 

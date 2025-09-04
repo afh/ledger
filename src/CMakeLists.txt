@@ -1,4 +1,3 @@
-
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   set(DEBUG_MODE 1)
 else()
@@ -180,7 +179,7 @@ macro(add_ledger_library_dependencies _target)
   target_link_libraries(${_target} ${Boost_LIBRARIES})
   target_link_libraries(${_target} ${GMP_LIBRARY})
   target_link_libraries(${_target} ${MPFR_LIBRARY})
-  target_link_libraries(${_target} ${PROFILE_LIBS})
+  target_link_libraries(${_target} PRIVATE ${PROFILE_LIBS})
   if (HAVE_EDIT)
     target_link_libraries(${_target} ${EDIT_LIB})
   endif()
@@ -434,9 +433,9 @@ include(GNUInstallDirs)
 
 if (BUILD_LIBRARY)
   set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
-  add_library(libledger SHARED ${LEDGER_SOURCES})
-  add_ledger_library_dependencies(libledger)
-  set_target_properties(libledger PROPERTIES
+  add_library(${Ledger_LIB} SHARED ${LEDGER_SOURCES})
+  add_ledger_library_dependencies(${Ledger_LIB})
+  set_target_properties(${Ledger_LIB} PROPERTIES
     PREFIX ""
     INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
     VERSION ${Ledger_VERSION_MAJOR}
@@ -444,41 +443,46 @@ if (BUILD_LIBRARY)
   set_source_files_properties(
     ${LEDGER_CLI_SOURCES} PROPERTIES COMPILE_FLAGS "-fPIC")
 
-  add_executable(ledger ${LEDGER_CLI_SOURCES})
-  target_link_libraries(ledger libledger)
-  if (HAVE_GPGME)
-    target_link_libraries(ledger Gpgmepp)
-  endif()
+  if (NOT SKBUILD)
+    add_executable(${Ledger_CLI} ${LEDGER_CLI_SOURCES})
+    target_link_libraries(${Ledger_CLI} ${Ledger_LIB})
+    if (HAVE_GPGME)
+      target_link_libraries(${Ledger_CLI} Gpgmepp)
+    endif()
 
-  if (HAVE_BOOST_PYTHON)
-    target_link_libraries(ledger ${Python3_LIBRARIES})
-  endif()
+    if (HAVE_BOOST_PYTHON)
+      target_link_libraries(${Ledger_CLI} ${Python3_LIBRARIES})
+    endif()
 
-  install(TARGETS libledger DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  install(FILES ${LEDGER_INCLUDES}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ledger)
-else()
+    install(TARGETS ${Ledger_LIB}
+      DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(FILES ${LEDGER_INCLUDES}
+      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${Ledger_CLI})
+  endif()
+elseif (NOT SKBUILD)
   add_executable(ledger ${LEDGER_SOURCES} ${LEDGER_CLI_SOURCES})
-  add_ledger_library_dependencies(ledger)
+  add_ledger_library_dependencies(${Ledger_CLI})
 endif()
 
 if (PRECOMPILE_SYSTEM_HH)
   if (BUILD_LIBRARY)
-    target_precompile_headers(libledger PRIVATE ${PROJECT_BINARY_DIR}/system.hh)
-    target_precompile_headers(ledger REUSE_FROM libledger)
-  else()
-    target_precompile_headers(ledger PRIVATE ${PROJECT_BINARY_DIR}/system.hh)
+    target_precompile_headers(${Ledger_LIB} PRIVATE ${PROJECT_BINARY_DIR}/system.hh)
+    if (NOT SKBUILD)
+      target_precompile_headers(${Ledger_CLI} REUSE_FROM ${Ledger_LIB})
+    endif()
+  elseif (NOT SKBUILD)
+    target_precompile_headers(${Ledger_CLI} PRIVATE ${PROJECT_BINARY_DIR}/system.hh)
   endif()
 endif()
 
 if (USE_PYTHON)
   if (Python3_SITEARCH)
     if (WIN32 AND NOT CYGWIN)
-      set(_ledger_python_module_name "ledger.pyd")
+      set(_ledger_python_module_name "${Ledger_MODULE_EXT}.pyd")
     elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
-      set(_ledger_python_module_name "ledger.so")
+      set(_ledger_python_module_name "${Ledger_MODULE_EXT}.so")
     else()
-      set(_ledger_python_module_name "ledger${CMAKE_SHARED_LIBRARY_SUFFIX}")
+      set(_ledger_python_module_name "${Ledger_MODULE_EXT}${CMAKE_SHARED_LIBRARY_SUFFIX}")
     endif()
 
     # FIXME: symlink would be sufficient:
@@ -486,17 +490,26 @@ if (USE_PYTHON)
     # execute_process(COMMAND "${CMAKE_COMMAND}" -E create_symlink ...).
     # Windows will need a special case due to not supporting symlinks.
     add_custom_command(
-      TARGET libledger POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-      $<TARGET_FILE:libledger> "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}")
-    install(
-      FILES "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}"
-      DESTINATION ${Python3_SITEARCH})
+      TARGET ${Ledger_LIB} POST_BUILD
+      COMMAND ${CMAKE_COMMAND}  -E copy #_if_different # The lpy core modules neeeds always to be copied
+      $<TARGET_FILE:${Ledger_LIB}> "${CMAKE_BINARY_DIR}/${_ledger_python_module_name}")
+    if (SKBUILD)
+      install(
+        FILES ${CMAKE_BINARY_DIR}/${_ledger_python_module_name} # _${_ledger_python_module_name}
+        DESTINATION "${PYPKG_DEST}") #/${Ledger_MODULE}/${Ledger_MODULE_EXT}")
+    else()
+      install(
+        FILES ${CMAKE_BINARY_DIR}/${_ledger_python_module_name} # _${_ledger_python_module_name}
+        DESTINATION "${PYPKG_DEST}") #/${Ledger_MODULE_EXT}")
+    endif()
   else()
     message(WARNING "Python3_SITEARCH not set. Will not install python module.")
   endif()
 endif()
 
-install(TARGETS ledger DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+if (NOT SKBUILD)
+  install(TARGETS ${Ledger_CLI} DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 
 ### CMakeLists.txt ends here

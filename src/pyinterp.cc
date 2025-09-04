@@ -62,7 +62,7 @@ void export_utils();
 void export_value();
 void export_xact();
 
-extern "C" PyObject* PyInit_ledger();
+extern "C" PyObject* PYINIT_LEDGER();
 
 void initialize_for_python()
 {
@@ -150,7 +150,7 @@ void python_interpreter_t::initialize()
     DEBUG("python.interp", "Initializing Python");
 
     // PyImport_AppendInittab docs: "This should be called before Py_Initialize()".
-    PyImport_AppendInittab((const char*)"ledger", PyInit_ledger);
+    PyImport_AppendInittab((const char*)LEDGER_PYTHON_MODULE_NAME, PYINIT_LEDGER);
 
     // Unbuffer stdio to avoid python output getting stuck in buffer when
     // stdout is not a TTY. Normally buffers are flushed by Py_Finalize but

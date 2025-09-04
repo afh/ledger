@@ -69,4 +69,13 @@
 #endif
 
 /*@}*/
+  /**
+   * @name Defines for the Ledger Python module
+   */
+  /*@{*/
 
+  #define LEDGER_PYTHON_MODULE_NAME "@SKBUILD_PROJECT_NAME@"
+  #define LEDGER_PYTHON_MODULE @Ledger_MODULE_EXT@ // _@Ledger_MODULE_EXT@
+  #define PYINIT_LEDGER PyInit_@Ledger_MODULE_EXT@
+
+  /*@}*/
