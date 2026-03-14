@@ -66,7 +66,7 @@ void export_utils();
 void export_value();
 void export_xact();
 
-extern "C" PyObject* PyInit_ledger();
+extern "C" PyObject* PyInit__core();
 
 void initialize_for_python() {
   export_times();
@@ -134,7 +134,7 @@ void python_interpreter_t::initialize() {
     DEBUG("python.interp", "Initializing Python");
 
     // PyImport_AppendInittab docs: "This should be called before Py_Initialize()".
-    PyImport_AppendInittab((const char*)"ledger", PyInit_ledger);
+    PyImport_AppendInittab((const char*)"_core", PyInit__core);
 
     // Unbuffer stdio to avoid python output getting stuck in buffer when
     // stdout is not a TTY. Normally buffers are flushed by Py_Finalize but
@@ -162,7 +162,7 @@ void python_interpreter_t::initialize() {
     hack_system_paths();
 
     main_module = import_module("__main__");
-    PyImport_ImportModule("ledger");
+    PyImport_ImportModule("_core");
 
     is_initialized = true;
   } catch (const error_already_set&) {
