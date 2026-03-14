@@ -54,7 +54,7 @@ import unittest
 import exceptions
 import operator
 
-from ledger import *
+from lpy.core import *
 from StringIO import *
 from datetime import *
 
